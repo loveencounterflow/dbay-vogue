@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "../src/main.coffee"
+  ],
+  "names": [],
+  "mappings": "AAGA;EAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA",
+  "sourcesContent": [
+    "\n\n\n```\nconst Apify = require('apify');\n\n// Apify.main is a helper function, you don't need to use it.\nApify.main(async () => {\n    const requestQueue = await Apify.openRequestQueue();\n    // Choose the first URL to open.\n    await requestQueue.addRequest({ url: 'https://example.com/' });\n\n    const crawler = new Apify.PlaywrightCrawler({\n        requestQueue,\n        handlePageFunction: async ({ request, page }) => {\n            // Extract HTML title of the page.\n            const title = await page.title();\n            console.log(`Title of ${request.url}: ${title}`);\n            process.exit( 111 );\n            // Add URLs that match the provided pattern.\n            // await Apify.utils.enqueueLinks({\n            //     page,\n            //     requestQueue,\n            //     pseudoUrls: ['https://www.iana.org/[.*]'],\n            // });\n        },\n    });\n\n    await crawler.run();\n});\n```"
+  ]
+}
