@@ -22,21 +22,9 @@ types                     = new ( require 'intertype' ).Intertype()
 ( require 'mixa/lib/check-package-versions' ) require '../pinned-package-versions.json'
 PATH                      = require 'path'
 FS                        = require 'fs'
-scrape_it                 = require 'scrape-it'
 got                       = require 'got'
 CHEERIO                   = require 'cheerio'
-jsdom                     = require 'jsdom'
-{ JSDOM: Jsdom }          = jsdom
 H                         = require './helpers'
-
-f = ->
-  ```
-  const $ = CHEERIO.load('<h2 class="title">Hello world</h2>');
-  $('h2.title').text('Hello there!');
-  $('h2').addClass('welcome');
-  ```
-  help '^46456^', $.html();
-  return null
 
 #-----------------------------------------------------------------------------------------------------------
 demo_1 = ->
@@ -124,6 +112,14 @@ demo_zvg24_net = ->
   return null
 
 #-----------------------------------------------------------------------------------------------------------
+remove_cdata = ( text ) -> text.replace /^<!\[CDATA\[(.*)\]\]>$/, '$1'
+article_url_from_description = ( description ) ->
+  debug '^342342^', rpr description
+  if ( match = description.match /Article URL:\s*(?<article_url>[^\s]+)/ )?
+    return match.groups.article_url
+  return null
+
+#-----------------------------------------------------------------------------------------------------------
 demo_oanda_com = ->
   url       = 'https://www.zvg24.net/zwangsversteigerung/brandenburg'
   elements  =
@@ -138,60 +134,47 @@ demo_oanda_com = ->
   # html      = buffer.rawBody.toString encoding
   buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.xml'
   html      = buffer.toString encoding
+  #.........................................................................................................
+  ### NOTE This is RSS XML, so `link` doesn't behave like HTML `link` and namespaces are not supported: ###
+  html      = html.replace /<dc:creator>/g,   '<creator>'
+  html      = html.replace /<\/dc:creator>/g, '</creator>'
+  html      = html.replace /<link>/g,         '<reserved-link>'
+  html      = html.replace /<\/link>/g,       '</reserved-link>'
+  #.........................................................................................................
   $         = CHEERIO.load html
   R         = []
-  debug type_of $ 'item'
-  debug ( $ 'item' ).html()
-  debug ( $ 'item' ).each
-  debug ( $ 'item' ).forEach
+  # debug type_of $ 'item'
+  # debug ( $ 'item' ).html()
+  # debug ( $ 'item' ).each
+  # debug ( $ 'item' ).forEach
   #.........................................................................................................
   for item in ( $ 'item' )
+    item            = $ item
     #.......................................................................................................
-    item    = $ item
-    title   = item.find 'title'
-    title   = title.text()
-    title   = title.replace /^<!\[CDATA\[(.*)\]\]>$/, '$1'
-    title   = title.trim()
+    title           = item.find 'title'
+    title           = title.text()
+    title           = remove_cdata title
+    title           = title.trim()
     #.......................................................................................................
-    link    = item.find 'link'
-    link    = link.text()
+    discussion_url  = item.find 'reserved-link'
+    discussion_url  = discussion_url.text()
+    #.......................................................................................................
+    date            = item.find 'pubDate'
+    date            = date.text()
+    #.......................................................................................................
+    creator         = item.find 'creator'
+    creator         = creator.text()
+    #.......................................................................................................
+    description     = item.find 'description'
+    description     = description.text()
+    description     = remove_cdata description
+    article_url     = article_url_from_description description
     #.......................................................................................................
     href    = null
-    # href    = item.find 'a'
-    # href    = href.attr 'href'
-    R.push { title, link, href, }
-    # debug ( $ x ).html()
-  # $         = await scrape_it.scrapeHTML html, elements
-  # info "Status Code: #{response.statusCode}"
-  # for text, idx in $.containers
-  #   urge '^74443^', idx, rpr text
+    R.push { title, date, creator, discussion_url, article_url, }
   #.........................................................................................................
   H.tabulate "Hacker News", R
   return null
-
-# #-----------------------------------------------------------------------------------------------------------
-# demo_oanda_com_jsdom = ->
-#   url       = 'https://www.zvg24.net/zwangsversteigerung/brandenburg'
-#   elements  =
-#     containers:
-#       listItem: '.rate_row'
-#   #     data:
-#   #       listing:
-#   #         listItem: 'a'
-#   encoding  = 'utf8'
-#   #.........................................................................................................
-#   # buffer    = await got url
-#   # html      = buffer.rawBody.toString encoding
-#   buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/www1.oanda.com_,_currency_,_live-exchange-rates.html'
-#   html      = buffer.toString encoding
-#   dom       = new Jsdom html
-#   for element in dom.window.document.querySelectorAll '.rate_row'
-#     # debug type_of element
-#     title   = element.textContent
-#     title   = title.replace /\n+/g, '\n'
-#     title   = title.trim()
-#     debug rpr title
-#   return null
 
 
 ############################################################################################################
