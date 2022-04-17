@@ -1,0 +1,106 @@
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hacker News: Newest</title><link>https://news.ycombinator.com/newest</link><description>Hacker News RSS</description><docs>https://hnrss.org/</docs><generator>hnrss v1.1-16-gb4aa33c</generator><lastBuildDate>Sun, 17 Apr 2022 18:13:45 +0000</lastBuildDate><atom:link href="https://hnrss.org/newest?link=comments" rel="self" type="application/rss+xml"></atom:link><item><title><![CDATA[Ask HN: Leading a Scrum Team?]]></title><description><![CDATA[
+<p>Dear HN, which advice or resources can you recommend for leading a scrum team?</p>
+<hr>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062890">https://news.ycombinator.com/item?id=31062890</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 18:11:54 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062890</link><dc:creator>siva7</dc:creator><comments>https://news.ycombinator.com/item?id=31062890</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062890</guid></item><item><title><![CDATA[Blueprint for American AI Leadership]]></title><description><![CDATA[
+<p>Article URL: <a href="https://viaappia.substack.com/p/blueprint-for-american-ai-leadership">https://viaappia.substack.com/p/blueprint-for-american-ai-leadership</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062872">https://news.ycombinator.com/item?id=31062872</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 18:10:00 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062872</link><dc:creator>nmulani</dc:creator><comments>https://news.ycombinator.com/item?id=31062872</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062872</guid></item><item><title><![CDATA[Show HN: Employees.fyi – Easily compare U.S. workforce demographic data]]></title><description><![CDATA[
+<p>Hi HN! We built Employees.fyi to make it easy to compare U.S. workforce demographic data across companies and against industry reference data.<p>In the U.S., the Equal Employment Opportunity Commission (EEOC) requires the collection and submission of demographic workforce data. We collected and organized the publicly available federal data from the EEOC as well as publicly available EEO-1 submissions from individual companies. By doing so, we hope to make it easy to compare U.S. workforce demographic data across companies and against industry reference data.<p>The URL contains your current selection. Just copy the URL and share it!<p>Some examples:<p>* A comparison of 2018 data for the "Professionals" job category across the Information industry, Facebook, and Netflix: <a href="https://employees.fyi/?year=2018&job=PROFESSIONALS&reference=51&company1=Facebook&company2=Netflix" rel="nofollow">https://employees.fyi/?year=2018&job=PROFESSIONALS&reference...</a><p>* A comparison of 2018 data for all job categories across the Finance and Insurance industry, BlackRock, and PayPal: <a href="https://employees.fyi/?year=2018&job=ALL&reference=52&company1=BlackRock&company2=PayPal" rel="nofollow">https://employees.fyi/?year=2018&job=ALL&reference=52&compan...</a><p>* A comparison of 2018 data for the "Exec/Sr Officials & Managers" category across the Professional, Scientific, and Technical Services industry, Accenture, and Nvidia: <a href="https://employees.fyi/?year=2018&job=SRMANAGERS&reference=54&company1=Accenture&company2=Nvidia" rel="nofollow">https://employees.fyi/?year=2018&job=SRMANAGERS&reference=54...</a><p>If there's a company with EEO-1 data that you would like to see, consider submitting a URL via this form: <a href="https://forms.gle/8cVfXpg69fiiemzc8" rel="nofollow">https://forms.gle/8cVfXpg69fiiemzc8</a><p>Let us know what feedback you have for us! For those who are curious: at runtime, Employees.fyi uses normalize.css and the Open Sans font. They are hosted with the website.</p>
+<hr>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062815">https://news.ycombinator.com/item?id=31062815</a></p>
+<p>Points: 3</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 18:02:33 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062815</link><dc:creator>employeesfyi</dc:creator><comments>https://news.ycombinator.com/item?id=31062815</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062815</guid></item><item><title><![CDATA[Kamikaze Drones in Russia’s War Against Ukraine Point to Future “Killer Robots”]]></title><description><![CDATA[
+<p>Article URL: <a href="https://lastweekin.ai/p/kamikaze-drones-in-russias-war-against">https://lastweekin.ai/p/kamikaze-drones-in-russias-war-against</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062812">https://news.ycombinator.com/item?id=31062812</a></p>
+<p>Points: 2</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 18:02:24 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062812</link><dc:creator>andreyk</dc:creator><comments>https://news.ycombinator.com/item?id=31062812</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062812</guid></item><item><title><![CDATA[Open-Source Browser Extensions]]></title><description><![CDATA[
+<p>Article URL: <a href="https://mybrowseraddon.com">https://mybrowseraddon.com</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062801">https://news.ycombinator.com/item?id=31062801</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 18:01:11 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062801</link><dc:creator>behnamoh</dc:creator><comments>https://news.ycombinator.com/item?id=31062801</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062801</guid></item><item><title><![CDATA[Internet magically gets faster when opening speedtest?]]></title><description><![CDATA[
+<p>I want to start by saying this is anecdotal, and I feel paranoid for even thinking it. But often my internet will feel very slow, so I'll open speedtest to check if something's wrong. When I do, all of my stalled tabs suddenly spring into action and finish loading.<p>The tinfoil hat wearer inside of me speculates that my internet provider is overloaded and throttling my bandwidth, but immediately prioritizes me when it senses that I'm trying to check if I'm getting what I pay for.<p>Has anyone else noticed this pattern? Is there a way I can test this more scientifically?</p>
+<hr>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062799">https://news.ycombinator.com/item?id=31062799</a></p>
+<p>Points: 2</p>
+<p># Comments: 1</p>
+]]></description><pubDate>Sun, 17 Apr 2022 18:01:05 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062799</link><dc:creator>halgir</dc:creator><comments>https://news.ycombinator.com/item?id=31062799</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062799</guid></item><item><title><![CDATA[Lisp Notes [pdf]]]></title><description><![CDATA[
+<p>Article URL: <a href="https://yurichev.org/lisp/lisp.pdf">https://yurichev.org/lisp/lisp.pdf</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062788">https://news.ycombinator.com/item?id=31062788</a></p>
+<p>Points: 2</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:59:38 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062788</link><dc:creator>ingve</dc:creator><comments>https://news.ycombinator.com/item?id=31062788</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062788</guid></item><item><title><![CDATA[Pros and Cons of Plotly-Dash for Reactive Python Web Dev]]></title><description><![CDATA[
+<p>Article URL: <a href="https://betterprogramming.pub/dash-is-deeper-than-dashboards-5ab7414f121e">https://betterprogramming.pub/dash-is-deeper-than-dashboards-5ab7414f121e</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062781">https://news.ycombinator.com/item?id=31062781</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:58:59 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062781</link><dc:creator>Kalanos</dc:creator><comments>https://news.ycombinator.com/item?id=31062781</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062781</guid></item><item><title><![CDATA[Let's Go Find Out]]></title><description><![CDATA[
+<p>Article URL: <a href="https://blog.plover.com/brain/last-stop.html">https://blog.plover.com/brain/last-stop.html</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062777">https://news.ycombinator.com/item?id=31062777</a></p>
+<p>Points: 2</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:58:38 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062777</link><dc:creator>bkudria</dc:creator><comments>https://news.ycombinator.com/item?id=31062777</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062777</guid></item><item><title><![CDATA[Parts of People]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.rifters.com/crawl/?p=10194">https://www.rifters.com/crawl/?p=10194</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062770">https://news.ycombinator.com/item?id=31062770</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:58:16 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062770</link><dc:creator>ogennadi</dc:creator><comments>https://news.ycombinator.com/item?id=31062770</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062770</guid></item><item><title><![CDATA[Peephole Optimizer (For QBE): Studying the LLVM and GCC Optimizers]]></title><description><![CDATA[
+<p>Article URL: <a href="https://briancallahan.net/blog/20220417.html">https://briancallahan.net/blog/20220417.html</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062768">https://news.ycombinator.com/item?id=31062768</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:57:39 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062768</link><dc:creator>ingve</dc:creator><comments>https://news.ycombinator.com/item?id=31062768</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062768</guid></item><item><title><![CDATA[Guidelines for Scientific Record Keeping (2008) [pdf]]]></title><description><![CDATA[
+<p>Article URL: <a href="https://oir.nih.gov/sites/default/files/uploads/sourcebook/documents/ethical_conduct/guidelines-scientific_recordkeeping.pdf">https://oir.nih.gov/sites/default/files/uploads/sourcebook/documents/ethical_conduct/guidelines-scientific_recordkeeping.pdf</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062736">https://news.ycombinator.com/item?id=31062736</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:54:17 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062736</link><dc:creator>Tomte</dc:creator><comments>https://news.ycombinator.com/item?id=31062736</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062736</guid></item><item><title><![CDATA[Conflict-Free Replicated Data Types (CRDT)]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.youtube.com/watch?v=M8-WFTjZoA0">https://www.youtube.com/watch?v=M8-WFTjZoA0</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062724">https://news.ycombinator.com/item?id=31062724</a></p>
+<p>Points: 1</p>
+<p># Comments: 1</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:53:39 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062724</link><dc:creator>the_arun</dc:creator><comments>https://news.ycombinator.com/item?id=31062724</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062724</guid></item><item><title><![CDATA[Ask HN: What's the big deal about YT-dl when streaming has replaced downloading?]]></title><description><![CDATA[
+<p>Back in the day, we had thumb drives, external hard drives, internet download managers, torrent websites, video player software, and ways to download yt videos for later use.<p>But now there's barely any need for those as streaming has pretty much replaced the old mediums of acquiring and consuming video. But having a look at youtube-dl's repo, there's more than 109k stars, which shows how popular the thing is. Even a DDG bug that would exclude youtube-dl from the search results received so much attention by HN.<p>Still though, I don't understand why downloading from yt is so important nowadays. To be clear, I'm not asking whether it's ethical or not. I'm asking <i>why</i> do people need to download stuff in the first place?</p>
+<hr>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062722">https://news.ycombinator.com/item?id=31062722</a></p>
+<p>Points: 3</p>
+<p># Comments: 6</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:53:28 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062722</link><dc:creator>behnamoh</dc:creator><comments>https://news.ycombinator.com/item?id=31062722</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062722</guid></item><item><title><![CDATA[“Beanstalk was hacked for –$80M an hour ago”]]></title><description><![CDATA[
+<p>Article URL: <a href="https://twitter.com/sdand/status/1515695132502380545">https://twitter.com/sdand/status/1515695132502380545</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062721">https://news.ycombinator.com/item?id=31062721</a></p>
+<p>Points: 3</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:53:22 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062721</link><dc:creator>DyslexicAtheist</dc:creator><comments>https://news.ycombinator.com/item?id=31062721</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062721</guid></item><item><title><![CDATA[Web-ext: A command line tool to help build, run, and test Firefox web extensions]]></title><description><![CDATA[
+<p>Article URL: <a href="https://github.com/mozilla/web-ext">https://github.com/mozilla/web-ext</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062720">https://news.ycombinator.com/item?id=31062720</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:53:20 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062720</link><dc:creator>thunderbong</dc:creator><comments>https://news.ycombinator.com/item?id=31062720</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062720</guid></item><item><title><![CDATA[I have no idea what to do with my life]]></title><description><![CDATA[
+<p>Some background: I'm 25, finished my undergrad 2 years ago. I went to work for a FANG straight out of college, and also was working on some social networking apps on the side that I started in college.<p>At some point my apps covered my living expenses and I decided to quit my job because I felt like it was sucking away my youth.<p>I make enough money every month to pay my bills, and I have a decent amount of savings.<p>I wake up everyday and want to work on something fulfilling, but don't know where to start. I feel like I have no more purpose in life and am not sure how to spend my time.<p>I know this is a ridiculous first world problem, but it bothers me a lot. I tried studying math, buying drones, microscopes, and lots of other side hobbies but I need something to wake up to in the morning that keeps me hungry.<p>I feel like I'm dying slowly and am not sure what to do.</p>
+<hr>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062719">https://news.ycombinator.com/item?id=31062719</a></p>
+<p>Points: 8</p>
+<p># Comments: 5</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:53:19 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062719</link><dc:creator>alirsgp</dc:creator><comments>https://news.ycombinator.com/item?id=31062719</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062719</guid></item><item><title><![CDATA[Small Guide to Giving Presentations [pdf]]]></title><description><![CDATA[
+<p>Article URL: <a href="https://people.inf.ethz.ch/markusp/teaching/guides/guide-presentations.pdf">https://people.inf.ethz.ch/markusp/teaching/guides/guide-presentations.pdf</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062717">https://news.ycombinator.com/item?id=31062717</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:53:06 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062717</link><dc:creator>Tomte</dc:creator><comments>https://news.ycombinator.com/item?id=31062717</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062717</guid></item><item><title><![CDATA[Seattle's transit system struggles as riders refuse to pay]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.foxnews.com/us/seattles-transit-system-struggles-riders-refuse-pay">https://www.foxnews.com/us/seattles-transit-system-struggles-riders-refuse-pay</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062705">https://news.ycombinator.com/item?id=31062705</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:51:30 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062705</link><dc:creator>mhb</dc:creator><comments>https://news.ycombinator.com/item?id=31062705</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062705</guid></item><item><title><![CDATA[Man told job not to celebrate his birthday. He was awarded $450K in lawsuit]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.nbcnews.com/news/us-news/man-told-job-not-celebrate-birthday-was-awarded-450k-unwanted-party-rcna24698">https://www.nbcnews.com/news/us-news/man-told-job-not-celebrate-birthday-was-awarded-450k-unwanted-party-rcna24698</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31062703">https://news.ycombinator.com/item?id=31062703</a></p>
+<p>Points: 3</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Sun, 17 Apr 2022 17:51:20 +0000</pubDate><link>https://news.ycombinator.com/item?id=31062703</link><dc:creator>gshakir</dc:creator><comments>https://news.ycombinator.com/item?id=31062703</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31062703</guid></item></channel></rss>
