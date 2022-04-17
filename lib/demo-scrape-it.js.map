@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "../src/demo-scrape-it.coffee"
+  ],
+  "names": [],
+  "mappings": "AAEA;EAAA;;;;;;;;;;;;;;;;;AAAA",
+  "sourcesContent": [
+    "\n\n```\nconst scrapeIt = require(\"scrape-it\")\n\n// Promise interface\nscrapeIt(\"https://ionicabizau.net\", {\n    title: \".header h1\"\n  , desc: \".header h2\"\n  , avatar: {\n        selector: \".header img\"\n      , attr: \"src\"\n    }\n}).then(({ data, response }) => {\n    console.log(`Status Code: ${response.statusCode}`)\n    console.log(data)\n})\n```\n\n"
+  ]
+}
