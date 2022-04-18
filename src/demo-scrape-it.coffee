@@ -15,9 +15,6 @@ help                      = CND.get_logger 'help',      badge
 whisper                   = CND.get_logger 'whisper',   badge
 echo                      = CND.echo.bind CND
 types                     = new ( require 'intertype' ).Intertype()
-{ isa
-  validate
-  type_of }               = types.export()
 #...........................................................................................................
 ( require 'mixa/lib/check-package-versions' ) require '../pinned-package-versions.json'
 PATH                      = require 'path'
@@ -25,7 +22,18 @@ FS                        = require 'fs'
 got                       = require 'got'
 CHEERIO                   = require 'cheerio'
 H                         = require './helpers'
+GUY                       = require 'guy'
 
+#===========================================================================================================
+#
+#-----------------------------------------------------------------------------------------------------------
+types.declare 'scraper_html_or_buffer', tests:
+  # "@isa.object x":                        ( x ) -> @isa.object x
+  "@type_of x in [ 'text', 'buffer', ]":  ( x ) -> @type_of x in [ 'text', 'buffer', ]
+
+
+#===========================================================================================================
+#
 #-----------------------------------------------------------------------------------------------------------
 demo_1 = ->
   url       = 'https://ionicabizau.net'
@@ -111,69 +119,102 @@ demo_zvg24_net = ->
     # console.table R
   return null
 
-#-----------------------------------------------------------------------------------------------------------
-remove_cdata = ( text ) -> text.replace /^<!\[CDATA\[(.*)\]\]>$/, '$1'
-article_url_from_description = ( description ) ->
-  debug '^342342^', rpr description
-  if ( match = description.match /Article URL:\s*(?<article_url>[^\s]+)/ )?
-    return match.groups.article_url
-  return null
+#===========================================================================================================
+class Hnrss
+
+  #---------------------------------------------------------------------------------------------------------
+  constructor: ( cfg ) ->
+    ### TAINT encoding, url are not configurables ###
+    defaults  = { encoding: 'utf-8', }
+    @cfg      = GUY.lft.freeze { defaults..., cfg..., }
+    return undefined
+
+  #---------------------------------------------------------------------------------------------------------
+  _remove_cdata: ( text ) -> text.replace /^<!\[CDATA\[(.*)\]\]>$/, '$1'
+
+  #---------------------------------------------------------------------------------------------------------
+  _article_url_from_description: ( description ) ->
+    if ( match = description.match /Article URL:\s*(?<article_url>[^\s]+)/ )?
+      return match.groups.article_url
+    return null
+
+  #---------------------------------------------------------------------------------------------------------
+  _html_from_html_or_buffer: ( html_or_buffer ) ->
+    types.validate.scraper_html_or_buffer html_or_buffer
+    if ( types.type_of html_or_buffer ) is 'buffer'
+      return html_or_buffer.toString @cfg.encoding
+    return html_or_buffer
+
+  #---------------------------------------------------------------------------------------------------------
+  scrape: ->
+    url       = 'https://hnrss.org/newest?link=comments'
+    encoding  = 'utf8'
+    buffer    = await got url
+    return @scrape_html buffer.rawBody
+
+  #---------------------------------------------------------------------------------------------------------
+  scrape_html: ( html_or_buffer ) ->
+    html      = @_html_from_html_or_buffer html_or_buffer
+    #.......................................................................................................
+    ### NOTE This is RSS XML, so `link` doesn't behave like HTML `link` and namespaces are not supported: ###
+    html      = html.replace /<dc:creator>/g,   '<creator>'
+    html      = html.replace /<\/dc:creator>/g, '</creator>'
+    html      = html.replace /<link>/g,         '<reserved-link>'
+    html      = html.replace /<\/link>/g,       '</reserved-link>'
+    #.......................................................................................................
+    $         = CHEERIO.load html
+    R         = []
+    # debug types.type_of $ 'item'
+    # debug ( $ 'item' ).html()
+    # debug ( $ 'item' ).each
+    # debug ( $ 'item' ).forEach
+    #.......................................................................................................
+    for item in ( $ 'item' )
+      item            = $ item
+      #.....................................................................................................
+      title           = item.find 'title'
+      title           = title.text()
+      title           = @_remove_cdata title
+      title           = title.trim()
+      #.....................................................................................................
+      discussion_url  = item.find 'reserved-link'
+      discussion_url  = discussion_url.text()
+      id              = discussion_url.replace /^.*item\?id=([0-9]+)$/, 'hn-$1'
+      #.....................................................................................................
+      date            = item.find 'pubDate'
+      date            = date.text()
+      #.....................................................................................................
+      creator         = item.find 'creator'
+      creator         = creator.text()
+      #.....................................................................................................
+      description     = item.find 'description'
+      description     = description.text()
+      description     = @_remove_cdata description
+      article_url     = @_article_url_from_description description
+      #.....................................................................................................
+      href    = null
+      R.push { id, title, date, creator, discussion_url, article_url, }
+    #.......................................................................................................
+    H.tabulate "Hacker News", R
+    return null
 
 #-----------------------------------------------------------------------------------------------------------
-demo_oanda_com = ->
-  url       = 'https://www.zvg24.net/zwangsversteigerung/brandenburg'
-  elements  =
-    containers:
-      listItem: '.rate_row'
-  #     data:
-  #       listing:
-  #         listItem: 'a'
-  encoding  = 'utf8'
+demo_hnrss = ->
+  # #.........................................................................................................
+  # do =>
+  #   scraper   = new Hnrss()
+  #   await scraper.scrape()
   #.........................................................................................................
-  # buffer    = await got url
-  # html      = buffer.rawBody.toString encoding
-  buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.xml'
-  html      = buffer.toString encoding
+  do =>
+    scraper   = new Hnrss()
+    buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.001.xml'
+    await scraper.scrape_html buffer
   #.........................................................................................................
-  ### NOTE This is RSS XML, so `link` doesn't behave like HTML `link` and namespaces are not supported: ###
-  html      = html.replace /<dc:creator>/g,   '<creator>'
-  html      = html.replace /<\/dc:creator>/g, '</creator>'
-  html      = html.replace /<link>/g,         '<reserved-link>'
-  html      = html.replace /<\/link>/g,       '</reserved-link>'
+  do =>
+    scraper   = new Hnrss()
+    buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.002.xml'
+    await scraper.scrape_html buffer
   #.........................................................................................................
-  $         = CHEERIO.load html
-  R         = []
-  # debug type_of $ 'item'
-  # debug ( $ 'item' ).html()
-  # debug ( $ 'item' ).each
-  # debug ( $ 'item' ).forEach
-  #.........................................................................................................
-  for item in ( $ 'item' )
-    item            = $ item
-    #.......................................................................................................
-    title           = item.find 'title'
-    title           = title.text()
-    title           = remove_cdata title
-    title           = title.trim()
-    #.......................................................................................................
-    discussion_url  = item.find 'reserved-link'
-    discussion_url  = discussion_url.text()
-    #.......................................................................................................
-    date            = item.find 'pubDate'
-    date            = date.text()
-    #.......................................................................................................
-    creator         = item.find 'creator'
-    creator         = creator.text()
-    #.......................................................................................................
-    description     = item.find 'description'
-    description     = description.text()
-    description     = remove_cdata description
-    article_url     = article_url_from_description description
-    #.......................................................................................................
-    href    = null
-    R.push { title, date, creator, discussion_url, article_url, }
-  #.........................................................................................................
-  H.tabulate "Hacker News", R
   return null
 
 
@@ -181,6 +222,6 @@ demo_oanda_com = ->
 if module is require.main then do =>
   # await demo_zvg_online_net()
   # await demo_zvg24_net()
-  await demo_oanda_com()
+  await demo_hnrss()
   # await demo_oanda_com_jsdom()
   # f()
