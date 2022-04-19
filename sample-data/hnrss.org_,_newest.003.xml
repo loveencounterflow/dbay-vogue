@@ -1,0 +1,102 @@
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hacker News: Newest</title><link>https://news.ycombinator.com/newest</link><description>Hacker News RSS</description><docs>https://hnrss.org/</docs><generator>hnrss v1.1-16-gb4aa33c</generator><lastBuildDate>Tue, 19 Apr 2022 15:39:46 +0000</lastBuildDate><atom:link href="https://hnrss.org/newest?link=comments" rel="self" type="application/rss+xml"></atom:link><item><title><![CDATA[Ev3dev: Debian for Lego Mindstorms]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.ev3dev.org/">https://www.ev3dev.org/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084561">https://news.ycombinator.com/item?id=31084561</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:35:57 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084561</link><dc:creator>Tomte</dc:creator><comments>https://news.ycombinator.com/item?id=31084561</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084561</guid></item><item><title><![CDATA[EV Williams Is the Forrest Gump of the Internet (2016)]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.theatlantic.com/technology/archive/2016/06/ev-williams-is-the-forrest-gump-of-the-internet/486899/">https://www.theatlantic.com/technology/archive/2016/06/ev-williams-is-the-forrest-gump-of-the-internet/486899/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084559">https://news.ycombinator.com/item?id=31084559</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:35:48 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084559</link><dc:creator>Tomte</dc:creator><comments>https://news.ycombinator.com/item?id=31084559</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084559</guid></item><item><title><![CDATA[Musk vs. Twitter: A flowchart of the possible outcomes]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.youtube.com/watch?v=LYFqQ6yk9vs">https://www.youtube.com/watch?v=LYFqQ6yk9vs</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084539">https://news.ycombinator.com/item?id=31084539</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:34:42 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084539</link><dc:creator>escot</dc:creator><comments>https://news.ycombinator.com/item?id=31084539</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084539</guid></item><item><title><![CDATA[A Complete Notion SDK for PHP Like the Official Notion SDK]]></title><description><![CDATA[
+<p>Article URL: <a href="https://github.com/brd6/notion-sdk-php">https://github.com/brd6/notion-sdk-php</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084528">https://news.ycombinator.com/item?id=31084528</a></p>
+<p>Points: 2</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:33:50 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084528</link><dc:creator>brd6</dc:creator><comments>https://news.ycombinator.com/item?id=31084528</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084528</guid></item><item><title><![CDATA[Super Python (Part 1)]]></title><description><![CDATA[
+<p>Article URL: <a href="https://lwn.net/SubscriberLink/891398/0478ef22faa959d5/">https://lwn.net/SubscriberLink/891398/0478ef22faa959d5/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084501">https://news.ycombinator.com/item?id=31084501</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:31:59 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084501</link><dc:creator>bitcharmer</dc:creator><comments>https://news.ycombinator.com/item?id=31084501</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084501</guid></item><item><title><![CDATA[Parsing with Derivatives]]></title><description><![CDATA[
+<p>Article URL: <a href="https://stereobooster.com/posts/parsing-with-derivatives/">https://stereobooster.com/posts/parsing-with-derivatives/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084493">https://news.ycombinator.com/item?id=31084493</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:31:44 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084493</link><dc:creator>zypeh</dc:creator><comments>https://news.ycombinator.com/item?id=31084493</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084493</guid></item><item><title><![CDATA[Ask HN: Gsuite account suddenly not receiving emails]]></title><description><![CDATA[
+<p>Hi HN - I signed up for a SaaS yesterday & tried severally but I couldn't receive a verification email at my official G Suite address. I figured it was from their end but today, a contact messaged me on LinkedIn claiming she can't send emails to the same work email.<p>I've checked spam and I can't find anything and it's not like I connected my Gmail account to a malicious third-party lately. Finally, I emailed my Gsuite address from a personal email and sure enough, I didn't get it!<p>I've checked out Google support articles and it doesn't seem like I've broken anything lately. I've grown to kind of trust [the quality of service] large tech companies [provide] and if it was someone else, I'd have asked them to make sure they didn't break anything but, not any longer. Has anyone else faced this? Can you help with fixing it?<p>Thanks in advance HN.</p>
+<hr>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084448">https://news.ycombinator.com/item?id=31084448</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:28:25 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084448</link><dc:creator>churchill</dc:creator><comments>https://news.ycombinator.com/item?id=31084448</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084448</guid></item><item><title><![CDATA[Running Grafana Loki using MinIO as an object storage endpoint]]></title><description><![CDATA[
+<p>Article URL: <a href="https://blog.min.io/how-to-grafana-loki-minio/">https://blog.min.io/how-to-grafana-loki-minio/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084415">https://news.ycombinator.com/item?id=31084415</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:26:26 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084415</link><dc:creator>edogrider</dc:creator><comments>https://news.ycombinator.com/item?id=31084415</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084415</guid></item><item><title><![CDATA[Local detection of dark matter with future missions to Uranus and Neptune]]></title><description><![CDATA[
+<p>Article URL: <a href="https://arxiv.org/abs/2204.07242">https://arxiv.org/abs/2204.07242</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084401">https://news.ycombinator.com/item?id=31084401</a></p>
+<p>Points: 2</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:25:31 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084401</link><dc:creator>ArtWomb</dc:creator><comments>https://news.ycombinator.com/item?id=31084401</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084401</guid></item><item><title><![CDATA[Virginia doesn’t specifically regulate ‘self-driving’ cars. Should we?]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.virginiamercury.com/2022/04/19/virginia-doesnt-regulate-self-driving-cars-should-we/">https://www.virginiamercury.com/2022/04/19/virginia-doesnt-regulate-self-driving-cars-should-we/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084390">https://news.ycombinator.com/item?id=31084390</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:24:52 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084390</link><dc:creator>trifit</dc:creator><comments>https://news.ycombinator.com/item?id=31084390</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084390</guid></item><item><title><![CDATA[Web 2.0 Is A Scam (2005)]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.wired.com/2005/10/web-2-0-cracks-start-to-show/">https://www.wired.com/2005/10/web-2-0-cracks-start-to-show/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084385">https://news.ycombinator.com/item?id=31084385</a></p>
+<p>Points: 1</p>
+<p># Comments: 1</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:24:15 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084385</link><dc:creator>alfl</dc:creator><comments>https://news.ycombinator.com/item?id=31084385</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084385</guid></item><item><title><![CDATA[How the prob of null hypothesis being true changes given a significant result]]></title><description><![CDATA[
+<p>Article URL: <a href="https://vasishth-statistics.blogspot.com/2022/04/ever-wondered-how-probability-of-null.html">https://vasishth-statistics.blogspot.com/2022/04/ever-wondered-how-probability-of-null.html</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084360">https://news.ycombinator.com/item?id=31084360</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:22:19 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084360</link><dc:creator>sebg</dc:creator><comments>https://news.ycombinator.com/item?id=31084360</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084360</guid></item><item><title><![CDATA[Fighting Conspiracy Theories Online at Scale (2020)]]></title><description><![CDATA[
+<p>Article URL: <a href="https://live-epic-people.pantheonsite.io/fighting-conspiracy-theories-online-scale/">https://live-epic-people.pantheonsite.io/fighting-conspiracy-theories-online-scale/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084335">https://news.ycombinator.com/item?id=31084335</a></p>
+<p>Points: 1</p>
+<p># Comments: 2</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:20:43 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084335</link><dc:creator>yablak</dc:creator><comments>https://news.ycombinator.com/item?id=31084335</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084335</guid></item><item><title><![CDATA[A *simple* introduction to ggplot2 (for plotting your data)]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.rforecology.com/post/a-simple-introduction-to-ggplot2/">https://www.rforecology.com/post/a-simple-introduction-to-ggplot2/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084328">https://news.ycombinator.com/item?id=31084328</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:19:57 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084328</link><dc:creator>sebg</dc:creator><comments>https://news.ycombinator.com/item?id=31084328</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084328</guid></item><item><title><![CDATA[How DALL-E 2 Works]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.assemblyai.com/blog/how-dall-e-2-actually-works/">https://www.assemblyai.com/blog/how-dall-e-2-actually-works/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084312">https://news.ycombinator.com/item?id=31084312</a></p>
+<p>Points: 2</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:19:09 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084312</link><dc:creator>SleekEagle</dc:creator><comments>https://news.ycombinator.com/item?id=31084312</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084312</guid></item><item><title><![CDATA[Text Analysis of Job Descriptions for Data Scientists and {Data, ML} Engineers]]></title><description><![CDATA[
+<p>Article URL: <a href="https://methodmatters.github.io/data-jobs-europe-2-text/">https://methodmatters.github.io/data-jobs-europe-2-text/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084310">https://news.ycombinator.com/item?id=31084310</a></p>
+<p>Points: 1</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:18:55 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084310</link><dc:creator>sebg</dc:creator><comments>https://news.ycombinator.com/item?id=31084310</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084310</guid></item><item><title><![CDATA[Netlify Edge Functions: A new serverless runtime powered by Deno]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.netlify.com/blog/announcing-serverless-compute-with-edge-functions">https://www.netlify.com/blog/announcing-serverless-compute-with-edge-functions</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084301">https://news.ycombinator.com/item?id=31084301</a></p>
+<p>Points: 13</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:18:06 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084301</link><dc:creator>csmajorfive</dc:creator><comments>https://news.ycombinator.com/item?id=31084301</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084301</guid></item><item><title><![CDATA[Is Twitter biased against conservatives? A Study]]></title><description><![CDATA[
+<p>Article URL: <a href="https://psyarxiv.com/ay9q5">https://psyarxiv.com/ay9q5</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084276">https://news.ycombinator.com/item?id=31084276</a></p>
+<p>Points: 5</p>
+<p># Comments: 2</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:16:03 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084276</link><dc:creator>kenjackson</dc:creator><comments>https://news.ycombinator.com/item?id=31084276</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084276</guid></item><item><title><![CDATA[Browser testing of malware links: Edge vs. Chrome vs. Firefox [video]]]></title><description><![CDATA[
+<p>Article URL: <a href="https://www.youtube.com/watch?v=5K4takqrwQ8">https://www.youtube.com/watch?v=5K4takqrwQ8</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084269">https://news.ycombinator.com/item?id=31084269</a></p>
+<p>Points: 1</p>
+<p># Comments: 1</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:15:32 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084269</link><dc:creator>vanilla-almond</dc:creator><comments>https://news.ycombinator.com/item?id=31084269</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084269</guid></item><item><title><![CDATA[Show HN: Encore – A new day for backend dev]]></title><description><![CDATA[
+<p>Article URL: <a href="https://encore.dev/">https://encore.dev/</a></p>
+<p>Comments URL: <a href="https://news.ycombinator.com/item?id=31084268">https://news.ycombinator.com/item?id=31084268</a></p>
+<p>Points: 2</p>
+<p># Comments: 0</p>
+]]></description><pubDate>Tue, 19 Apr 2022 15:15:21 +0000</pubDate><link>https://news.ycombinator.com/item?id=31084268</link><dc:creator>eandre</dc:creator><comments>https://news.ycombinator.com/item?id=31084268</comments><guid isPermaLink="false">https://news.ycombinator.com/item?id=31084268</guid></item></channel></rss>
