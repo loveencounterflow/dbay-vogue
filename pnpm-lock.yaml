@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   cheerio: ^1.0.0-rc.10
   cnd: ^9.2.2
+  dbay: ^14.5.0
   got: '11'
   guy: ^4.1.2
   icql-dba-tabulate: ^2.0.1
@@ -14,6 +15,7 @@ specifiers:
 dependencies:
   cheerio: 1.0.0-rc.10
   cnd: 9.2.2
+  dbay: 14.5.0
   got: 11.8.3
   guy: 4.1.2
   icql-dba-tabulate: 2.0.1
@@ -261,6 +263,21 @@ packages:
       multimix: 5.0.0
     dev: false
 
+  /dayjs/1.11.1:
+    resolution: {integrity: sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==}
+    dev: false
+
+  /dbay/14.5.0:
+    resolution: {integrity: sha512-hqLNZ21WWCmzrCC76/9qiMlnO1amYQ1Va7xot8wY+p/Ad4/A+nQC6Il8j3X+8xQLHQtimifejmW8V3kE7X8Ltg==}
+    requiresBuild: true
+    dependencies:
+      cnd: 9.2.2
+      dayjs: 1.11.1
+      exit-hook: 2.2.1
+      guy: 4.0.0
+      intertype: 7.7.0
+    dev: false
+
   /debug/4.3.3:
     resolution: {integrity: sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==}
     engines: {node: '>=6.0'}
@@ -334,6 +351,11 @@ packages:
   /escape-string-regexp/2.0.0:
     resolution: {integrity: sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==}
     engines: {node: '>=8'}
+    dev: false
+
+  /exit-hook/2.2.1:
+    resolution: {integrity: sha512-eNTPlAD67BmP31LDINZ3U7HSF8l57TxOY2PmBJ1shpCvpnxBF93mWCE8YHBnXs8qiUZJc9WDcWIeC3a2HIAMfw==}
+    engines: {node: '>=6'}
     dev: false
 
   /extract-zip/2.0.1:
@@ -419,6 +441,14 @@ packages:
     resolution: {integrity: sha512-bL/hpBJQwEEmt3fu+6nbtFPimJs09ISpnH8HTZHxnFKBujYxXtVvti66/fhWKM/0Z8h5r0K3W5ul/3pJKqLy4w==}
     peerDependencies:
       deasync: ^0.1.22
+    dependencies:
+      cnd: 9.2.2
+      intertype: 7.6.7
+      letsfreezethat: 3.1.0
+    dev: false
+
+  /guy/4.0.0:
+    resolution: {integrity: sha512-unob1iMEmXrotWQYMeW/uOAJS4DXv0C5njlE1JboIwsc9wwd3goXN4ICdGxFw1x61WGyRH4lNWTRltj5o5xfBA==}
     dependencies:
       cnd: 9.2.2
       intertype: 7.6.7
