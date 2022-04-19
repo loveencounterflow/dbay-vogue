@@ -23,7 +23,9 @@ got                       = require 'got'
 CHEERIO                   = require 'cheerio'
 H                         = require './helpers'
 GUY                       = require 'guy'
-
+{ Scraper, }              = require './main'
+{ DBay }                  = require 'dbay'
+{ SQL }                   = DBay
 
 
 #===========================================================================================================
@@ -130,6 +132,7 @@ class Hnrss
     ### TAINT encoding, url are not configurables ###
     defaults  = { encoding: 'utf-8', }
     @cfg      = GUY.lft.freeze { defaults..., cfg..., }
+    GUY.props.hide @, 'scr', new Scraper()
     return undefined
 
   #---------------------------------------------------------------------------------------------------------
@@ -157,16 +160,21 @@ class Hnrss
 
   #---------------------------------------------------------------------------------------------------------
   scrape_html: ( html_or_buffer ) ->
-    html      = @_html_from_html_or_buffer html_or_buffer
+    { round, }  = @scr.new_round()
+    insert_post = @scr.queries.insert_post
+    dsk         = 'hn'
+    seen        = @scr.db.dt_now()
+    #.......................................................................................................
+    html        = @_html_from_html_or_buffer html_or_buffer
     #.......................................................................................................
     ### NOTE This is RSS XML, so `link` doesn't behave like HTML `link` and namespaces are not supported: ###
-    html      = html.replace /<dc:creator>/g,   '<creator>'
-    html      = html.replace /<\/dc:creator>/g, '</creator>'
-    html      = html.replace /<link>/g,         '<reserved-link>'
-    html      = html.replace /<\/link>/g,       '</reserved-link>'
+    html        = html.replace /<dc:creator>/g,   '<creator>'
+    html        = html.replace /<\/dc:creator>/g, '</creator>'
+    html        = html.replace /<link>/g,         '<reserved-link>'
+    html        = html.replace /<\/link>/g,       '</reserved-link>'
     #.......................................................................................................
-    $         = CHEERIO.load html
-    R         = []
+    $           = CHEERIO.load html
+    R           = []
     # debug types.type_of $ 'item'
     # debug ( $ 'item' ).html()
     # debug ( $ 'item' ).each
@@ -197,8 +205,19 @@ class Hnrss
       #.....................................................................................................
       href    = null
       R.push { id, title, date, creator, discussion_url, article_url, }
+      ### TAINT avoid duplicate query ###
+      d   = { title, discussion_url, date, creator, description, }
+      d   = JSON.stringify d
+      row = @scr.new_post { dsk, id, round, d, }
     #.......................................................................................................
     H.tabulate "Hacker News", R
+    H.tabulate "Hacker News", @scr.db SQL"""select
+        dsk                     as dsk,
+        id                      as id,
+        round                   as round,
+        seq                     as seq,
+        substring( d, 1, 100 )  as d
+      from scr_posts;"""
     return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -207,16 +226,17 @@ demo_hnrss = ->
   # do =>
   #   scraper   = new Hnrss()
   #   await scraper.scrape()
+  hnrss   = new Hnrss()
+  # H.tabulate "scr", hnrss.scr.db SQL"select * from sqlite_schema;"
+  hnrss.scr.queries.insert_datasource.run { dsk: 'hn', url: 'http://nourl', }
   #.........................................................................................................
-  do =>
-    scraper   = new Hnrss()
+  await do =>
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.001.xml'
-    await scraper.scrape_html buffer
+    await hnrss.scrape_html buffer
   #.........................................................................................................
-  do =>
-    scraper   = new Hnrss()
+  await do =>
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.002.xml'
-    await scraper.scrape_html buffer
+    await hnrss.scrape_html buffer
   #.........................................................................................................
   return null
 
