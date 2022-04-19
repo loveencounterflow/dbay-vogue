@@ -11,12 +11,12 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "cnd": "^9.2.2",
-    "dbay": "^14.5.0",
+    "dbay": "14.5.1",
     "got": "11",
     "guy": "^4.1.2",
     "icql-dba-tabulate": "^2.0.1",
     "intertype": "^7.7.0",
-    "mixa": "^0.5.0",
+    "mixa": "0.6.1",
     "playwright": "^1.21.0",
     "to-width": "^1.2.0"
   }
