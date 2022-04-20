@@ -210,14 +210,17 @@ class Hnrss
       d   = JSON.stringify d
       row = @scr.new_post { dsk, id, round, d, }
     #.......................................................................................................
-    H.tabulate "Hacker News", R
+    # H.tabulate "Hacker News", R
     H.tabulate "Hacker News", @scr.db SQL"""select
         dsk                     as dsk,
         id                      as id,
         round                   as round,
         seq                     as seq,
         substring( d, 1, 100 )  as d
-      from scr_posts;"""
+      from scr_posts
+      where true
+        -- and ( seq < 10 )
+      order by round, seq;"""
     return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -237,6 +240,20 @@ demo_hnrss = ->
   await do =>
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.002.xml'
     await hnrss.scrape_html buffer
+  #.........................................................................................................
+  await do =>
+    buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.003.xml'
+    await hnrss.scrape_html buffer
+  #.........................................................................................................
+  H.tabulate "progressions", hnrss.scr.db SQL"""
+    select distinct
+        id                                                  as id,
+        json_group_array( json_array( round, seq ) ) over w as seqs
+      from scr_posts
+      window w as (
+        partition by ( id )
+        order by seq
+        range between unbounded preceding and unbounded following );"""
   #.........................................................................................................
   return null
 
