@@ -18,5 +18,14 @@
 # Web Site Scraper
 
 ## To Do
+
+* **[–]** name
+* **[–]** documentation
+* **[–]** rename `round` -> `session`, `progress` -> `history`
+
 ## Is Done
+
+* **[+]** POC
+
+
 
