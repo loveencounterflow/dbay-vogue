@@ -86,7 +86,11 @@ class @Scraper
     { prefix } = @cfg
     @db.set_foreign_keys_state false
     @db SQL"""
-      drop table  if exists #{prefix}_datasources;"""
+      drop table  if exists #{prefix}_datasources;
+      drop table  if exists #{prefix}_rounds;
+      drop table  if exists #{prefix}_posts;
+      drop view   if exists #{prefix}_progressions;
+      drop view   if exists #{prefix}_posts_and_progressions;"""
     @db.set_foreign_keys_state true
     #-------------------------------------------------------------------------------------------------------
     # TABLES
@@ -112,6 +116,23 @@ class @Scraper
           d       json    not null,
         primary key ( dsk, id, round ),
         foreign key ( dsk ) references #{prefix}_datasources );"""
+    #.......................................................................................................
+    @db SQL"""
+      create view #{prefix}_progressions as select distinct
+          id                                                  as id,
+          json_group_array( json_array( round, seq ) ) over w as seqs
+        from #{prefix}_posts
+        window w as (
+          partition by ( id )
+          order by seq
+          range between unbounded preceding and unbounded following );"""
+    #.......................................................................................................
+    @db SQL"""
+      create view #{prefix}_posts_and_progressions as select
+          *
+        from #{prefix}_posts        as posts
+        join #{prefix}_progressions as progressions using ( id )
+      ;"""
     #.......................................................................................................
     return null
 

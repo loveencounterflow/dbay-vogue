@@ -245,15 +245,22 @@ demo_hnrss = ->
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.003.xml'
     await hnrss.scrape_html buffer
   #.........................................................................................................
+  await do =>
+    buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.004.xml'
+    await hnrss.scrape_html buffer
+  #.........................................................................................................
+  H.tabulate "progressions", hnrss.scr.db SQL"""select * from scr_progressions order by id;"""
   H.tabulate "progressions", hnrss.scr.db SQL"""
-    select distinct
-        id                                                  as id,
-        json_group_array( json_array( round, seq ) ) over w as seqs
-      from scr_posts
-      window w as (
-        partition by ( id )
-        order by seq
-        range between unbounded preceding and unbounded following );"""
+    select
+        dsk                                           as dsk,
+        id                                            as id,
+        round                                         as round,
+        seq                                           as seq,
+        seqs                                          as seqs,
+        substring( d, 1, 30 )                         as d
+      from scr_posts_and_progressions order by
+        round desc,
+        seq;"""
   #.........................................................................................................
   return null
 
