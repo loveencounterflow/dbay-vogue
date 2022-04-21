@@ -87,7 +87,7 @@ class @Scraper
     @db.set_foreign_keys_state false
     @db SQL"""
       drop table  if exists #{prefix}_datasources;
-      drop table  if exists #{prefix}_rounds;
+      drop table  if exists #{prefix}_sessions;
       drop table  if exists #{prefix}_posts;
       drop view   if exists #{prefix}_progressions;
       drop view   if exists #{prefix}_posts_and_progressions;"""
@@ -102,25 +102,25 @@ class @Scraper
         primary key ( dsk ) );"""
     #.......................................................................................................
     @db SQL"""
-      create table #{prefix}_rounds (
-          round   integer not null,
+      create table #{prefix}_sessions (
+          sid     integer not null,
           ts      dt      not null,
-        primary key ( round ) );"""
+        primary key ( sid ) );"""
     #.......................................................................................................
     @db SQL"""
       create table #{prefix}_posts (
           dsk     text    not null,
           id      text    not null,
-          round   integer not null,
+          sid     integer not null,
           seq     integer not null,
           d       json    not null,
-        primary key ( dsk, id, round ),
+        primary key ( dsk, id, sid ),
         foreign key ( dsk ) references #{prefix}_datasources );"""
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_progressions as select distinct
           id                                                  as id,
-          json_group_array( json_array( round, seq ) ) over w as seqs
+          json_group_array( json_array( sid, seq ) ) over w as seqs
         from #{prefix}_posts
         window w as (
           partition by ( id )
@@ -129,7 +129,12 @@ class @Scraper
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_posts_and_progressions as select
-          *
+          posts.dsk                                           as dsk,
+          posts.id                                            as id,
+          posts.sid                                           as sid,
+          posts.seq                                           as seq,
+          progressions.seqs                                   as seqs,
+          posts.d                                             as d
         from #{prefix}_posts        as posts
         join #{prefix}_progressions as progressions using ( id )
       ;"""
@@ -147,12 +152,12 @@ class @Scraper
       #.....................................................................................................
       insert_datasource:  @db.prepare_insert { into: "#{prefix}_datasources", }
       #.....................................................................................................
-      insert_round:       @db.prepare SQL"""
+      insert_session:       @db.prepare SQL"""
         with next_free as ( select
-            coalesce( max( round ), 0 ) + 1 as round
-          from #{prefix}_rounds )
-        insert into #{prefix}_rounds ( round, ts )
-          select round, std_dt_now() from next_free
+            coalesce( max( sid ), 0 ) + 1 as sid
+          from #{prefix}_sessions )
+        insert into #{prefix}_sessions ( sid, ts )
+          select sid, std_dt_now() from next_free
           returning *;"""
       #.....................................................................................................
       insert_post:        @db.prepare SQL"""
@@ -161,15 +166,15 @@ class @Scraper
           from #{prefix}_posts
           where true
             and ( dsk   = $dsk    )
-            and ( round = $round  ) )
-        insert into #{prefix}_posts ( dsk, id, round, seq, d )
-          select $dsk, $id, $round, next_free.seq, $d from next_free
+            and ( sid = $sid  ) )
+        insert into #{prefix}_posts ( dsk, id, sid, seq, d )
+          select $dsk, $id, $sid, next_free.seq, $d from next_free
           returning *;"""
     #.......................................................................................................
     return null
 
   #---------------------------------------------------------------------------------------------------------
-  new_round:            -> @db.first_row @queries.insert_round
+  new_session:            -> @db.first_row @queries.insert_session
   new_post: ( fields )  -> @db.first_row @queries.insert_post, fields
 
 

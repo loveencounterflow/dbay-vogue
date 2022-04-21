@@ -160,7 +160,7 @@ class Hnrss
 
   #---------------------------------------------------------------------------------------------------------
   scrape_html: ( html_or_buffer ) ->
-    { round, }  = @scr.new_round()
+    { sid, }    = @scr.new_session()
     insert_post = @scr.queries.insert_post
     dsk         = 'hn'
     seen        = @scr.db.dt_now()
@@ -208,19 +208,19 @@ class Hnrss
       ### TAINT avoid duplicate query ###
       d   = { title, discussion_url, date, creator, description, }
       d   = JSON.stringify d
-      row = @scr.new_post { dsk, id, round, d, }
+      row = @scr.new_post { dsk, id, sid, d, }
     #.......................................................................................................
     # H.tabulate "Hacker News", R
     H.tabulate "Hacker News", @scr.db SQL"""select
         dsk                     as dsk,
         id                      as id,
-        round                   as round,
+        sid                   as sid,
         seq                     as seq,
         substring( d, 1, 100 )  as d
       from scr_posts
       where true
         -- and ( seq < 10 )
-      order by round, seq;"""
+      order by sid, seq;"""
     return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -254,12 +254,12 @@ demo_hnrss = ->
     select
         dsk                                           as dsk,
         id                                            as id,
-        round                                         as round,
+        sid                                         as sid,
         seq                                           as seq,
         seqs                                          as seqs,
         substring( d, 1, 30 )                         as d
       from scr_posts_and_progressions order by
-        round desc,
+        sid desc,
         seq;"""
   #.........................................................................................................
   return null
