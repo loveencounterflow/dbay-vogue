@@ -21,11 +21,13 @@
 
 * **[–]** name
 * **[–]** documentation
-* **[–]** rename `round` -> `session`, `progress` -> `history`
+* **[–]** rename `progress` -> `history`
+* **[–]** rename `seq` -> `rank`
 
 ## Is Done
 
 * **[+]** POC
+* **[+]** rename `round` -> `session`
 
 
 
