@@ -214,12 +214,12 @@ class Hnrss
     H.tabulate "Hacker News", @scr.db SQL"""select
         sid                     as sid,
         id                      as id,
-        seq                     as seq,
+        rank                    as rank,
         substring( d, 1, 100 )  as d
       from scr_posts
       where true
-        -- and ( seq < 10 )
-      order by sid, seq;"""
+        -- and ( rank < 10 )
+      order by sid, rank;"""
     return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -254,12 +254,12 @@ demo_hnrss = ->
         dsk                                           as dsk,
         sid                                           as sid,
         id                                            as id,
-        seq                                           as seq,
-        seqs                                          as seqs,
+        rank                                          as rank,
+        ranks                                         as ranks,
         substring( d, 1, 30 )                         as d
       from scr_posts_and_progressions order by
         sid desc,
-        seq;"""
+        rank;"""
   #.........................................................................................................
   return null
 

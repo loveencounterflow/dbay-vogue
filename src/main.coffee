@@ -76,7 +76,7 @@ class @Scraper
     #   name:           prefix + '_get_rskey'
     #   deterministic:  true
     #   varargs:        false
-    #   call:           ( sid, seq ) -> "#{sid}:#{seq}"
+    #   call:           ( sid, rank ) -> "#{sid}:#{rank}"
     #-------------------------------------------------------------------------------------------------------
     return null
 
@@ -113,7 +113,7 @@ class @Scraper
       create table #{prefix}_posts (
           sid     integer not null,
           id      text    not null,
-          seq     integer not null,
+          rank    integer not null,
           d       json    not null,
         primary key ( sid, id ),
         foreign key ( sid ) references #{prefix}_sessions );"""
@@ -121,11 +121,11 @@ class @Scraper
     @db SQL"""
       create view #{prefix}_progressions as select distinct
           id                                                  as id,
-          json_group_array( json_array( sid, seq ) ) over w as seqs
+          json_group_array( json_array( sid, rank ) ) over w  as ranks
         from #{prefix}_posts
         window w as (
           partition by ( id )
-          order by seq
+          order by rank
           range between unbounded preceding and unbounded following );"""
     #.......................................................................................................
     @db SQL"""
@@ -133,8 +133,8 @@ class @Scraper
           sessions.dsk                                        as dsk,
           sessions.sid                                        as sid,
           posts.id                                            as id,
-          posts.seq                                           as seq,
-          progressions.seqs                                   as seqs,
+          posts.rank                                          as rank,
+          progressions.ranks                                  as ranks,
           posts.d                                             as d
         from #{prefix}_posts        as posts
         join #{prefix}_sessions     as sessions     using ( sid )
@@ -164,12 +164,12 @@ class @Scraper
       #.....................................................................................................
       insert_post:        @db.prepare SQL"""
         with next_free as ( select
-            coalesce( max( seq ), 0 ) + 1 as seq
+            coalesce( max( rank ), 0 ) + 1 as rank
           from #{prefix}_posts
           where true
             and ( sid = $sid ) )
-        insert into #{prefix}_posts ( sid, id, seq, d )
-          select $sid, $id, next_free.seq, $d from next_free
+        insert into #{prefix}_posts ( sid, id, rank, d )
+          select $sid, $id, next_free.rank, $d from next_free
           returning *;"""
     #.......................................................................................................
     return null
