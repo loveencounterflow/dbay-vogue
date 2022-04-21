@@ -160,9 +160,9 @@ class Hnrss
 
   #---------------------------------------------------------------------------------------------------------
   scrape_html: ( html_or_buffer ) ->
-    { sid, }    = @scr.new_session()
-    insert_post = @scr.queries.insert_post
     dsk         = 'hn'
+    { sid, }    = @scr.new_session dsk
+    insert_post = @scr.queries.insert_post
     seen        = @scr.db.dt_now()
     #.......................................................................................................
     html        = @_html_from_html_or_buffer html_or_buffer
@@ -208,13 +208,12 @@ class Hnrss
       ### TAINT avoid duplicate query ###
       d   = { title, discussion_url, date, creator, description, }
       d   = JSON.stringify d
-      row = @scr.new_post { dsk, id, sid, d, }
+      row = @scr.new_post { sid, id, d, }
     #.......................................................................................................
     # H.tabulate "Hacker News", R
     H.tabulate "Hacker News", @scr.db SQL"""select
-        dsk                     as dsk,
+        sid                     as sid,
         id                      as id,
-        sid                   as sid,
         seq                     as seq,
         substring( d, 1, 100 )  as d
       from scr_posts
@@ -253,8 +252,8 @@ demo_hnrss = ->
   H.tabulate "progressions", hnrss.scr.db SQL"""
     select
         dsk                                           as dsk,
+        sid                                           as sid,
         id                                            as id,
-        sid                                         as sid,
         seq                                           as seq,
         seqs                                          as seqs,
         substring( d, 1, 30 )                         as d

@@ -104,18 +104,19 @@ class @Scraper
     @db SQL"""
       create table #{prefix}_sessions (
           sid     integer not null,
+          dsk     text    not null,
           ts      dt      not null,
-        primary key ( sid ) );"""
+        primary key ( sid ),
+        foreign key ( dsk ) references #{prefix}_datasources );"""
     #.......................................................................................................
     @db SQL"""
       create table #{prefix}_posts (
-          dsk     text    not null,
-          id      text    not null,
           sid     integer not null,
+          id      text    not null,
           seq     integer not null,
           d       json    not null,
-        primary key ( dsk, id, sid ),
-        foreign key ( dsk ) references #{prefix}_datasources );"""
+        primary key ( sid, id ),
+        foreign key ( sid ) references #{prefix}_sessions );"""
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_progressions as select distinct
@@ -129,14 +130,15 @@ class @Scraper
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_posts_and_progressions as select
-          posts.dsk                                           as dsk,
+          sessions.dsk                                        as dsk,
+          sessions.sid                                        as sid,
           posts.id                                            as id,
-          posts.sid                                           as sid,
           posts.seq                                           as seq,
           progressions.seqs                                   as seqs,
           posts.d                                             as d
         from #{prefix}_posts        as posts
-        join #{prefix}_progressions as progressions using ( id )
+        join #{prefix}_sessions     as sessions     using ( sid )
+        join #{prefix}_progressions as progressions using (  id )
       ;"""
     #.......................................................................................................
     return null
@@ -156,8 +158,8 @@ class @Scraper
         with next_free as ( select
             coalesce( max( sid ), 0 ) + 1 as sid
           from #{prefix}_sessions )
-        insert into #{prefix}_sessions ( sid, ts )
-          select sid, std_dt_now() from next_free
+        insert into #{prefix}_sessions ( sid, dsk, ts )
+          select sid, $dsk, std_dt_now() from next_free
           returning *;"""
       #.....................................................................................................
       insert_post:        @db.prepare SQL"""
@@ -165,17 +167,16 @@ class @Scraper
             coalesce( max( seq ), 0 ) + 1 as seq
           from #{prefix}_posts
           where true
-            and ( dsk   = $dsk    )
-            and ( sid = $sid  ) )
-        insert into #{prefix}_posts ( dsk, id, sid, seq, d )
-          select $dsk, $id, $sid, next_free.seq, $d from next_free
+            and ( sid = $sid ) )
+        insert into #{prefix}_posts ( sid, id, seq, d )
+          select $sid, $id, next_free.seq, $d from next_free
           returning *;"""
     #.......................................................................................................
     return null
 
   #---------------------------------------------------------------------------------------------------------
-  new_session:            -> @db.first_row @queries.insert_session
-  new_post: ( fields )  -> @db.first_row @queries.insert_post, fields
+  new_session:  ( dsk     ) -> @db.first_row @queries.insert_session, { dsk, }
+  new_post:     ( fields  ) -> @db.first_row @queries.insert_post, fields
 
 
 
