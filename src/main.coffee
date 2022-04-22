@@ -89,7 +89,7 @@ class @Scraper
       drop table  if exists #{prefix}_datasources;
       drop table  if exists #{prefix}_sessions;
       drop table  if exists #{prefix}_posts;
-      drop view   if exists #{prefix}_progressions;
+      drop view   if exists _#{prefix}_trends;
       drop view   if exists #{prefix}_posts_and_progressions;"""
     @db.set_foreign_keys_state true
     #-------------------------------------------------------------------------------------------------------
@@ -119,9 +119,9 @@ class @Scraper
         foreign key ( sid ) references #{prefix}_sessions );"""
     #.......................................................................................................
     @db SQL"""
-      create view #{prefix}_progressions as select distinct
+      create view _#{prefix}_trends as select distinct
           id                                                  as id,
-          json_group_array( json_array( sid, rank ) ) over w  as ranks
+          json_group_array( json_array( sid, rank ) ) over w  as trend
         from #{prefix}_posts
         window w as (
           partition by ( id )
@@ -129,17 +129,20 @@ class @Scraper
           range between unbounded preceding and unbounded following );"""
     #.......................................................................................................
     @db SQL"""
-      create view #{prefix}_posts_and_progressions as select
+      create view #{prefix}_trends as select
           sessions.dsk                                        as dsk,
           sessions.sid                                        as sid,
+          sessions.ts                                         as ts,
           posts.id                                            as id,
           posts.rank                                          as rank,
-          progressions.ranks                                  as ranks,
+          trends.trend                                        as trend,
           posts.d                                             as d
         from #{prefix}_posts        as posts
         join #{prefix}_sessions     as sessions     using ( sid )
-        join #{prefix}_progressions as progressions using (  id )
-      ;"""
+        join _#{prefix}_trends      as trends       using (  id )
+        order by
+          sid   desc,
+          rank  asc;"""
     #.......................................................................................................
     return null
 

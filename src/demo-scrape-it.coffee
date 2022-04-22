@@ -249,22 +249,61 @@ demo_hnrss = ->
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.004.xml'
     await hnrss.scrape_html buffer
   #.........................................................................................................
-  H.tabulate "progressions", hnrss.scr.db SQL"""select * from scr_progressions order by id;"""
-  H.tabulate "progressions", hnrss.scr.db SQL"""
+  # H.tabulate "trends", hnrss.scr.db SQL"""select * from scr_trends order by id;"""
+  H.tabulate "trends", hnrss.scr.db SQL"""
     select
         dsk                                           as dsk,
         sid                                           as sid,
         id                                            as id,
         rank                                          as rank,
-        ranks                                         as ranks,
+        trend                                         as trend,
         substring( d, 1, 30 )                         as d
-      from scr_posts_and_progressions order by
+      from scr_trends order by
         sid desc,
         rank;"""
-  # #.........................................................................................................
-  # for row from
+  #.........................................................................................................
+  demo_trends_as_table hnrss
   #.........................................................................................................
   return null
+
+#-----------------------------------------------------------------------------------------------------------
+demo_trends_as_table = ( hnrss ) ->
+  ### TAINT add view containing most recent session for each DSK ###
+  sql = SQL"select * from scr_trends where sid = ( select max( sid ) from scr_trends );"
+  help '^5345^', HDML.open 'table', { class: 'dbay-scr trends', }
+  for row from hnrss.scr.db sql
+    { dsk
+      sid
+      ts
+      id
+      rank
+      trend
+      d       } = row
+    # debug '^4646^', row
+    trend       = JSON.parse trend
+    d           = JSON.parse d
+    dsk_html    = HDML.text dsk
+    sid_html    = HDML.text "#{sid}"
+    ts_html     = HDML.text ts
+    id_html     = HDML.text id
+    rank_html   = HDML.text "#{rank}"
+    trend_html  = HDML.text JSON.stringify trend
+    title_html  = HDML.text d.title[ 0 .. 50 ] ### TAINT use proper way to shorten string ###
+    tds         = [
+      HDML.embrace 'td', null, dsk_html
+      HDML.embrace 'td', null, sid_html
+      HDML.embrace 'td', null, id_html
+      HDML.embrace 'td', null, ts_html
+      HDML.embrace 'td', null, rank_html
+      HDML.embrace 'td', null, trend_html
+      HDML.embrace 'td', null, title_html
+      ]
+    tr          = HDML.embrace 'tr', null, tds.join ''
+    help '^5345^', tr
+  help '^5345^', HDML.close 'table'
+  #.........................................................................................................
+  return null
+
 
 
 ############################################################################################################
