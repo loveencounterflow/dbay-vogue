@@ -28,10 +28,22 @@ mount                     = require 'koa-mount'
 
 #-----------------------------------------------------------------------------------------------------------
 app.use ( ctx, next ) =>
+  debug "^dbay-scr/server@1^ dt-1 before"
   await next()
+  debug "^dbay-scr/server@2^ dt-1 after"
   rt = ctx.response.get 'X-Response-Time'
-  help "^dbay-scr/server@1^ #{ctx.method} #{ctx.url}; dt: #{rt}"
-  help "^dbay-scr/server@2^", ctx.state
+  help "^dbay-scr/server@3^ #{ctx.method} #{ctx.url}; dt: #{rt}"
+  help "^dbay-scr/server@4^", ctx.state
+  return null
+#...........................................................................................................
+app.use ( ctx, next ) =>
+  debug "^dbay-scr/server@5^ dt-2 before"
+  start = Date.now()
+  await next()
+  debug "^dbay-scr/server@6^ dt-2 after"
+  ms    = Date.now() - start
+  ctx.set 'X-Response-Time', "#{ms} ms"
+  ( ctx.state.greetings ?= [] ).push "helo from X-Response-Time setter"
   return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -60,7 +72,7 @@ app.use mount '/public', file_server paths.public, file_server_cfg
 #-----------------------------------------------------------------------------------------------------------
 router.get 'home', '/', ( ctx ) ->
   ctx.body = "a routed response"
-  help "^dbay-scr/server@2^", ctx.router.url 'home', { query: { foo: 'bar', }, }
+  help "^dbay-scr/server@7^", ctx.router.url 'home', { query: { foo: 'bar', }, }
   return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -76,16 +88,6 @@ app.use ( ctx ) =>
   return null
 
 #-----------------------------------------------------------------------------------------------------------
-# set x-response-time
-app.use ( ctx, next ) =>
-  start = Date.now()
-  await next()
-  ms    = Date.now() - start
-  ctx.set 'X-Response-Time', "#{ms} ms"
-  ( ctx.state.greetings ?= [] ).push "helo from X-Response-Time setter"
-  return null
-
-#-----------------------------------------------------------------------------------------------------------
 server_cfg  =
   host:       'localhost'
   port:       3456
@@ -94,12 +96,12 @@ http_server = HTTP.createServer app.callback()
 #-----------------------------------------------------------------------------------------------------------
 io          = new Socket_server http_server
 io.on 'connection', ( socket ) =>
-  help "^dbay-scr/server@3^ user connected to scket"
+  help "^dbay-scr/server@8^ user connected to scket"
   return null
 
 #-----------------------------------------------------------------------------------------------------------
 http_server.listen server_cfg, ->
-  debug "^dbay-scr/server@4^ listening"
+  debug "^dbay-scr/server@9^ listening"
   return null
 
 
