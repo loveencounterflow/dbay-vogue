@@ -23,6 +23,8 @@ app                       = new Koa()
 router                    = new Router()
 { Server: Socket_server } = require 'socket.io'
 file_server               = require 'koa-files'
+mount                     = require 'koa-mount'
+
 
 #-----------------------------------------------------------------------------------------------------------
 app.use ( ctx, next ) =>
@@ -52,7 +54,9 @@ file_server_cfg =
 #-----------------------------------------------------------------------------------------------------------
 paths =
   public:   PATH.resolve __dirname, '../public'
-app.use file_server paths.public, file_server_cfg
+# app.use file_server paths.public, file_server_cfg
+# router.get '/public', file_server paths.public, file_server_cfg
+app.use mount '/public', file_server paths.public, file_server_cfg
 # app.use KSR { dirs: ["./static/", "../node_modules/"],
 #     defaultIndex: "index.html"
 # router.get '/public', file_server '/public', file_server_cfg
