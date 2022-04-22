@@ -54,30 +54,13 @@ file_server_cfg =
 #-----------------------------------------------------------------------------------------------------------
 paths =
   public:   PATH.resolve __dirname, '../public'
-# app.use file_server paths.public, file_server_cfg
-# router.get '/public', file_server paths.public, file_server_cfg
+### thx to https://stackoverflow.com/a/66377342/7568091 ###
 app.use mount '/public', file_server paths.public, file_server_cfg
-# app.use KSR { dirs: ["./static/", "../node_modules/"],
-#     defaultIndex: "index.html"
-# router.get '/public', file_server '/public', file_server_cfg
-# router.get '/public', ( ctx ) ->
-#   ctx.body = "public files"
-#   return null
 
 #-----------------------------------------------------------------------------------------------------------
 router.get 'home', '/', ( ctx ) ->
   ctx.body = "a routed response"
   help "^dbay-scr/server@2^", ctx.router.url 'home', { query: { foo: 'bar', }, }
-  return null
-
-#-----------------------------------------------------------------------------------------------------------
-# set x-response-time
-app.use ( ctx, next ) =>
-  start = Date.now()
-  await next()
-  ms    = Date.now() - start
-  ctx.set 'X-Response-Time', "#{ms} ms"
-  ( ctx.state.greetings ?= [] ).push "helo from X-Response-Time setter"
   return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -90,6 +73,16 @@ app.use ( ctx ) =>
   # ctx.body = 'Hello World'
   ctx.throw 404, "no content under #{ctx.url}"
   ( ctx.state.greetings ?= [] ).push "helo from content handler"
+  return null
+
+#-----------------------------------------------------------------------------------------------------------
+# set x-response-time
+app.use ( ctx, next ) =>
+  start = Date.now()
+  await next()
+  ms    = Date.now() - start
+  ctx.set 'X-Response-Time', "#{ms} ms"
+  ( ctx.state.greetings ?= [] ).push "helo from X-Response-Time setter"
   return null
 
 #-----------------------------------------------------------------------------------------------------------
