@@ -24,8 +24,9 @@ CHEERIO                   = require 'cheerio'
 H                         = require './helpers'
 GUY                       = require 'guy'
 { Scraper, }              = require './main'
-{ DBay }                  = require 'dbay'
-{ SQL }                   = DBay
+{ DBay, }                 = require 'dbay'
+{ SQL, }                  = DBay
+{ HDML, }                 = require './hdml2'
 
 
 #===========================================================================================================
@@ -260,6 +261,8 @@ demo_hnrss = ->
       from scr_posts_and_progressions order by
         sid desc,
         rank;"""
+  # #.........................................................................................................
+  # for row from
   #.........................................................................................................
   return null
 
@@ -271,3 +274,7 @@ if module is require.main then do =>
   await demo_hnrss()
   # await demo_oanda_com_jsdom()
   # f()
+
+
+
+
