@@ -7,6 +7,7 @@ specifiers:
   dbay: 14.5.1
   got: '11'
   guy: ^4.1.2
+  hdml: ^1.0.2
   icql-dba-tabulate: ^2.0.1
   intertype: ^7.7.0
   koa: ^2.13.4
@@ -24,6 +25,7 @@ dependencies:
   dbay: 14.5.1
   got: 11.8.3
   guy: 4.1.2
+  hdml: 1.0.2
   icql-dba-tabulate: 2.0.1
   intertype: 7.7.0
   koa: 2.13.4
@@ -623,6 +625,16 @@ packages:
       letsfreezethat: 3.1.0
     dev: false
 
+  /guy/3.1.0:
+    resolution: {integrity: sha512-5bxlACi0FcjbF/hqDOs0nMyfPLQxzF9so8XJiTDv4g5xuWGOWMs7m/f2wIrstN6JsNlUJiGfxniHX9XoSfaZgg==}
+    peerDependencies:
+      deasync: ^0.1.22
+    dependencies:
+      cnd: 9.2.2
+      intertype: 7.6.7
+      letsfreezethat: 3.1.0
+    dev: false
+
   /guy/4.0.0:
     resolution: {integrity: sha512-unob1iMEmXrotWQYMeW/uOAJS4DXv0C5njlE1JboIwsc9wwd3goXN4ICdGxFw1x61WGyRH4lNWTRltj5o5xfBA==}
     dependencies:
@@ -649,6 +661,16 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       has-symbols: 1.0.3
+    dev: false
+
+  /hdml/1.0.2:
+    resolution: {integrity: sha512-hI5aUOv48mLV23Oh4WfsyMTC3U2PUAGuBza8SjuUeDyadneTByR/f9IYArGLjY1fMKoAyTtE3NnEvN9MpvD5gw==}
+    dependencies:
+      cnd: 9.2.2
+      guy: 3.1.0
+      intertype: 7.7.0
+    transitivePeerDependencies:
+      - deasync
     dev: false
 
   /htmlparser2/6.1.0:
