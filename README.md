@@ -21,7 +21,7 @@
 
 * **[–]** name
 * **[–]** documentation
-* **[–]** rename `progress` -> `history`
+* **[–]** rename `progress` -> `history`? `progress` -> `trending`?
 
 ## Is Done
 
