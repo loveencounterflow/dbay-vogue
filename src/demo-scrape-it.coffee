@@ -207,16 +207,16 @@ class Hnrss
       href    = null
       R.push { pid, title, date, creator, discussion_url, article_url, }
       ### TAINT avoid duplicate query ###
-      d   = { title, discussion_url, date, creator, description, }
-      d   = JSON.stringify d
-      row = @scr.new_post { sid, pid, d, }
+      details = { title, discussion_url, date, creator, description, }
+      details = JSON.stringify details
+      row     = @scr.new_post { sid, pid, details, }
     #.......................................................................................................
     # # H.tabulate "Hacker News", R
     # H.tabulate "Hacker News", @scr.db SQL"""select
     #     sid                     as sid,
     #     pid                      as pid,
     #     rank                    as rank,
-    #     substring( d, 1, 100 )  as d
+    #     substring( details, 1, 100 )  as details
     #   from scr_posts
     #   where true
     #     -- and ( rank < 10 )
@@ -231,17 +231,17 @@ class Hnrss
       pid
       rank
       trend
-      d       } = row
+      details } = row
     #.......................................................................................................
     trend       = JSON.parse trend
-    d           = JSON.parse d
+    details     = JSON.parse details
     dsk_html    = HDML.text dsk
     sid_html    = HDML.text "#{sid}"
     ts_html     = HDML.text ts
     id_html     = HDML.text pid
     rank_html   = HDML.text "#{rank}"
     trend_html  = HDML.text JSON.stringify trend
-    title_html  = HDML.text d.title[ 0 .. 50 ] ### TAINT use proper way to shorten string ###
+    title_html  = HDML.text details.title[ 0 .. 50 ] ### TAINT use proper way to shorten string ###
     #.......................................................................................................
     tds         = [
       HDML.embrace 'td', null, dsk_html
@@ -286,10 +286,10 @@ demo_hnrss = ->
   #   select
   #       dsk                                           as dsk,
   #       sid                                           as sid,
-  #       pid                                            as pid,
+  #       pid                                           as pid,
   #       rank                                          as rank,
   #       trend                                         as trend,
-  #       substring( d, 1, 30 )                         as d
+  #       substring( details, 1, 30 )                   as details
   #     from scr_trends order by
   #       sid desc,
   #       rank;"""

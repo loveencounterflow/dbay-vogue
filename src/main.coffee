@@ -129,7 +129,7 @@ class @Scraper
           sid     integer not null,
           pid     text    not null,
           rank    integer not null,
-          d       json    not null,
+          details json    not null,
         primary key ( sid, pid ),
         foreign key ( sid ) references #{prefix}_sessions );"""
     #.......................................................................................................
@@ -153,7 +153,7 @@ class @Scraper
           posts.pid                                           as pid,
           posts.rank                                          as rank,
           trends.trend                                        as trend,
-          posts.d                                             as d
+          posts.details                                       as details
         from #{prefix}_posts        as posts
         join #{prefix}_sessions     as sessions     using ( sid )
         join _#{prefix}_trends      as trends       using ( sid, pid )
@@ -175,13 +175,13 @@ class @Scraper
             select
                 sid,
                 #{prefix}_get_html_for( 'trends', json_object(
-                  'dsk',    dsk,
-                  'sid',    sid,
-                  'ts',     ts,
-                  'pid',    pid,
-                  'rank',   rank,
-                  'trend',  trend,
-                  'd',      new.d ) )
+                  'dsk',      dsk,
+                  'sid',      sid,
+                  'ts',       ts,
+                  'pid',      pid,
+                  'rank',     rank,
+                  'trend',    trend,
+                  'details',  new.details ) )
               from #{prefix}_trends as trends
               where ( trends.sid = new.sid ) and ( trends.pid = new.pid );
           end;"""
@@ -213,8 +213,8 @@ class @Scraper
           from #{prefix}_posts
           where true
             and ( sid = $sid ) )
-        insert into #{prefix}_posts ( sid, pid, rank, d )
-          select $sid, $pid, next_free.rank, $d from next_free
+        insert into #{prefix}_posts ( sid, pid, rank, details )
+          select $sid, $pid, next_free.rank, $details from next_free
           returning *;"""
     #.......................................................................................................
     return null
