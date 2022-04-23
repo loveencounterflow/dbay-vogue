@@ -133,7 +133,7 @@ class Hnrss
     ### TAINT encoding, url are not configurables ###
     defaults  = { encoding: 'utf-8', }
     @cfg      = GUY.lft.freeze { defaults..., cfg..., }
-    GUY.props.hide @, 'scr', new Scraper()
+    GUY.props.hide @, 'scr', new Scraper { client: @, }
     return undefined
 
   #---------------------------------------------------------------------------------------------------------
@@ -211,16 +211,56 @@ class Hnrss
       d   = JSON.stringify d
       row = @scr.new_post { sid, id, d, }
     #.......................................................................................................
-    # H.tabulate "Hacker News", R
-    H.tabulate "Hacker News", @scr.db SQL"""select
-        sid                     as sid,
-        id                      as id,
-        rank                    as rank,
-        substring( d, 1, 100 )  as d
-      from scr_posts
-      where true
-        -- and ( rank < 10 )
-      order by sid, rank;"""
+    # # H.tabulate "Hacker News", R
+    # H.tabulate "Hacker News", @scr.db SQL"""select
+    #     sid                     as sid,
+    #     id                      as id,
+    #     rank                    as rank,
+    #     substring( d, 1, 100 )  as d
+    #   from scr_posts
+    #   where true
+    #     -- and ( rank < 10 )
+    #   order by sid, rank;"""
+    return null
+
+  #-----------------------------------------------------------------------------------------------------------
+  get_html_for_trends: ( d ) ->
+    help '^44364561^', d
+    return "<xxx/>"
+    ### TAINT add view containing most recent session for each DSK ###
+    sql = SQL"select * from scr_trends where sid = ( select max( sid ) from scr_trends );"
+    help '^5345^', HDML.open 'table', { class: 'dbay-scr trends', }
+    for row from hnrss.scr.db sql
+      { dsk
+        sid
+        ts
+        id
+        rank
+        trend
+        d       } = row
+      # debug '^4646^', row
+      trend       = JSON.parse trend
+      d           = JSON.parse d
+      dsk_html    = HDML.text dsk
+      sid_html    = HDML.text "#{sid}"
+      ts_html     = HDML.text ts
+      id_html     = HDML.text id
+      rank_html   = HDML.text "#{rank}"
+      trend_html  = HDML.text JSON.stringify trend
+      title_html  = HDML.text d.title[ 0 .. 50 ] ### TAINT use proper way to shorten string ###
+      tds         = [
+        HDML.embrace 'td', null, dsk_html
+        HDML.embrace 'td', null, sid_html
+        HDML.embrace 'td', null, id_html
+        HDML.embrace 'td', null, ts_html
+        HDML.embrace 'td', null, rank_html
+        HDML.embrace 'td', null, trend_html
+        HDML.embrace 'td', null, title_html
+        ]
+      tr          = HDML.embrace 'tr', null, tds.join ''
+      help '^5345^', tr
+    help '^5345^', HDML.close 'table'
+    #.........................................................................................................
     return null
 
 #-----------------------------------------------------------------------------------------------------------
@@ -249,19 +289,19 @@ demo_hnrss = ->
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.004.xml'
     await hnrss.scrape_html buffer
   #.........................................................................................................
-  H.tabulate "trends", hnrss.scr.db SQL"""select * from _scr_trends order by id;"""
-  H.tabulate "trends", hnrss.scr.db SQL"""
-    select
-        dsk                                           as dsk,
-        sid                                           as sid,
-        id                                            as id,
-        rank                                          as rank,
-        trend                                         as trend,
-        substring( d, 1, 30 )                         as d
-      from scr_trends order by
-        sid desc,
-        rank;"""
-  H.tabulate "trends", hnrss.scr.db SQL"""select * from scr_trends_html order by nr;"""
+  # H.tabulate "trends", hnrss.scr.db SQL"""select * from _scr_trends order by id;"""
+  # H.tabulate "trends", hnrss.scr.db SQL"""
+  #   select
+  #       dsk                                           as dsk,
+  #       sid                                           as sid,
+  #       id                                            as id,
+  #       rank                                          as rank,
+  #       trend                                         as trend,
+  #       substring( d, 1, 30 )                         as d
+  #     from scr_trends order by
+  #       sid desc,
+  #       rank;"""
+  # H.tabulate "trends", hnrss.scr.db SQL"""select * from scr_trends_html order by nr;"""
   #.........................................................................................................
   # demo_trends_as_table hnrss
   #.........................................................................................................
@@ -271,43 +311,6 @@ demo_hnrss = ->
 relation_as_html = ( cfg ) ->
 
 
-#-----------------------------------------------------------------------------------------------------------
-demo_trends_as_table = ( hnrss ) ->
-  ### TAINT add view containing most recent session for each DSK ###
-  sql = SQL"select * from scr_trends where sid = ( select max( sid ) from scr_trends );"
-  help '^5345^', HDML.open 'table', { class: 'dbay-scr trends', }
-  for row from hnrss.scr.db sql
-    { dsk
-      sid
-      ts
-      id
-      rank
-      trend
-      d       } = row
-    # debug '^4646^', row
-    trend       = JSON.parse trend
-    d           = JSON.parse d
-    dsk_html    = HDML.text dsk
-    sid_html    = HDML.text "#{sid}"
-    ts_html     = HDML.text ts
-    id_html     = HDML.text id
-    rank_html   = HDML.text "#{rank}"
-    trend_html  = HDML.text JSON.stringify trend
-    title_html  = HDML.text d.title[ 0 .. 50 ] ### TAINT use proper way to shorten string ###
-    tds         = [
-      HDML.embrace 'td', null, dsk_html
-      HDML.embrace 'td', null, sid_html
-      HDML.embrace 'td', null, id_html
-      HDML.embrace 'td', null, ts_html
-      HDML.embrace 'td', null, rank_html
-      HDML.embrace 'td', null, trend_html
-      HDML.embrace 'td', null, title_html
-      ]
-    tr          = HDML.embrace 'tr', null, tds.join ''
-    help '^5345^', tr
-  help '^5345^', HDML.close 'table'
-  #.........................................................................................................
-  return null
 
 
 

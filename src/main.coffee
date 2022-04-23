@@ -50,18 +50,19 @@ class @Scraper
 
   #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
-    @cfg      = { @constructor.C.defaults.constructor_cfg..., cfg..., }
-    @cfg.db  ?= new DBay()
+    @cfg        = { @constructor.C.defaults.constructor_cfg..., cfg..., }
+    @cfg.db    ?= new DBay()
     GUY.props.hide @, 'types', types
     @types.validate.constructor_cfg @cfg
-    { db, } = GUY.obj.pluck_with_fallback @cfg, null, 'db'
-    GUY.props.hide @, 'db', db
-    @cfg    = GUY.lft.freeze @cfg
+    { db,     } = GUY.obj.pluck_with_fallback @cfg, null, 'db';     GUY.props.hide @, 'db',     db
+    { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'; GUY.props.hide @, 'client', client
+    @cfg        = GUY.lft.freeze @cfg
     @db.create_stdlib()
     @_set_variables?()
     @_create_sql_functions?()
     @_procure_infrastructure?()
     @_compile_sql?()
+    GUY.props.hide @, 'cache', { get_html_for: {}, }
     return undefined
 
   # #---------------------------------------------------------------------------------------------------------
@@ -73,11 +74,22 @@ class @Scraper
     { prefix } = @cfg
     #-------------------------------------------------------------------------------------------------------
     @db.create_function
-      name:           prefix + '_get_html'
+      name:           prefix + '_get_html_for'
       deterministic:  true
       varargs:        false
-      call:           ( dsk, sid, ts, id, rank, trend ) ->
-        return "<div>#{dsk} #{sid} #{ts} #{id} #{rank} #{trend}</div>"
+      call:           ( table_name, fields ) =>
+        @types.validate.nonempty_text table_name
+        @types.validate_optional.text fields
+        #...................................................................................................
+        ### TAINT use caching method, hide implementation details ###
+        unless ( method = @cache.get_html_for[ table_name ] )?
+          method_name = "get_html_for_#{table_name}"
+          unless ( method = @client[ method_name ] )?
+            throw new Error "^dbay-scraper@1^ client has no method #{rpr method_name}"
+          @cache.get_html_for[ method_name ] = method
+        #...................................................................................................
+        fields = JSON.parse fields if fields?
+        return method.call @client, fields
     #-------------------------------------------------------------------------------------------------------
     return null
 
@@ -162,7 +174,14 @@ class @Scraper
           insert into #{prefix}_trends_html ( sid, html )
             select
                 sid,
-                #{prefix}_get_html( dsk, sid, ts, id, rank, trend )
+                #{prefix}_get_html_for( 'trends', json_object(
+                  'dsk',    dsk,
+                  'sid',    sid,
+                  'ts',     ts,
+                  'id',     id,
+                  'rank',   rank,
+                  'trend',  trend,
+                  'd',      new.d ) )
               from #{prefix}_trends as trends
               where ( trends.sid = new.sid ) and ( trends.id = new.id );
           end;"""
