@@ -191,7 +191,7 @@ class Hnrss
       #.....................................................................................................
       discussion_url  = item.find 'reserved-link'
       discussion_url  = discussion_url.text()
-      id              = discussion_url.replace /^.*item\?id=([0-9]+)$/, 'hn-$1'
+      pid             = discussion_url.replace /^.*item\?id=([0-9]+)$/, 'hn-$1'
       #.....................................................................................................
       date            = item.find 'pubDate'
       date            = date.text()
@@ -205,16 +205,16 @@ class Hnrss
       article_url     = @_article_url_from_description description
       #.....................................................................................................
       href    = null
-      R.push { id, title, date, creator, discussion_url, article_url, }
+      R.push { pid, title, date, creator, discussion_url, article_url, }
       ### TAINT avoid duplicate query ###
       d   = { title, discussion_url, date, creator, description, }
       d   = JSON.stringify d
-      row = @scr.new_post { sid, id, d, }
+      row = @scr.new_post { sid, pid, d, }
     #.......................................................................................................
     # # H.tabulate "Hacker News", R
     # H.tabulate "Hacker News", @scr.db SQL"""select
     #     sid                     as sid,
-    #     id                      as id,
+    #     pid                      as pid,
     #     rank                    as rank,
     #     substring( d, 1, 100 )  as d
     #   from scr_posts
@@ -228,7 +228,7 @@ class Hnrss
     { dsk
       sid
       ts
-      id
+      pid
       rank
       trend
       d       } = row
@@ -238,7 +238,7 @@ class Hnrss
     dsk_html    = HDML.text dsk
     sid_html    = HDML.text "#{sid}"
     ts_html     = HDML.text ts
-    id_html     = HDML.text id
+    id_html     = HDML.text pid
     rank_html   = HDML.text "#{rank}"
     trend_html  = HDML.text JSON.stringify trend
     title_html  = HDML.text d.title[ 0 .. 50 ] ### TAINT use proper way to shorten string ###
@@ -281,12 +281,12 @@ demo_hnrss = ->
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.004.xml'
     await hnrss.scrape_html buffer
   #.........................................................................................................
-  # H.tabulate "trends", hnrss.scr.db SQL"""select * from _scr_trends order by id;"""
+  # H.tabulate "trends", hnrss.scr.db SQL"""select * from _scr_trends order by pid;"""
   # H.tabulate "trends", hnrss.scr.db SQL"""
   #   select
   #       dsk                                           as dsk,
   #       sid                                           as sid,
-  #       id                                            as id,
+  #       pid                                            as pid,
   #       rank                                          as rank,
   #       trend                                         as trend,
   #       substring( d, 1, 30 )                         as d

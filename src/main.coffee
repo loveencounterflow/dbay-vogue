@@ -127,20 +127,20 @@ class @Scraper
     @db SQL"""
       create table #{prefix}_posts (
           sid     integer not null,
-          id      text    not null,
+          pid     text    not null,
           rank    integer not null,
           d       json    not null,
-        primary key ( sid, id ),
+        primary key ( sid, pid ),
         foreign key ( sid ) references #{prefix}_sessions );"""
     #.......................................................................................................
     @db SQL"""
       create view _#{prefix}_trends as select distinct
           sid                                                 as sid,
-          id                                                  as id,
+          pid                                                 as pid,
           json_group_array( json_array( sid, rank ) ) over w  as trend
         from #{prefix}_posts
         window w as (
-          partition by ( id )
+          partition by ( pid )
           order by rank
           range between unbounded preceding and current row
           );"""
@@ -150,13 +150,13 @@ class @Scraper
           sessions.dsk                                        as dsk,
           sessions.sid                                        as sid,
           sessions.ts                                         as ts,
-          posts.id                                            as id,
+          posts.pid                                           as pid,
           posts.rank                                          as rank,
           trends.trend                                        as trend,
           posts.d                                             as d
         from #{prefix}_posts        as posts
         join #{prefix}_sessions     as sessions     using ( sid )
-        join _#{prefix}_trends      as trends       using ( sid, id )
+        join _#{prefix}_trends      as trends       using ( sid, pid )
         order by
           sid   desc,
           rank  asc;"""
@@ -178,12 +178,12 @@ class @Scraper
                   'dsk',    dsk,
                   'sid',    sid,
                   'ts',     ts,
-                  'id',     id,
+                  'pid',    pid,
                   'rank',   rank,
                   'trend',  trend,
                   'd',      new.d ) )
               from #{prefix}_trends as trends
-              where ( trends.sid = new.sid ) and ( trends.id = new.id );
+              where ( trends.sid = new.sid ) and ( trends.pid = new.pid );
           end;"""
     #.......................................................................................................
     return null
@@ -213,8 +213,8 @@ class @Scraper
           from #{prefix}_posts
           where true
             and ( sid = $sid ) )
-        insert into #{prefix}_posts ( sid, id, rank, d )
-          select $sid, $id, next_free.rank, $d from next_free
+        insert into #{prefix}_posts ( sid, pid, rank, d )
+          select $sid, $pid, next_free.rank, $d from next_free
           returning *;"""
     #.......................................................................................................
     return null
