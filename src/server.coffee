@@ -113,11 +113,13 @@ class @Vogue_server
 
   #---------------------------------------------------------------------------------------------------------
   _create_app: =>
-    @app.use                        @_s_log
-    @router.get   'home',   '/',    @_r_home
+    @app.use                            @_s_log
+    @router.get   'home',       '/',    @_r_home
+    @router.get   'trends',     '/',    @_r_trends
+    #.......................................................................................................
     @app.use @router.routes()
+    @app.use @_s_default
     @app.use @router.allowedMethods()
-    @app.use                        @_s_default
     return null
 
 
