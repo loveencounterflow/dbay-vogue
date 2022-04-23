@@ -71,12 +71,13 @@ class @Scraper
   #---------------------------------------------------------------------------------------------------------
   _create_sql_functions: ->
     { prefix } = @cfg
-    # #-------------------------------------------------------------------------------------------------------
-    # @db.create_function
-    #   name:           prefix + '_get_rskey'
-    #   deterministic:  true
-    #   varargs:        false
-    #   call:           ( sid, rank ) -> "#{sid}:#{rank}"
+    #-------------------------------------------------------------------------------------------------------
+    @db.create_function
+      name:           prefix + '_get_html'
+      deterministic:  true
+      varargs:        false
+      call:           ( dsk, sid, ts, id, rank, trend ) ->
+        return "<div>#{dsk} #{sid} #{ts} #{id} #{rank} #{trend}</div>"
     #-------------------------------------------------------------------------------------------------------
     return null
 
@@ -120,13 +121,15 @@ class @Scraper
     #.......................................................................................................
     @db SQL"""
       create view _#{prefix}_trends as select distinct
+          sid                                                 as sid,
           id                                                  as id,
           json_group_array( json_array( sid, rank ) ) over w  as trend
         from #{prefix}_posts
         window w as (
           partition by ( id )
           order by rank
-          range between unbounded preceding and unbounded following );"""
+          range between unbounded preceding and current row
+          );"""
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_trends as select
@@ -139,10 +142,28 @@ class @Scraper
           posts.d                                             as d
         from #{prefix}_posts        as posts
         join #{prefix}_sessions     as sessions     using ( sid )
-        join _#{prefix}_trends      as trends       using (  id )
+        join _#{prefix}_trends      as trends       using ( sid, id )
         order by
           sid   desc,
           rank  asc;"""
+    #.......................................................................................................
+    @db SQL"""
+      create table #{prefix}_trends_html (
+          nr        integer not null primary key,
+          sid       integer not null,
+          html      text    not null,
+        foreign key ( sid ) references #{prefix}_sessions );"""
+    #.......................................................................................................
+    @db SQL"""
+      create trigger #{prefix}_on_insert_into_posts after insert on #{prefix}_posts
+        for each row begin
+          insert into #{prefix}_trends_html ( sid, html )
+            select
+                sid,
+                #{prefix}_get_html( dsk, sid, ts, id, rank, trend )
+              from #{prefix}_trends as trends
+              where ( trends.sid = new.sid ) and ( trends.id = new.id );
+          end;"""
     #.......................................................................................................
     return null
 

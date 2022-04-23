@@ -249,7 +249,7 @@ demo_hnrss = ->
     buffer    = FS.readFileSync PATH.join __dirname, '../sample-data/hnrss.org_,_newest.004.xml'
     await hnrss.scrape_html buffer
   #.........................................................................................................
-  # H.tabulate "trends", hnrss.scr.db SQL"""select * from scr_trends order by id;"""
+  H.tabulate "trends", hnrss.scr.db SQL"""select * from _scr_trends order by id;"""
   H.tabulate "trends", hnrss.scr.db SQL"""
     select
         dsk                                           as dsk,
@@ -261,10 +261,15 @@ demo_hnrss = ->
       from scr_trends order by
         sid desc,
         rank;"""
+  H.tabulate "trends", hnrss.scr.db SQL"""select * from scr_trends_html order by nr;"""
   #.........................................................................................................
-  demo_trends_as_table hnrss
+  # demo_trends_as_table hnrss
   #.........................................................................................................
   return null
+
+#-----------------------------------------------------------------------------------------------------------
+relation_as_html = ( cfg ) ->
+
 
 #-----------------------------------------------------------------------------------------------------------
 demo_trends_as_table = ( hnrss ) ->
@@ -311,6 +316,7 @@ if module is require.main then do =>
   # await demo_zvg_online_net()
   # await demo_zvg24_net()
   await demo_hnrss()
+  # view-source:https://www.skypack.dev/search?q=sqlite&p=1
   # await demo_oanda_com_jsdom()
   # f()
 
