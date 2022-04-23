@@ -1,6 +1,6 @@
 {
   "name": "dbay-vogue",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "website scraper",
   "main": "lib/main.js",
   "scripts": {
