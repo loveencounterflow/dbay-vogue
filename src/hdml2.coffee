@@ -20,13 +20,19 @@ types                     = new ( require 'intertype' ).Intertype()
 
 #-----------------------------------------------------------------------------------------------------------
 @HDML =
-  open:     ( tag, atrs ) -> _HDML.create_tag '<', tag, atrs
-  close:    ( tag ) -> _HDML.create_tag '>', tag
-  single:   ( tag, atrs ) -> _HDML.create_tag '^', tag, atrs
-  pair:     ( tag, atrs ) -> ( @open tag, atrs ) + ( @close tag )
-  text:     ( text ) -> _HDML.escape_text text
-  insert:   ( tag, atrs, content ) ->
-    ( @open tag, atrs ) + content + ( @close tag )
+  open:     ( tag, atrs           ) -> _HDML.create_tag '<', tag, atrs
+  close:    ( tag                 ) -> _HDML.create_tag '>', tag
+  single:   ( tag, atrs           ) -> _HDML.create_tag '^', tag, atrs
+  pair:     ( tag, atrs           ) -> ( @open tag, atrs ) + ( @close tag )
+  text:     ( text                ) -> _HDML.escape_text text
+  insert:   ( tag, atrs, content  ) ->
+    switch arity = arguments.length
+      when 2 then [ tag, atrs, content, ] = [ tag, null, atrs, ]
+      when 3 then null
+      else throw new Error "^hdml2@1^ expected 2 or 3 arguments, got #{arity}"
+    types.validate.nonempty_text tag
+    types.validate.text content
+    return ( @open tag, atrs ) + content + ( @close tag )
 
 
 ############################################################################################################
