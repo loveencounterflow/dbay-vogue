@@ -87,11 +87,13 @@ class @Scraper
     { prefix } = @cfg
     @db.set_foreign_keys_state false
     @db SQL"""
-      drop table  if exists #{prefix}_datasources;
-      drop table  if exists #{prefix}_sessions;
-      drop table  if exists #{prefix}_posts;
-      drop view   if exists _#{prefix}_trends;
-      drop view   if exists #{prefix}_posts_and_progressions;"""
+      drop table    if exists #{prefix}_datasources;
+      drop table    if exists #{prefix}_sessions;
+      drop table    if exists #{prefix}_posts;
+      drop view     if exists _#{prefix}_trends;
+      drop view     if exists #{prefix}_trends;
+      drop table    if exists #{prefix}_trends_html;
+      drop trigger  if exists #{prefix}_on_insert_into_posts;"""
     @db.set_foreign_keys_state true
     #-------------------------------------------------------------------------------------------------------
     # TABLES
