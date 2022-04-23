@@ -113,9 +113,9 @@ class @Vogue_server
 
   #---------------------------------------------------------------------------------------------------------
   _create_app: =>
-    @app.use                            @_s_log
-    @router.get   'home',       '/',    @_r_home
-    @router.get   'trends',     '/',    @_r_trends
+    @app.use                                  @_s_log
+    @router.get   'home',       '/',          @_r_home
+    @router.get   'trends',     '/trends',    @_r_trends
     #.......................................................................................................
     @app.use @router.routes()
     @app.use @_s_default
@@ -153,8 +153,18 @@ class @Vogue_server
 
   #---------------------------------------------------------------------------------------------------------
   _r_trends: ( ctx ) =>
-    ctx.body = "DBay Vogue App / Trends"
     urge "^dbay-vogue/server@7^", ctx.router.url 'trends', { query: { foo: 'bar', }, }
+    debug '^34346^', @client
+    R = []
+    R.push "<!DOCTYPE html>"
+    R.push "<h3>DBay Vogue App / Trends</h3>"
+    R.push "<table>"
+    for row from @client.scr.db """select * from scr_trends_html order by nr;"""
+      R.push row.html
+    R.push "</table>"
+    #.......................................................................................................
+    ctx.response.type   = 'html'
+    ctx.body            = R.join '\n'
     return null
 
   #---------------------------------------------------------------------------------------------------------
