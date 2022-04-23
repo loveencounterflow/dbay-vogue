@@ -156,8 +156,14 @@ class @Vogue_server
     ctx.body = "DBay Vogue App / Trends"
     urge "^dbay-vogue/server@7^", ctx.router.url 'trends', { query: { foo: 'bar', }, }
     return null
+
+  #---------------------------------------------------------------------------------------------------------
   _s_default: ( ctx ) =>
-    # ctx.body = 'Hello World'
-    ctx.throw 404, "no content under #{ctx.url}"
-    ( ctx.state.greetings ?= [] ).push "helo from content handler"
+    ctx.response.status = 404
+    ctx.response.type   = 'html'
+    ctx.body            = """<!DOCTYPE html>
+      <h3>DBay Vogue App / 404 / Not Found</h3>
+      """
+    # ctx.throw 404, "no content under #{ctx.url}"
+    # ( ctx.state.greetings ?= [] ).push "helo from content handler"
     return null
