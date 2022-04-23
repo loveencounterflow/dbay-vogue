@@ -96,7 +96,7 @@ http_server = HTTP.createServer app.callback()
 #-----------------------------------------------------------------------------------------------------------
 io          = new Socket_server http_server
 io.on 'connection', ( socket ) =>
-  help "^dbay-scr/server@8^ user connected to scket"
+  help "^dbay-scr/server@8^ user connected to socket"
   return null
 
 #-----------------------------------------------------------------------------------------------------------

@@ -25,7 +25,7 @@ types                     = new ( require 'intertype' ).Intertype()
   single:   ( tag, atrs ) -> _HDML.create_tag '^', tag, atrs
   pair:     ( tag, atrs ) -> ( @open tag, atrs ) + ( @close tag )
   text:     ( text ) -> _HDML.escape_text text
-  embrace:  ( tag, atrs, content ) ->
+  insert:   ( tag, atrs, content ) ->
     ( @open tag, atrs ) + content + ( @close tag )
 
 
@@ -38,5 +38,5 @@ if module is require.main then do =>
   debug '^4354^', @HDML.pair    'div'
   debug '^4354^', @HDML.single  'mrg:loc#baselines'
   debug '^4354^', @HDML.pair    'mrg:loc#baselines'
-  debug '^4354^', @HDML.embrace 'div', { id: 'c1', class: 'foo bar', }, @HDML.text "<helo>"
-  debug '^4354^', @HDML.embrace 'div', { id: 'c1', class: 'foo bar', }, @HDML.single 'path', { id: 'c1', d: 'M100,100L200,200', }
+  debug '^4354^', @HDML.insert 'div', { id: 'c1', class: 'foo bar', }, @HDML.text "<helo>"
+  debug '^4354^', @HDML.insert 'div', { id: 'c1', class: 'foo bar', }, @HDML.single 'path', { id: 'c1', d: 'M100,100L200,200', }
