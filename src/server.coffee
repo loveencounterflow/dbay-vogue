@@ -148,7 +148,7 @@ class @Vogue_server
       </style>"""
     R.push "<h3>DBay Vogue App / Trends</h3>"
     R.push "<table>"
-    for row from @client.scr.db """select * from scr_trends_html order by sid desc, nr desc;"""
+    for row from @client.scr.db """select * from scr_trends_html order by sid desc, nr asc;"""
       R.push row.html
     R.push "</table>"
     #.......................................................................................................
