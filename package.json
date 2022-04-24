@@ -22,10 +22,8 @@
     "koa-files": "^2.1.1",
     "koa-mount": "^4.0.0",
     "mixa": "0.6.1",
-    "node-sparkline": "^1.2.0",
     "playwright": "^1.21.0",
     "socket.io": "^4.4.1",
-    "sparkly": "5",
     "to-width": "^1.2.0"
   }
 }
