@@ -157,6 +157,12 @@ class @Vogue_server
     debug '^34346^', @client
     R = []
     R.push "<!DOCTYPE html>"
+    R.push """
+      <style>
+        td {
+          background-color: #ddd;
+          white-space: nowrap; }
+      </style>"""
     R.push "<h3>DBay Vogue App / Trends</h3>"
     R.push "<table>"
     for row from @client.scr.db """select * from scr_trends_html order by nr;"""
