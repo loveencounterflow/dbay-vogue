@@ -158,6 +158,8 @@ class @Vogue_server
     R = []
     R.push "<!DOCTYPE html>"
     R.push """
+      <script src='/public/d3@7.js'></script>
+      <script src='/public/plot@0.4.js'></script>
       <style>
         td {
           background-color: #ddd;
