@@ -113,22 +113,13 @@ class @Vogue_server
   #
   #---------------------------------------------------------------------------------------------------------
   _s_log: ( ctx, next ) =>
-    { method
-      url
-      originalUrl
-      origin
-      href
-      path
-      query
-      querystring
-      host
-      hostname
-      protocol }  = ctx
-    querystring  ?= ''
-    querystring   = "?#{querystring}" if querystring.length > 1
+    await next()
+    querystring   = if ctx.querystring?.length > 1 then "?#{ctx.querystring}" else ''
     # help "^dbay-vogue/server@7^", { method, url, originalUrl, origin, href, path, query, querystring, host, hostname, protocol, }
-    help "^dbay-vogue/server@7^", "#{method} #{origin}#{path}#{querystring}"
-    next()
+    color = if ctx.status < 400 then 'lime' else 'red'
+    line  = "#{ctx.method} #{ctx.origin}#{ctx.path}#{querystring} -> #{ctx.status} #{ctx.message}"
+    echo ( CND.grey "^dbay-vogue/server@7^" ), ( CND[ color ] line )
+    # warn "^dbay-vogue/server@7^", "#{ctx.status} #{ctx.message}"
     return null
 
   #---------------------------------------------------------------------------------------------------------
