@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "got": "11"
+    "got": "11",
+    "sparkly": "5"
   }
 }
