@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+home="$(realpath "$(realpath "${BASH_SOURCE[0]}" | xargs dirname)"/.)"
+cd "$home"
+
+mkdir -p public/browserified
+# browserify -r combokeys --standalone Combokeys -o public/browserified/combokeys.js
+browserify -r mudom             --debug -o public/browserified/mudom.js
+# browserify -r guy               --debug -o public/browserified/guy.js
+# browserify -r datom             --debug -o public/browserified/datom.js
+

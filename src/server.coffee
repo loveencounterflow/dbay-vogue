@@ -135,9 +135,13 @@ class @Vogue_server
     R = []
     R.push "<!DOCTYPE html>"
     R.push """
+      <script src='/public/browserified/mudom.js'></script>
+      <script src='/public/ops-early.js'></script>
       <script src='/public/d3@7.js'></script>
       <script src='/public/plot@0.4.js'></script>
       <style>
+        svg {
+          outline: 1px dotted red; }
         td {
           background-color: #ddd;
           white-space: nowrap; }
