@@ -46,28 +46,7 @@ _types                    = require './types'
 #   ( ctx.state.greetings ?= [] ).push "helo from X-Response-Time setter"
 #   return null
 
-# #-----------------------------------------------------------------------------------------------------------
-# file_server_cfg =
-#   # Enable or disable accepting ranged requests. Disabling this will not send Accept-Ranges and ignore the
-#   # contents of the Range request header. defaults to true.
-#   acceptRanges:     true
-#   # Set Cache-Control response header, defaults to undefined, see docs: Cache-Control in MDN.
-#   cacheControl:     undefined
-#   # Enable or disable etag generation, defaults to true.
-#   etag:             true
-#   # Enable or disable Last-Modified header, defaults to true. Uses the file system's last modified value.
-#   # defaults to true.
-#   lastModified:     true
-#   # Set ignore rules. defaults to undefined. ( path ) => boolean
-#   ignore:           undefined
-#   # If true, serves after await next(), allowing any downstream middleware to respond first. defaults to false.
-#   defer:            false
 
-# #-----------------------------------------------------------------------------------------------------------
-# paths =
-#   public:   PATH.resolve __dirname, '../public'
-# ### thx to https://stackoverflow.com/a/66377342/7568091 ###
-# app.use mount '/public', file_server paths.public, file_server_cfg
 
 
 
@@ -114,10 +93,17 @@ class @Vogue_server
   #---------------------------------------------------------------------------------------------------------
   _create_app: =>
     @app.use                                  @_s_log
+    #.......................................................................................................
     @router.get   'home',       '/',          @_r_home
     @router.get   'trends',     '/trends',    @_r_trends
     #.......................................................................................................
     @app.use @router.routes()
+    #.......................................................................................................
+    ### thx to https://stackoverflow.com/a/66377342/7568091 ###
+    debug '^4345^', @cfg.paths.public
+    debug '^4345^', @cfg.file_server
+    @app.use mount '/public', file_server @cfg.paths.public, @cfg.file_server
+    #.......................................................................................................
     @app.use @_s_default
     @app.use @router.allowedMethods()
     return null
