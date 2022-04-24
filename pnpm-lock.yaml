@@ -14,6 +14,7 @@ specifiers:
   koa-files: ^2.1.1
   koa-mount: ^4.0.0
   mixa: 0.6.1
+  mudom: ^0.2.3
   playwright: ^1.21.0
   socket.io: ^4.4.1
   to-width: ^1.2.0
@@ -32,6 +33,7 @@ dependencies:
   koa-files: 2.1.1_koa@2.13.4
   koa-mount: 4.0.0
   mixa: 0.6.1
+  mudom: 0.2.3
   playwright: 1.21.0
   socket.io: 4.4.1
   to-width: 1.2.0
@@ -983,6 +985,12 @@ packages:
 
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: false
+
+  /mudom/0.2.3:
+    resolution: {integrity: sha512-B/0Ezi67/jhXpM7Tcr/Hq7jqD2lpjRKLA6gFoVES+Gas1721L90AG6teL6kctrpFIlN/RI2xXVFB6S5UnkYv2Q==}
+    dependencies:
+      intertype: 7.7.0
     dev: false
 
   /multimix/5.0.0:
