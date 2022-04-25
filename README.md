@@ -36,6 +36,8 @@
       listing is further down
     * other tags may be added at user request and be associated with a certain style / color / theme (maybe
       associate arbitrary CSS with each tag)
+* **[–]** allow to specify a list of keys into `details` containing facts that are to be writ large, such as
+  the price of a product
 
 ## Is Done
 
