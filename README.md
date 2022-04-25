@@ -21,13 +21,28 @@
 
 * **[–]** name
 * **[–]** documentation
-* **[–]** rename `progress` -> `history`? `progress` -> `trending`?
+* **[–]** repurpose `posts` table to only contain unique posts with primary key `( pid, version )` where
+  `version` is a small integer that allows to store updated `details` for a given post.
+  * **[–]** versioned `posts` would e.g. allow pricing fluctions to be linked to constant articles; IOW with
+    versions, a constant 'article'/'product' can now have a varying `price` detail
+  * **[–]** old `posts` becomes `posts_and_sessions` (?) which details occurrences of `posts` in completed
+    `sessions` ('sightings').
+* **[–]** introduce tagging in its simplest form (only value-less, affirmative tags such as `+interesting`,
+  `+seen`, `+hide`, `pin-to-top`). Tags are linked to unversioned `posts` via `pid`.
+  * **[–]** Some tags may be given systematic behavior:
+    * `+seen`—de-emphasize/grey-out post where it appears
+    * `+watch`—the opposite of `+seen`, hilite post where it appears
+    * `+pin-to-top`—always show post near top of listings even when its position in the data source's
+      listing is further down
+    * other tags may be added at user request and be associated with a certain style / color / theme (maybe
+      associate arbitrary CSS with each tag)
 
 ## Is Done
 
 * **[+]** POC
 * **[+]** rename `round` -> `session`
 * **[+]** rename `seq` -> `rank`
+* **[+]** rename `progress` -> `trends`?
 
 
 
