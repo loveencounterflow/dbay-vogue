@@ -29,6 +29,11 @@
     `sessions` ('sightings').
 * **[–]** introduce tagging in its simplest form (only value-less, affirmative tags such as `+interesting`,
   `+seen`, `+hide`, `pin-to-top`). Tags are linked to unversioned `posts` via `pid`.
+  * **[–]** consider to allow to tie tags to *versioned* posts with the additional rule that a 'version' may
+    be a wildcard like `*` that applies to all versions of a post. Tying a tag to the version that I see in
+    this listing then means 'OK not interested in this case but do show again if any details should have
+    changed', tying a tag to symbolic version `*` communicates 'I've seen this and am not interested in
+    being alerted to any changes'.
   * **[–]** Some tags may be given systematic behavior:
     * `+seen`—de-emphasize/grey-out post where it appears
     * `+watch`—the opposite of `+seen`, hilite post where it appears
@@ -41,6 +46,9 @@
 * **[–]** allow to specify from which key to derive `rank` from? In that case it would be best to keep *all*
   the data in `details` including № in the original listing and have a mapping like `{ rank: 'nr', }`, `{
   rank: 'price', }` to determine how to derive which aspect from which field.
+  * **[–]** problem with this: if the № becomes part of `details` then change in position of item in listing
+    would in itself be treated as an update to the *details* of an item, which is not what we want
+    * i.e. change in rank is categorically different from change in other details
 
 ## Is Done
 
@@ -48,6 +56,8 @@
 * **[+]** rename `round` -> `session`
 * **[+]** rename `seq` -> `rank`
 * **[+]** rename `progress` -> `trends`?
+* **[+]** use [D3](https://github.com/d3/d3), [plot](https://github.com/observablehq/plot) to produce
+  sparklines (MVP)
 
 
 
