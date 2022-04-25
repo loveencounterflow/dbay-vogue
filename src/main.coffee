@@ -134,6 +134,19 @@ class @Scraper
         foreign key ( sid ) references #{prefix}_sessions );"""
     #.......................................................................................................
     @db SQL"""
+      create table #{prefix}_tags (
+          tag     text    not null,
+        primary key ( tag ) );"""
+    #.......................................................................................................
+    @db SQL"""
+      create table #{prefix}_tagged_posts (
+          pid     text    not null,
+          tag     text    not null,
+        primary key ( pid, tag ),
+        -- foreign key ( pid ) references #{prefix}_posts ),
+        foreign key ( tag ) references #{prefix}_tags );"""
+    #.......................................................................................................
+    @db SQL"""
       create view _#{prefix}_trends as select distinct
           sid                                                 as sid,
           pid                                                 as pid,
