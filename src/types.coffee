@@ -60,6 +60,19 @@ GUY                       = require 'guy'
     # If true, serves after await next(), allowing any downstream middleware to respond first. defaults to false.
     defer:            false
 
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_constructor_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+  "( @isa.object x.db ) or ( @isa.function x.db ":  ( x ) -> ( @isa.object x.db ) or ( @isa.function x.db )
+  "@isa.nonempty_text x.prefix":                    ( x ) -> @isa.nonempty_text x.prefix
+#...........................................................................................................
+@defaults.vogue_constructor_cfg =
+  db:               null
+  prefix:           'scr'
+
+
+
+
 
 ############################################################################################################
 @defaults = GUY.lft.freeze @defaults

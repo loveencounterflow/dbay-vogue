@@ -16,54 +16,54 @@ echo                      = CND.echo.bind CND
 #...........................................................................................................
 ( require 'mixa/lib/check-package-versions' ) require '../pinned-package-versions.json'
 PATH                      = require 'path'
-types                     = new ( require 'intertype' ).Intertype()
-{ isa
-  type_of
-  validate
-  validate_list_of }      = types.export()
 GUY                       = require 'guy'
 # { HTMLISH: ITXH }         = require 'intertext'
 # URL                       = require 'url'
 # { Html }                  = require './html'
 { DBay }                  = require 'dbay'
 { SQL }                   = DBay
-
-
-#===========================================================================================================
-types.declare 'constructor_cfg', tests:
-  "@isa.object x":                                  ( x ) -> @isa.object x
-  "( @isa.object x.db ) or ( @isa.function x.db ":  ( x ) -> ( @isa.object x.db ) or ( @isa.function x.db )
-  "@isa.nonempty_text x.prefix":                    ( x ) -> @isa.nonempty_text x.prefix
-
+_types                    = require './types'
 
 
 #===========================================================================================================
 class @Vogue
 
   #---------------------------------------------------------------------------------------------------------
-  @C: GUY.lft.freeze
-    defaults:
-      #.....................................................................................................
-      constructor_cfg:
-        db:               null
-        prefix:           'scr'
-
-  #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
-    @cfg        = { @constructor.C.defaults.constructor_cfg..., cfg..., }
+    GUY.props.hide @, 'types',    _types.types
+    GUY.props.hide @, 'defaults', _types.defaults
+    #.......................................................................................................
+    @cfg        = { @defaults.vogue_constructor_cfg..., cfg..., }
     @cfg.db    ?= new DBay()
-    GUY.props.hide @, 'types', types
-    @types.validate.constructor_cfg @cfg
     { db,     } = GUY.obj.pluck_with_fallback @cfg, null, 'db';     GUY.props.hide @, 'db',     db
     { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'; GUY.props.hide @, 'client', client
+    @types.validate.vogue_constructor_cfg @cfg
     @cfg        = GUY.lft.freeze @cfg
+    #.......................................................................................................
     @db.create_stdlib()
     @_set_variables?()
     @_create_sql_functions?()
     @_procure_infrastructure?()
     @_compile_sql?()
     GUY.props.hide @, 'cache', { get_html_for: {}, }
+    #.......................................................................................................
     return undefined
+
+  # #---------------------------------------------------------------------------------------------------------
+  # constructor: ( cfg ) ->
+  #   @cfg        = { @constructor.C.defaults.vogue_constructor_cfg..., cfg..., }
+  #   GUY.props.hide @, 'types', types
+  #   @types.validate.vogue_constructor_cfg @cfg
+  #   { db,     } = GUY.obj.pluck_with_fallback @cfg, null, 'db';     GUY.props.hide @, 'db',     db
+  #   { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'; GUY.props.hide @, 'client', client
+  #   @cfg        = GUY.lft.freeze @cfg
+  #   @db.create_stdlib()
+  #   @_set_variables?()
+  #   @_create_sql_functions?()
+  #   @_procure_infrastructure?()
+  #   @_compile_sql?()
+  #   GUY.props.hide @, 'cache', { get_html_for: {}, }
+  #   return undefined
 
   # #---------------------------------------------------------------------------------------------------------
   # _set_variables: ->
@@ -237,6 +237,9 @@ class @Vogue
   new_post:     ( fields  ) -> @db.first_row @queries.insert_post, fields
 
 
+
+#===========================================================================================================
+class @Scraper
 
 
 
