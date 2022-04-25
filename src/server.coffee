@@ -131,8 +131,8 @@ class @Vogue_server
 
   #---------------------------------------------------------------------------------------------------------
   _r_trends: ( ctx ) =>
-    urge "^dbay-vogue/server@7^", ctx.router.url 'trends', { query: { foo: 'bar', }, }
-    debug '^34346^', @client
+    # urge "^dbay-vogue/server@7^", ctx.router.url 'trends', { query: { foo: 'bar', }, }
+    # debug '^34346^', @client
     R = []
     R.push "<!DOCTYPE html>"
     R.push """
@@ -149,7 +149,7 @@ class @Vogue_server
       </style>"""
     R.push "<h3>DBay Vogue App / Trends</h3>"
     R.push "<table>"
-    for row from @client.scr.db """select * from scr_trends_html order by sid desc, nr asc;"""
+    for row from @client.vogue.db """select * from scr_trends_html order by sid desc, nr asc;"""
       R.push row.html
     R.push "</table>"
     #.......................................................................................................
