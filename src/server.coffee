@@ -102,6 +102,7 @@ class @Vogue_server
     ### thx to https://stackoverflow.com/a/66377342/7568091 ###
     debug '^4345^', @cfg.paths.public
     debug '^4345^', @cfg.file_server
+    # @app.use mount '/favicon.ico', file_server @cfg.paths.favicon, @cfg.file_server
     @app.use mount '/public', file_server @cfg.paths.public, @cfg.file_server
     #.......................................................................................................
     @app.use @_s_default
