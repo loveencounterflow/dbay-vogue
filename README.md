@@ -37,7 +37,10 @@
     * other tags may be added at user request and be associated with a certain style / color / theme (maybe
       associate arbitrary CSS with each tag)
 * **[–]** allow to specify a list of keys into `details` containing facts that are to be writ large, such as
-  the price of a product
+  the price of a product. Maybe also allow to track specific facets with a sparkline?
+* **[–]** allow to specify from which key to derive `rank` from? In that case it would be best to keep *all*
+  the data in `details` including № in the original listing and have a mapping like `{ rank: 'nr', }`, `{
+  rank: 'price', }` to determine how to derive which aspect from which field.
 
 ## Is Done
 
