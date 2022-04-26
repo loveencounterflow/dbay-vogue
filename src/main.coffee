@@ -35,9 +35,9 @@ class @Vogue
     #.......................................................................................................
     @cfg        = { @defaults.vogue_constructor_cfg..., cfg..., }
     @cfg.db    ?= new DBay()
+    @types.validate.vogue_constructor_cfg @cfg
     { db,     } = GUY.obj.pluck_with_fallback @cfg, null, 'db';     GUY.props.hide @, 'db',     db
     { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'; GUY.props.hide @, 'client', client
-    @types.validate.vogue_constructor_cfg @cfg
     @cfg        = GUY.lft.freeze @cfg
     #.......................................................................................................
     @db.create_stdlib()
@@ -239,11 +239,22 @@ class @Vogue
 
 
 #===========================================================================================================
-class @Scraper
+class @Vogue_scraper
 
+  #---------------------------------------------------------------------------------------------------------
+  constructor: ( cfg ) ->
+    GUY.props.hide @, 'types',    _types.types
+    GUY.props.hide @, 'defaults', _types.defaults
+    #.......................................................................................................
+    @cfg        = { @defaults.vogue_scraper_constructor_cfg..., cfg..., }
+    @cfg.vogue ?= new Vogue { client: @, }
+    @types.validate.vogue_scraper_constructor_cfg @cfg
+    { vogue, }  = GUY.obj.pluck_with_fallback @cfg, null, 'vogue'; GUY.props.hide @, 'vogue', vogue
+    @cfg        = GUY.lft.freeze @cfg
+    return undefined
 
-
-
+############################################################################################################
+Vogue = @Vogue
 
 
 

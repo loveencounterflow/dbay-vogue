@@ -63,12 +63,25 @@ GUY                       = require 'guy'
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_constructor_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
+  "@isa.object x.client":                           ( x ) -> @isa.object x.client
   "( @isa.object x.db ) or ( @isa.function x.db ":  ( x ) -> ( @isa.object x.db ) or ( @isa.function x.db )
   "@isa.nonempty_text x.prefix":                    ( x ) -> @isa.nonempty_text x.prefix
 #...........................................................................................................
 @defaults.vogue_constructor_cfg =
   db:               null
   prefix:           'scr'
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scraper_constructor_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+  "@isa.nonempty_text x.encoding":                  ( x ) -> @isa.nonempty_text x.encoding
+  "@isa_optional.nonempty_text x.url":              ( x ) -> @isa_optional.nonempty_text x.url
+  "@isa.vogue x.vogue":                             ( x ) -> @isa.vogue x.vogue
+#...........................................................................................................
+@defaults.vogue_scraper_constructor_cfg =
+  encoding:         'utf-8'
+  url:              null
+  vogue:            null
 
 
 
