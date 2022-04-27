@@ -49,6 +49,8 @@
   * **[–]** problem with this: if the № becomes part of `details` then change in position of item in listing
     would in itself be treated as an update to the *details* of an item, which is not what we want
     * i.e. change in rank is categorically different from change in other details
+* **[–]** consider to either wrap `cheerio` handling (or make it optional), or use a library with a more
+  transparent API
 
 ## Is Done
 
