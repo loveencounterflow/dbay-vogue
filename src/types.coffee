@@ -83,6 +83,10 @@ GUY                       = require 'guy'
   url:              null
   vogue:            null
 
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_html_or_buffer', tests:
+  # "@isa.object x":                        ( x ) -> @isa.object x
+  "@type_of x in [ 'text', 'buffer', ]":  ( x ) -> @type_of x in [ 'text', 'buffer', ]
 
 
 
