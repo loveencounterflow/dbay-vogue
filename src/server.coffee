@@ -26,32 +26,6 @@ mount                     = require 'koa-mount'
 _types                    = require './types'
 
 
-# #-----------------------------------------------------------------------------------------------------------
-# app.use ( ctx, next ) =>
-#   debug "^dbay-vogue/server@1^ dt-1 before"
-#   await next()
-#   debug "^dbay-vogue/server@2^ dt-1 after"
-#   rt = ctx.response.get 'X-Response-Time'
-#   help "^dbay-vogue/server@3^ #{ctx.method} #{ctx.url}; dt: #{rt}"
-#   help "^dbay-vogue/server@4^", ctx.state
-#   return null
-# #...........................................................................................................
-# app.use ( ctx, next ) =>
-#   debug "^dbay-vogue/server@5^ dt-2 before"
-#   start = Date.now()
-#   await next()
-#   debug "^dbay-vogue/server@6^ dt-2 after"
-#   ms    = Date.now() - start
-#   ctx.set 'X-Response-Time', "#{ms} ms"
-#   ( ctx.state.greetings ?= [] ).push "helo from X-Response-Time setter"
-#   return null
-
-
-
-
-
-
-
 #===========================================================================================================
 class @Vogue_server
 
