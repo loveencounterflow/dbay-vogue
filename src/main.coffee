@@ -253,6 +253,14 @@ class @Vogue_scraper
     @cfg        = GUY.lft.freeze @cfg
     return undefined
 
+  #---------------------------------------------------------------------------------------------------------
+  _html_from_html_or_buffer: ( html_or_buffer ) ->
+    @types.validate.vogue_html_or_buffer html_or_buffer
+    if ( @types.type_of html_or_buffer ) is 'buffer'
+      return html_or_buffer.toString @cfg.encoding
+    return html_or_buffer
+
+
 ############################################################################################################
 Vogue = @Vogue
 
