@@ -260,6 +260,30 @@ class @Vogue_scraper
       return html_or_buffer.toString @cfg.encoding
     return html_or_buffer
 
+  #---------------------------------------------------------------------------------------------------------
+  get_sparkline: ( trend ) ->
+    # # values = [ { sid: -1, rank: -1,  }, ]
+    # values = []
+    # for [ sid, rank, ] in trend
+    #   values.push { sid, rank: -rank, }
+    # values.unshift { sid: -1, rank: -1, } if values.length < 2
+    #.......................................................................................................
+    dense_trend         = []
+    dense_trend[ sid ]  = rank for [ sid, rank, ] in trend
+    # for rank, sid in dense_trend
+    #   dense_trend[ sid ] = 21 unless rank?
+    # dense_trend.unshift 21 while dense_trend.length < 12
+    values              = []
+    values.push { sid, rank, } for rank, sid in dense_trend
+    #.......................................................................................................
+    values_json = JSON.stringify values
+    #.......................................................................................................
+    R = """<script>
+      document.body.append( Vogue_ops.sparkline_from_trend #{values_json} )
+      </script>"""
+    #.......................................................................................................
+    return R
+
 
 ############################################################################################################
 Vogue = @Vogue

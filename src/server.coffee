@@ -126,6 +126,7 @@ class @Vogue_server
     for row from @client.vogue.db """select * from scr_trends_html order by sid desc, nr asc;"""
       R.push row.html
     R.push "</table>"
+    R.push "<script src='/public/ops-late.js'></script>"
     #.......................................................................................................
     ctx.response.type   = 'html'
     ctx.body            = R.join '\n'
