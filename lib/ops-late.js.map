@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "../src/ops-late.coffee"
+  ],
+  "names": [],
+  "mappings": "AAEA;EAAA;AAAA,MAAA,KAAA,EAAA,SAAA;;;EAIM,YAAN,MAAA,UAAA,CAAA;;IAGE,oBAAsB,CAAE,KAAF,CAAA;AACxB,UAAA;aAAI,QAAA,GAAY;QACV,KAAA,EAAO;UACL,IAAI,CAAC,IAAL,CAAW,KAAX;UAAkB;YAChB,CAAA,EAAc,KADE;YAEhB,CAAA,EAAc,MAFE;YAGhB,MAAA,EAAc,KAHE;YAIhB,WAAA,EAAc,CAJE;;YAMhB,KAAA,EAAc;UANE,CAAlB,CADK;;UASL,IAAI,CAAC,GAAL,CAAU,KAAV;UAAiB;YACf,CAAA,EAAc,KADC;YAEf,CAAA,EAAc,MAFC;YAGf,MAAA,EAAc,KAHC;YAIf,IAAA,EAAc,KAJC;YAKf,WAAA,EAAc;UALC,CAAjB,CATK;SADG;QAiBV,KAAA,EAAY,GAjBF;QAkBV,MAAA,EAAY,GAlBF;QAmBV,CAAA,EAAY;UAAE,KAAA,EAAO,EAAT;UAAa,MAAA,EAAQ,CAAE,CAAF,EAAK,EAAL,CAArB;UAAiC,IAAA,EAAM;QAAvC,CAnBF;QAoBV,CAAA,EAAY;UAAE,KAAA,EAAO,CAAT;UAAY,MAAA,EAAQ,CAAE,CAAF,EAAK,EAAL,CAApB;UAAgC,IAAA,EAAM,CAAtC;UAAyC,OAAA,EAAS;QAAlD,CApBF;QAqBV,UAAA,EAAY;MArBF;IADQ;;EAHxB,EAJA;;;;;;;;;;;;EAyCA,KAAA,GAAQ,IAAI,SAAJ,CAAA;AAzCR",
+  "sourcesContent": [
+    "\n\n'use strict'\n\n\n#===========================================================================================================\nclass Vogue_ops\n\n  #---------------------------------------------------------------------------------------------------------\n  sparkline_from_trend: ( trend ) ->\n    plot_cfg  = {\n      marks: [\n        Plot.line( trend, {\n          x:            'sid',\n          y:            'rank',\n          stroke:       'red',\n          strokeWidth:  4,\n          # curve:        'step' } ),\n          curve:        'linear' } ),\n          # curve:        'cardinal' } ),\n        Plot.dot( trend, {\n          x:            'sid',\n          y:            'rank',\n          stroke:       'red',\n          fill:         'red',\n          strokeWidth:  4, } ),\n        ],\n      width:      500,\n      height:     100,\n      x:          { ticks: 12, domain: [ 0, 12, ], step: 1, },\n      y:          { ticks: 4, domain: [ 0, 80, ], step: 1, reverse: true, },\n      marginLeft: 50 }\n      # color: {\n      #   type: \"linear\",\n      #   scheme: \"cividis\",\n      #   legend: true,\n      #   domain: [0, 20],\n      #   range: [0, 1] },\n      # color: {\n      #   legend: true,\n      #   width: 554,\n      #   columns: '120px', } }\n\nVOGUE = new Vogue_ops()\n\n"
+  ]
+}
