@@ -279,7 +279,7 @@ class @Vogue_scraper
     values_json = JSON.stringify values
     #.......................................................................................................
     R = """<script>
-      document.body.append( Vogue_ops.sparkline_from_trend #{values_json} )
+      document.body.append( VOGUE.sparkline_from_trend( #{values_json} ) );
       </script>"""
     #.......................................................................................................
     return R
