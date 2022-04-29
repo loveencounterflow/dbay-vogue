@@ -17,6 +17,17 @@
 
 # Web Site Scraper
 
+* Vogue
+  * `Vogue_server`
+  * `Vogue_scraper`
+    * `Vogue_kaiju` (shim over [Playwright](https://playwright.dev)) for in-browser scraping of dynamic HTML
+      pages
+  * `Vogue_db`
+  * `Vogue_ops` slim on-page script (renders trendlines &c)
+    * `Vogue_telegraph` for websocket-based client/server communication
+      * based on [Datom XEmitter](https://github.com/loveencounterflow/datom#the-xemitter-xe-sub-module)
+
+
 ## To Do
 
 * **[–]** name
