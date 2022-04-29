@@ -18,6 +18,7 @@
 # Web Site Scraper
 
 * Vogue
+  * `Vogue` is the so-called 'hub'; the main object to be instantiated
   * `Vogue_server`
   * `Vogue_scraper`
     * `Vogue_kaiju` (shim over [Playwright](https://playwright.dev)) for in-browser scraping of dynamic HTML
