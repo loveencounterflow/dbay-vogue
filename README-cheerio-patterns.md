@@ -32,3 +32,18 @@
 ```
 
 
+## Namespaces
+
+From
+
+> You can select with XML Namespaces but due to the CSS specification, the colon (:) needs to be escaped for the selector to be valid.
+>
+> ```
+> $('[xml\\:id="main"');
+> ```
+
+
+
+
+
+
