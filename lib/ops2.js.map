@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "../src/ops2.coffee"
+  ],
+  "names": [],
+  "mappings": "AAEA;EAAA;;AAAA",
+  "sourcesContent": [
+    "\n\n'use strict'\n\n\n"
+  ]
+}
