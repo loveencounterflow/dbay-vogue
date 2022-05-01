@@ -31,6 +31,10 @@ GUY                       = require 'guy'
   "1024 <= x <= 65535":       ( x ) -> 1024 <= x <= 65535
 
 #-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_dsk', tests:
+  "@isa.nonempty_text x":     ( x ) -> @isa.nonempty_text x
+
+#-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_server_constructor_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
   # "( @isa.object x.db ) or ( @isa.function x.db ":  ( x ) -> ( @isa.object x.db ) or ( @isa.function x.db )
@@ -72,16 +76,29 @@ GUY                       = require 'guy'
   prefix:           'scr'
 
 #-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scrapers_constructor_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+#...........................................................................................................
+@defaults.vogue_scrapers_constructor_cfg = {}
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scrapers_add_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+  "@isa.vogue_dsk x.scraper":                       ( x ) -> @isa.vogue_dsk x.scraper
+#...........................................................................................................
+@defaults.vogue_scrapers_add_cfg =
+  dsk:              null
+  scraper:          null
+
+#-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scraper_constructor_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
   "@isa.nonempty_text x.encoding":                  ( x ) -> @isa.nonempty_text x.encoding
   "@isa_optional.nonempty_text x.url":              ( x ) -> @isa_optional.nonempty_text x.url
-  # "@isa.vogue x.vogue":                             ( x ) -> @isa.vogue x.vogue
 #...........................................................................................................
 @defaults.vogue_scraper_constructor_cfg =
   encoding:         'utf-8'
   url:              null
-  # vogue:            null
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_hub_constructor_cfg', tests:
@@ -93,7 +110,6 @@ GUY                       = require 'guy'
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_html_or_buffer', tests:
-  # "@isa.object x":                        ( x ) -> @isa.object x
   "@type_of x in [ 'text', 'buffer', ]":  ( x ) -> @type_of x in [ 'text', 'buffer', ]
 
 

@@ -21,7 +21,6 @@ GUY                       = require 'guy'
 # { Html }                  = require './html'
 { DBay }                  = require 'dbay'
 { SQL }                   = DBay
-_types                    = require './types'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
 H                         = require './helpers'
 
@@ -32,7 +31,6 @@ class @Vogue_db extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
     super()
-    #.......................................................................................................
     @cfg        = { @defaults.vogue_db_constructor_cfg..., cfg..., }
     @cfg.db    ?= new DBay()
     @types.validate.vogue_db_constructor_cfg @cfg

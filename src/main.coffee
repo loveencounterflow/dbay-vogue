@@ -38,13 +38,15 @@ class @Vogue extends Vogue_common_mixin()
   constructor: ( cfg ) ->
     super()
     #.......................................................................................................
-    @cfg          = { @defaults.vogue_hub_constructor_cfg..., cfg..., }
-    @cfg.vdb     ?= new ( require './vogue-db'      ).Vogue_db()
-    @cfg.server  ?= new ( require './vogue-server'  ).Vogue_server()
+    @cfg            = { @defaults.vogue_hub_constructor_cfg..., cfg..., }
+    @cfg.vdb       ?= new module.exports.Vogue_db()
+    @cfg.server    ?= new module.exports.Vogue_server()
+    @cfg.scrapers  ?= new module.exports.Vogue_scrapers()
     @types.validate.vogue_hub_constructor_cfg @cfg
-    { vdb,    }   = GUY.obj.pluck_with_fallback @cfg, null, 'vdb'; GUY.props.hide @, 'vdb', vdb
-    { server, }   = GUY.obj.pluck_with_fallback @cfg, null, 'server'; GUY.props.hide @, 'server', server
-    @cfg          = GUY.lft.freeze @cfg
+    { vdb,      }   = GUY.obj.pluck_with_fallback @cfg, null, 'vdb';      GUY.props.hide @, 'vdb',      vdb
+    { server,   }   = GUY.obj.pluck_with_fallback @cfg, null, 'server';   GUY.props.hide @, 'server',   server
+    { scrapers, }   = GUY.obj.pluck_with_fallback @cfg, null, 'scrapers'; GUY.props.hide @, 'scrapers', scrapers
+    @cfg            = GUY.lft.freeze @cfg
     @vdb._set_hub @
     return undefined
 

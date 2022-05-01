@@ -23,17 +23,16 @@ Router                    = require '@koa/router'
 { Server: Socket_server } = require 'socket.io'
 file_server               = require 'koa-files'
 mount                     = require 'koa-mount'
-_types                    = require './types'
+{ Vogue_common_mixin }    = require './vogue-common-mixin'
+H                         = require './helpers'
 
 
 #===========================================================================================================
-class @Vogue_server
+class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
-    GUY.props.hide @, 'types',    _types.types
-    GUY.props.hide @, 'defaults', _types.defaults
-    #.......................................................................................................
+    super()
     @cfg        = { @defaults.vogue_server_constructor_cfg..., cfg..., }
     @types.validate.vogue_server_constructor_cfg @cfg
     { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'

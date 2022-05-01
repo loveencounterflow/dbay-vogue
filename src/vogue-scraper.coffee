@@ -17,22 +17,47 @@ echo                      = CND.echo.bind CND
 PATH                      = require 'path'
 GUY                       = require 'guy'
 _types                    = require './types'
-
+H                         = require './helpers'
+{ Vogue_common_mixin }    = require './vogue-common-mixin'
 
 
 #===========================================================================================================
-class @Vogue_scraper
+### Collection of scrapers ###
+class @Vogue_scrapers extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
-    GUY.props.hide @, 'types',    _types.types
-    GUY.props.hide @, 'defaults', _types.defaults
-    #.......................................................................................................
-    @cfg        = { @defaults.vogue_scraper_constructor_cfg..., cfg..., }
-    # @cfg.vogue ?= new ( require './vogue-db' ).Vogue_db { client: @, }
-    @types.validate.vogue_scraper_constructor_cfg @cfg
-    { vogue, }  = GUY.obj.pluck_with_fallback @cfg, null, 'vogue'; GUY.props.hide @, 'vogue', vogue
+    super()
+    @cfg        = { @defaults.vogue_scrapers_constructor_cfg..., cfg..., }
+    @types.validate.vogue_scrapers_constructor_cfg @cfg
     @cfg        = GUY.lft.freeze @cfg
+    @d          = {}
+    @hub        = H.property_pending
+    return undefined
+
+  #---------------------------------------------------------------------------------------------------------
+  add: ( cfg ) ->
+    cfg         = { @defaults.vogue_scrapers_add_cfg..., cfg..., }
+    @types.validate.vogue_scrapers_add_cfg @cfg
+    { dsk
+      scraper } = cfg
+    if @d[ dsk ]?
+      throw new Error "^Vogue_scrapers@1^ DSK already in use: #{rpr dsk}"
+    @d[ dsk ]   = scraper
+    return null
+
+
+#===========================================================================================================
+### Individual scraper ###
+class @Vogue_scraper extends Vogue_common_mixin()
+
+  #---------------------------------------------------------------------------------------------------------
+  constructor: ( cfg ) ->
+    super()
+    @cfg        = { @defaults.vogue_scraper_constructor_cfg..., cfg..., }
+    @types.validate.vogue_scraper_constructor_cfg @cfg
+    @cfg        = GUY.lft.freeze @cfg
+    @hub        = H.property_pending
     return undefined
 
   #---------------------------------------------------------------------------------------------------------
