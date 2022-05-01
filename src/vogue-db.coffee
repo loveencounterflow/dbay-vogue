@@ -173,7 +173,7 @@ class @Vogue_db extends Vogue_common_mixin()
           insert into #{prefix}_trends_html ( sid, html )
             select
                 sid,
-                #{prefix}_get_html_for( 'trends', json_object(
+                #{prefix}_get_html_for( 'trends', dsk, json_object(
                   'dsk',      dsk,
                   'sid',      sid,
                   'ts',       ts,
