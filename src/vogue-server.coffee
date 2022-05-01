@@ -35,11 +35,9 @@ class @Vogue_server extends Vogue_common_mixin()
     super()
     @cfg        = { @defaults.vogue_server_constructor_cfg..., cfg..., }
     @types.validate.vogue_server_constructor_cfg @cfg
-    { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'
     @cfg        = GUY.lft.freeze @cfg
     @hub        = H.property_pending
     #.......................................................................................................
-    GUY.props.hide @, 'client', client
     GUY.props.hide @, 'app',    new Koa()
     GUY.props.hide @, 'router', new Router()
     #.......................................................................................................
@@ -105,8 +103,6 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _r_trends: ( ctx ) =>
-    # urge "^dbay-vogue/server@7^", ctx.router.url 'trends', { query: { foo: 'bar', }, }
-    # debug '^34346^', @client
     R = []
     R.push "<!DOCTYPE html>"
     R.push """
@@ -123,7 +119,7 @@ class @Vogue_server extends Vogue_common_mixin()
       </style>"""
     R.push "<h3>DBay Vogue App / Trends</h3>"
     R.push "<table>"
-    for row from @client.vogue.db """select * from scr_trends_html order by sid desc, nr asc;"""
+    for row from @hub.vdb.db """select * from scr_trends_html order by sid desc, nr asc;"""
       R.push row.html
     R.push "</table>"
     R.push "<script src='/public/ops2.js'></script>"
