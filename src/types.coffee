@@ -112,6 +112,12 @@ GUY                       = require 'guy'
   scrapers:           null
 
 #-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scheduler_constructor_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+#...........................................................................................................
+@defaults.vogue_scheduler_constructor_cfg = {}
+
+#-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_html_or_buffer', tests:
   "@type_of x in [ 'text', 'buffer', ]":  ( x ) -> @type_of x in [ 'text', 'buffer', ]
 
