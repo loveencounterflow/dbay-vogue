@@ -82,7 +82,8 @@ GUY                       = require 'guy'
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scrapers_add_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
-  "@isa.vogue_dsk x.scraper":                       ( x ) -> @isa.vogue_dsk x.scraper
+  "@isa.vogue_dsk x.dsk":                           ( x ) -> @isa.vogue_dsk x.dsk
+  "@isa.object x.scraper":                          ( x ) -> @isa.object x.scraper
 #...........................................................................................................
 @defaults.vogue_scrapers_add_cfg =
   dsk:              null
@@ -102,9 +103,13 @@ GUY                       = require 'guy'
 @types.declare 'vogue_hub_constructor_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
   "@isa.vogue_db x.vdb":                            ( x ) -> @isa.vogue_db x.vdb
+  "@isa.vogue_server x.server":                     ( x ) -> @isa.vogue_server x.server
+  "@isa.vogue_scrapers x.scrapers":                 ( x ) -> @isa.vogue_scrapers x.scrapers
 #...........................................................................................................
 @defaults.vogue_hub_constructor_cfg =
   vdb:                null
+  server:             null
+  scrapers:           null
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_html_or_buffer', tests:
