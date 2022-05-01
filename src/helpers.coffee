@@ -49,3 +49,10 @@ dtab                      = new Tbl { dba: {}, }
   @banner title if title?
   echo dtab._tabulate query
   return null
+
+#-----------------------------------------------------------------------------------------------------------
+@property_pending = Symbol 'property_pending'
+
+
+
+

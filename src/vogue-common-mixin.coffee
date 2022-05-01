@@ -17,7 +17,7 @@ echo                      = CND.echo.bind CND
 #...........................................................................................................
 GUY                       = require 'guy'
 _types                    = require './types'
-
+H                         = require './helpers'
 
 
 #===========================================================================================================
@@ -33,7 +33,7 @@ _types                    = require './types'
 
   #---------------------------------------------------------------------------------------------------------
   _set_hub: ( hub ) ->
-    unless @hub is null
+    unless @hub is H.property_pending
       throw new Error "^Vogue_common_mixin@1^ unable to set hub on a #{@types.type_of @}"
     GUY.props.hide @, 'hub', hub
     return null

@@ -23,6 +23,7 @@ GUY                       = require 'guy'
 { SQL }                   = DBay
 _types                    = require './types'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
+H                         = require './helpers'
 
 
 #===========================================================================================================
@@ -45,7 +46,7 @@ class @Vogue_db extends Vogue_common_mixin()
     @_procure_infrastructure?()
     @_compile_sql?()
     GUY.props.hide @, 'cache', { get_html_for: {}, }
-    @hub = null
+    @hub = H.property_pending
     #.......................................................................................................
     return undefined
 
