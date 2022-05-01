@@ -35,7 +35,6 @@ class @Vogue_db extends Vogue_common_mixin()
     @cfg.db    ?= new DBay()
     @types.validate.vogue_db_constructor_cfg @cfg
     { db,     } = GUY.obj.pluck_with_fallback @cfg, null, 'db';     GUY.props.hide @, 'db',     db
-    { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'; GUY.props.hide @, 'client', client
     @cfg        = GUY.lft.freeze @cfg
     #.......................................................................................................
     @db.create_stdlib()
@@ -68,19 +67,20 @@ class @Vogue_db extends Vogue_common_mixin()
       name:           prefix + '_get_html_for'
       deterministic:  true
       varargs:        false
-      call:           ( table_name, fields ) =>
+      call:           ( table_name, dsk, fields ) =>
         @types.validate.nonempty_text table_name
         @types.validate_optional.text fields
         #...................................................................................................
         ### TAINT use caching method, hide implementation details ###
         unless ( method = @cache.get_html_for[ table_name ] )?
+          scraper     = @hub.scrapers._scraper_from_dsk dsk
           method_name = "get_html_for_#{table_name}"
-          unless ( method = @client[ method_name ] )?
-            throw new Error "^dbay-scraper@1^ client has no method #{rpr method_name}"
+          unless ( method = scraper[ method_name ] )?
+            throw new Error "^dbay-scraper@1^ scraper has no method #{rpr method_name}"
           @cache.get_html_for[ method_name ] = method
         #...................................................................................................
         fields = JSON.parse fields if fields?
-        return method.call @client, fields
+        return method.call scraper, fields
     #-------------------------------------------------------------------------------------------------------
     return null
 

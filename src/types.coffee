@@ -42,7 +42,6 @@ GUY                       = require 'guy'
   "@isa.vogue_port x.port":                    ( x ) -> @isa.vogue_port x.port
 #...........................................................................................................
 @defaults.vogue_server_constructor_cfg =
-  client:   null
   host:     'localhost'
   port:     3456
   paths:
@@ -67,7 +66,6 @@ GUY                       = require 'guy'
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_db_constructor_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
-  # "@isa.object x.client":                           ( x ) -> @isa.object x.client
   "( @isa.object x.db ) or ( @isa.function x.db ":  ( x ) -> ( @isa.object x.db ) or ( @isa.function x.db )
   "@isa.nonempty_text x.prefix":                    ( x ) -> @isa.nonempty_text x.prefix
 #...........................................................................................................
