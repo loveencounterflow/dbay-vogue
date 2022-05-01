@@ -16,7 +16,6 @@ echo                      = CND.echo.bind CND
 #...........................................................................................................
 PATH                      = require 'path'
 GUY                       = require 'guy'
-_types                    = require './types'
 H                         = require './helpers'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
 
