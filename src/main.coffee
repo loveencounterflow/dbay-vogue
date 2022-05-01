@@ -47,7 +47,9 @@ class @Vogue extends Vogue_common_mixin()
     { server,   }   = GUY.obj.pluck_with_fallback @cfg, null, 'server';   GUY.props.hide @, 'server',   server
     { scrapers, }   = GUY.obj.pluck_with_fallback @cfg, null, 'scrapers'; GUY.props.hide @, 'scrapers', scrapers
     @cfg            = GUY.lft.freeze @cfg
-    @vdb._set_hub @
+    @vdb._set_hub       @
+    @server._set_hub    @
+    @scrapers._set_hub  @
     return undefined
 
 
