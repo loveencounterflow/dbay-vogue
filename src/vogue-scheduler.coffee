@@ -19,9 +19,6 @@ GUY                       = require 'guy'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
 #...........................................................................................................
 H                         = require './helpers'
-every                     = ( dts, f ) ->                         setInterval f,    dts * 1000
-after                     = ( dts, f ) ->                         setTimeout  f,    dts * 1000
-sleep                     = ( dts    ) -> new Promise ( done ) => setTimeout  done, dts * 1000
 
 
 #===========================================================================================================
@@ -49,10 +46,17 @@ class @Vogue_scheduler extends Vogue_common_mixin()
       d.running = true
       return null if ( await f() ) is false
       d.running = false
-      d.ref     = after 1, g
+      d.ref     = @after 1, g
       return null
     g()
     return null
+
+  #=========================================================================================================
+  #
+  #---------------------------------------------------------------------------------------------------------
+  every: ( dts, f ) ->                         setInterval f,    dts * 1000
+  after: ( dts, f ) ->                         setTimeout  f,    dts * 1000
+  sleep: ( dts    ) -> new Promise ( done ) => setTimeout  done, dts * 1000
 
 
 
