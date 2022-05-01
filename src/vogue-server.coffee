@@ -37,6 +37,7 @@ class @Vogue_server extends Vogue_common_mixin()
     @types.validate.vogue_server_constructor_cfg @cfg
     { client, } = GUY.obj.pluck_with_fallback @cfg, null, 'client'
     @cfg        = GUY.lft.freeze @cfg
+    @hub        = H.property_pending
     #.......................................................................................................
     GUY.props.hide @, 'client', client
     GUY.props.hide @, 'app',    new Koa()
