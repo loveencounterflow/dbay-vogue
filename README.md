@@ -18,12 +18,13 @@
 # Web Site Scraper
 
 * Vogue
-  * `Vogue` is the so-called 'hub'; the main object to be instantiated
-  * `Vogue_server`
-  * `Vogue_scraper`
-    * `Vogue_kaiju` (shim over [Playwright](https://playwright.dev)) for in-browser scraping of dynamic HTML
-      pages
-  * `Vogue_db`
+  * `v:` `Vogue` is the so-called 'hub'; the main object to be instantiated
+  * `v.scrapers:` `Vogue_scrapers`
+    * `v.scrapers.d:` `{ [dsk]: Vogue_scraper, }`
+  * `v.vdb:` `Vogue_db`
+  * `v.server:` `Vogue_server`
+  * `v.scheduler:` `Vogue_scheduler`
+
   * `Vogue_ops` slim on-page script (renders trendlines &c)
     * `Vogue_telegraph` for websocket-based client/server communication
       * based on [Datom XEmitter](https://github.com/loveencounterflow/datom#the-xemitter-xe-sub-module)
@@ -63,6 +64,8 @@
     * i.e. change in rank is categorically different from change in other details
 * **[–]** consider to either wrap `cheerio` handling (or make it optional), or use a library with a more
   transparent API
+* **[–]** `Vogue_kaiju` (shim over [Playwright](https://playwright.dev)) for in-browser scraping of dynamic
+  HTML pages
 
 ## Is Done
 
