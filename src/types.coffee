@@ -118,6 +118,20 @@ GUY                       = require 'guy'
 @defaults.vogue_scheduler_constructor_cfg = {}
 
 #-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scheduler_add_interval_cfg', tests:
+  "@isa.object x":                        ( x ) -> @isa.object x
+  "( @isa.function x.callee ) or ( @isa.asyncfunction x.callee )": \
+                                          ( x ) -> @( isa.function x.callee ) or ( @isa.asyncfunction x.callee )
+  "@isa.positive_float x.amount":         ( x ) -> @isa.positive_float x.amount
+  "x.unit in [ 'week', 'day', 'hour', 'minute', 'second', ]":  \
+                                          ( x ) -> x.unit in [ 'week', 'day', 'hour', 'minute', 'second', ]
+#...........................................................................................................
+@defaults.vogue_scheduler_add_interval_cfg =
+  callee:             null
+  amount:             1
+  unit:               'hour'
+
+#-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_html_or_buffer', tests:
   "@type_of x in [ 'text', 'buffer', ]":  ( x ) -> @type_of x in [ 'text', 'buffer', ]
 

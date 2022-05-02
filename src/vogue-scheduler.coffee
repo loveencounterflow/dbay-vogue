@@ -36,18 +36,25 @@ class @Vogue_scheduler extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   start: ->
+  stop: ->
 
   #---------------------------------------------------------------------------------------------------------
-  XXX_get_interval: ( f ) ->
-    d = { running: false, }
-    # every 0.1, => urge d
+  add_interval: ( cfg ) ->
+    cfg         = { @defaults.vogue_scheduler_add_interval_cfg..., cfg..., }
+    @types.validate.vogue_scheduler_add_interval_cfg cfg
+    { callee
+      amount
+      unit    } = cfg
+    d           = { running: false, }
+    #.......................................................................................................
     g = =>
       return null if d.running
       d.running = true
-      return null if ( await f() ) is false
+      return null if ( await callee() ) is false
       d.running = false
       d.ref     = @after 1, g
       return null
+    #.......................................................................................................
     g()
     return null
 
