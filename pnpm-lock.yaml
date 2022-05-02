@@ -4,7 +4,7 @@ specifiers:
   '@koa/router': ^10.1.1
   cheerio: ^1.0.0-rc.10
   cnd: ^9.2.2
-  dbay: 14.7.1
+  dbay: 14.7.2
   got: '11'
   guy: ^4.1.2
   hdml: ^1.0.2
@@ -23,7 +23,7 @@ dependencies:
   '@koa/router': 10.1.1
   cheerio: 1.0.0-rc.10
   cnd: 9.2.2
-  dbay: 14.7.1
+  dbay: 14.7.2
   got: 11.8.3
   guy: 4.1.2
   hdml: 1.0.2
@@ -374,8 +374,8 @@ packages:
     resolution: {integrity: sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==}
     dev: false
 
-  /dbay/14.7.1:
-    resolution: {integrity: sha512-bYYB+9ELpK8GCnzc8TZqf/al/PhBPx4E+x0/BDu9EHCH+UEONLSRVcCDKVSHQAnRtWH/aI58Y7vojll4qHL8Pg==}
+  /dbay/14.7.2:
+    resolution: {integrity: sha512-cSzUZDp2ZVJPcF51Q9UysY6Gjjptckr7QjW2o7Bf6+SmWgmVysHgt7jM9BdO5ZpgGrK3SWd1MDSOvCh/fdJ1Ww==}
     requiresBuild: true
     dependencies:
       cnd: 9.2.2
