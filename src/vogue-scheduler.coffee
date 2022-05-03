@@ -61,6 +61,7 @@ class @Vogue_scheduler extends Vogue_common_mixin()
       d.running   = false
       t1_ms       = Date.now()
       run_dt_ms   = t1_ms - t0_ms
+      ### TAINT what to do when extra_dt is zero, negative? ###
       extra_dt_ms = ( delta_t_ms - run_dt_ms )
       extra_dt_s  = ( dayjs.duration extra_dt_ms, 'milliseconds' ).asSeconds()
       d.ref       = @after extra_dt_s, g
