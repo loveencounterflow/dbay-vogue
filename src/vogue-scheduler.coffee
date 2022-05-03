@@ -41,18 +41,31 @@ class @Vogue_scheduler extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   add_interval: ( cfg ) ->
     cfg         = { @defaults.vogue_scheduler_add_interval_cfg..., cfg..., }
+    dayjs       = @hub.vdb.db._dayjs
     @types.validate.vogue_scheduler_add_interval_cfg cfg
     { callee
       amount
       unit    } = cfg
     d           = { running: false, }
+    delta_t_ms  = ( dayjs.duration amount, unit ).asMilliseconds()
+    # debug '^342-1^', { delta_t_ms, }
     #.......................................................................................................
     g = =>
       return null if d.running
-      d.running = true
+      #.....................................................................................................
+      d.running   = true
+      t0_ms       = Date.now()
+      #.....................................................................................................
       return null if ( await callee() ) is false
-      d.running = false
-      d.ref     = @after 1, g
+      #.....................................................................................................
+      d.running   = false
+      t1_ms       = Date.now()
+      run_dt_ms   = t1_ms - t0_ms
+      extra_dt_ms = ( delta_t_ms - run_dt_ms )
+      extra_dt_s  = ( dayjs.duration extra_dt_ms, 'milliseconds' ).asSeconds()
+      d.ref       = @after extra_dt_s, g
+      # debug '^342-2^', { extra_dt_ms, extra_dt_s, }
+      #.....................................................................................................
       return null
     #.......................................................................................................
     g()
