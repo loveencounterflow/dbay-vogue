@@ -118,13 +118,28 @@ GUY                       = require 'guy'
 @defaults.vogue_scheduler_constructor_cfg = {}
 
 #-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scheduler_unit', tests:
+  "@isa.nonempty_text x":   ( x ) -> @isa.object x
+  "x is singular or plural week, day, hour, minute, second": ( x ) ->
+    return true if x is 'week'
+    return true if x is 'day'
+    return true if x is 'hour'
+    return true if x is 'minute'
+    return true if x is 'second'
+    return true if x is 'weeks'
+    return true if x is 'days'
+    return true if x is 'hours'
+    return true if x is 'minutes'
+    return true if x is 'seconds'
+    return false
+
+#-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scheduler_add_interval_cfg', tests:
   "@isa.object x":                        ( x ) -> @isa.object x
   "( @isa.function x.callee ) or ( @isa.asyncfunction x.callee )": \
-                                          ( x ) -> @( isa.function x.callee ) or ( @isa.asyncfunction x.callee )
+                                          ( x ) -> ( @isa.function x.callee ) or ( @isa.asyncfunction x.callee )
   "@isa.positive_float x.amount":         ( x ) -> @isa.positive_float x.amount
-  "x.unit in [ 'week', 'day', 'hour', 'minute', 'second', ]":  \
-                                          ( x ) -> x.unit in [ 'week', 'day', 'hour', 'minute', 'second', ]
+  "@isa.vogue_scheduler_unit":            ( x ) -> @isa.vogue_scheduler_unit
 #...........................................................................................................
 @defaults.vogue_scheduler_add_interval_cfg =
   callee:             null
