@@ -70,7 +70,6 @@
 
 ## To Do
 
-* **[–]** name
 * **[–]** documentation
 * **[–]** repurpose `posts` table to only contain unique posts with primary key `( pid, version )` where
   `version` is a small integer that allows to store updated `details` for a given post.
@@ -104,9 +103,14 @@
   transparent API
 * **[–]** `Vogue_kaiju` (shim over [Playwright](https://playwright.dev)) for in-browser scraping of dynamic
   HTML pages
+* **[–]** see https://github.com/kudla/promise-status-async, https://stackoverflow.com/a/53328182/7568091 on
+  how to check for promise status;
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race on how to
+  implement session timeout
 
 ## Is Done
 
+* **[+]** name
 * **[+]** POC
 * **[+]** rename `round` -> `session`
 * **[+]** rename `seq` -> `rank`
