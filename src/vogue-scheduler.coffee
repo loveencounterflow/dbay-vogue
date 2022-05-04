@@ -26,7 +26,8 @@ class @Vogue_scheduler extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   @C: GUY.lft.freeze
-    duration_pattern: /^(?<amount>[-+]?(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)\s(?<unit>.+)$/
+    abs_duration_pattern:   /^(?<amount>[-+]?(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)\s(?<unit>.+)$/
+    percentage_pattern:     /^(?<percentage>[-+]?(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)%$/
     duration_units: [
       'week',   'weeks',
       'day',    'days',
@@ -49,37 +50,53 @@ class @Vogue_scheduler extends Vogue_common_mixin()
   stop: ->
 
   #---------------------------------------------------------------------------------------------------------
+  _parse_abs_duration: ( duration_txt ) ->
+    dayjs = @hub.vdb.db._dayjs
+    match = duration_txt.match @constructor.C.abs_duration_pattern
+    return ( dayjs.duration match.groups.amount, match.groups.unit ).asMilliseconds()
+
+  #---------------------------------------------------------------------------------------------------------
+  _parse_absrel_duration: ( jitter_txt, reference_ms ) ->
+    if ( match = jitter_txt.match @constructor.C.percentage_pattern )?
+      percentage = parseFloat match.groups.percentage
+      return reference_ms * percentage / 100
+    return @_parse_abs_duration jitter_txt
+
+  #---------------------------------------------------------------------------------------------------------
   add_interval: ( cfg ) ->
     cfg         = { @defaults.vogue_scheduler_add_interval_cfg..., cfg..., }
     dayjs       = @hub.vdb.db._dayjs
     @types.validate.vogue_scheduler_add_interval_cfg cfg
-    { callee
-      repeat  } = cfg
-    repeat      = { ( repeat.match @constructor.C.duration_pattern ).groups..., }
+    { task
+      repeat
+      jitter
+      pause   } = cfg
+    repeat_ms   = @_parse_abs_duration repeat
+    jitter_ms   = @_parse_absrel_duration jitter, repeat_ms
+    pause_ms    = @_parse_absrel_duration pause, repeat_ms
     d           = { running: false, }
-    delta_t_ms  = ( dayjs.duration repeat.amount, repeat.unit ).asMilliseconds()
-    # debug '^342-1^', { cfg, repeat, delta_t_ms, }
+    debug '^342-1^', { cfg, repeat_ms, jitter_ms, pause_ms, }
     #.......................................................................................................
-    task = =>
+    instrumented_task = =>
       return null if d.running
       #.....................................................................................................
       d.running   = true
       t0_ms       = Date.now()
       #.....................................................................................................
-      return null if ( await callee() ) is false
+      return null if ( await task() ) is false
       #.....................................................................................................
       d.running   = false
       t1_ms       = Date.now()
       run_dt_ms   = t1_ms - t0_ms
       ### TAINT what to do when extra_dt is zero, negative? ###
-      extra_dt_ms = ( delta_t_ms - run_dt_ms )
+      extra_dt_ms = ( repeat_ms - run_dt_ms )
       extra_dt_s  = ( dayjs.duration extra_dt_ms, 'milliseconds' ).asSeconds()
-      d.ref       = @after extra_dt_s, task
+      d.ref       = @after extra_dt_s, instrumented_task
       # debug '^342-2^', extra_dt_s
       #.....................................................................................................
       return null
     #.......................................................................................................
-    task()
+    instrumented_task()
     return null
 
   #=========================================================================================================

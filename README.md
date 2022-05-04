@@ -46,13 +46,15 @@
       a task has been stopped because of timeout, the next session will be started following the same rules
       as if it finished normally.</del>
 
-    * `pause: duration` (default: `null` meaning `0 seconds`): how to wait at least before starting the next
-      session. Example: When a task has been scheduled with `{ repeat: '1 hour', jitter: '5 minutes', pause:
-      '2 minutes', }`, is first run at `00:00` and took 59 minutes to finish (whether regularly or with
-      timeout), it would be scheduled to run next at `01:00` if both `jitter` and `pause` were had been set
-      to `0 minutes`. But because `jitter` is `5 minutes`, it could run as early as `00:55`, which it
-      couldn't because it hadn't yet finished by then. Therefore, the next session gets scheduled at `01:06`
-      because `00:59 + 2min + 5min = 00:66 = 01:06`.
+    * `pause: duration` (default: `null` meaning `0 seconds`): specifies the minim time between the
+      finishing of one session and the start of the next one, taking account of jitter. Example: When a task
+      has been scheduled with `{ repeat: '10 minutes', jitter: '3 minutes', pause: '2 minutes', }`, is first
+      run at `00:00` and took 9 minutes until `00:09` to finish, it would without `pause` be scheduled to run next at
+      `00:10`. But because `jitter` is `3 minutes` we have to postpone until
+
+      `minutes`, it could have run as early as `00:55`, which it couldn't because it hadn't yet finished by
+      then. Therefore, the next session gets scheduled at `01:06` because `00:59 + 2min + 5min = 00:66 =
+      01:06`.
 
       Note that for simplicity, we have only used minutes and hours in the above, which in reality could
       have the undesirable effect that a task scheduled to have a pause of `1 minute` finishes at `00:59:59`

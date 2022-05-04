@@ -118,19 +118,26 @@ GUY                       = require 'guy'
 @defaults.vogue_scheduler_constructor_cfg = {}
 
 #-----------------------------------------------------------------------------------------------------------
-@types.declare 'vogue_scheduler_duration', tests:
+@types.declare 'vogue_scheduler_abs_duration', tests:
   "@isa.nonempty_text x":         ( x ) -> @isa.nonempty_text x
   "x matches float, unit regex":  ( x ) ->
-    pattern     = ( require './vogue-scheduler' ).Vogue_scheduler.C.duration_pattern
+    pattern     = ( require './vogue-scheduler' ).Vogue_scheduler.C.abs_duration_pattern
     units       = ( require './vogue-scheduler' ).Vogue_scheduler.C.duration_units
     return false unless ( match = x.match pattern )?
     return false unless match.groups.unit in units
     return true
 
 #-----------------------------------------------------------------------------------------------------------
-@types.declare 'vogue_scheduler_ar_duration', ( x ) ->
-  return true if @isa.vogue_scheduler_duration    x
-  return true if @isa.vogue_scheduler_percentage  x
+@types.declare 'vogue_scheduler_rel_duration', tests:
+  "@isa.nonempty_text x":         ( x ) -> @isa.nonempty_text x
+  "x matches precentage pattern": ( x ) ->
+    pattern     = ( require './vogue-scheduler' ).Vogue_scheduler.C.percentage_pattern
+    return ( match = x.match pattern )?
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scheduler_absrel_duration', ( x ) ->
+  return true if @isa.vogue_scheduler_abs_duration  x
+  return true if @isa.vogue_scheduler_rel_duration  x
   return false
 
 #-----------------------------------------------------------------------------------------------------------
@@ -142,18 +149,18 @@ GUY                       = require 'guy'
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scheduler_add_interval_cfg', tests:
   "@isa.object x":                                ( x ) -> @isa.object x
-  "@isa.vogue_task x.task":                       ( x ) -> @isa.vogue_task x.task
-  "@isa.vogue_scheduler_duration x.repeat":       ( x ) -> @isa.vogue_scheduler_duration x.repeat
-  "@isa.vogue_scheduler_duration x.jitter":       ( x ) -> @isa.vogue_scheduler_duration x.jitter
-  "@isa.vogue_scheduler_ar_duration x.timeout":   ( x ) -> @isa.vogue_scheduler_duration x.timeout
-  "@isa.vogue_scheduler_duration x.pause":        ( x ) -> @isa.vogue_scheduler_duration x.pause
+  "@isa.vogue_scheduler_task x.task":             ( x ) -> @isa.vogue_scheduler_task x.task
+  "@isa.vogue_scheduler_abs_duration x.repeat":       ( x ) -> @isa.vogue_scheduler_abs_duration x.repeat
+  "@isa.vogue_scheduler_absrel_duration x.jitter":    ( x ) -> @isa.vogue_scheduler_absrel_duration x.jitter
+  # "@isa.vogue_scheduler_absrel_duration x.timeout":   ( x ) -> @isa.vogue_scheduler_abs_duration x.timeout
+  "@isa.vogue_scheduler_absrel_duration x.pause":     ( x ) -> @isa.vogue_scheduler_absrel_duration x.pause
 #...........................................................................................................
 @defaults.vogue_scheduler_add_interval_cfg =
   task:             null
   repeat:           null
   jitter:           '0 seconds'
   pause:            '0 seconds'
-  timeout:          null
+  # timeout:          null
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_html_or_buffer', tests:
