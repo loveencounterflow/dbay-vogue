@@ -33,28 +33,27 @@
 ## Vogue Scheduler
 
 * `schedular.add_interval: ( cfg ) ->`
-  * `cfg` must have properties:
+  * Mandatory properties of `cfg`:
     * `task: function | asyncfunction`: the task to run. It will be called without arguments.
     * `repeat: duration`: how often to repeat a task.
   * Optional properties of `cfg`:
     * `jitter: duration | percentage` (default `null` meaning `0 seconds`): how much to randomly vary the
-      repetition rate. For example, when `repetition` is `1 hour`, `jitter` is `5 minutes` and the task has
+      repetition rate. *Example:* when `repetition` is `1 hour`, `jitter` is `5 minutes` and the task has
       been first started at `00:00`, then it will be repeated somewhere between `00:55` and `01:05`. A
       jitter of `25%` would equal `15 minutes` in this case.
 
-    <del>* `timeout: duration` (default: `null` meaning no timeout): how long to wait for a task to finish. When
+    * <del>`timeout: duration` (default: `null` meaning no timeout): how long to wait for a task to finish. When
       a task has been stopped because of timeout, the next session will be started following the same rules
       as if it finished normally.</del>
 
     * `pause: duration` (default: `null` meaning `0 seconds`): specifies the minim time between the
-      finishing of one session and the start of the next one, taking account of jitter. Example: When a task
-      has been scheduled with `{ repeat: '10 minutes', jitter: '3 minutes', pause: '2 minutes', }`, is first
-      run at `00:00` and took 9 minutes until `00:09` to finish, it would without `pause` be scheduled to run next at
-      `00:10`. But because `jitter` is `3 minutes` we have to postpone until
-
-      `minutes`, it could have run as early as `00:55`, which it couldn't because it hadn't yet finished by
-      then. Therefore, the next session gets scheduled at `01:06` because `00:59 + 2min + 5min = 00:66 =
-      01:06`.
+      finishing of one session and the earliest allowed start of the next one, taking jitter into account.
+      *Example:* When a task has been scheduled with `{ repeat: '10 minutes', jitter: '3 minutes', pause: '5
+      minutes', }`, is first run at `00:00` and took 9 minutes until `00:09` to finish, it would—without
+      `pause` or `jitter`—be scheduled to run next at `00:10`. But because `jitter` is `3 minutes`, we have
+      to postpone until at least `00:10 + 3 minutes = 00:13`. However, `00:10` is still the earliest
+      possible start of the next session, and smaller than the `pause` of `5 minutes`, so we have to shift
+      the session start to `00:14`.
 
       Note that for simplicity, we have only used minutes and hours in the above, which in reality could
       have the undesirable effect that a task scheduled to have a pause of `1 minute` finishes at `00:59:59`
@@ -62,11 +61,11 @@
       reckoned in milliseconds, so `1 minute` really means `60,000 milliseconds` and `1 hour` equals
       `3,600,000 milliseconds`.
 
-* `duration`: a string spelling out a duration using a float literal and a unit, separated by a space.
-  Allowed units are `week`, `day`, `hour`, `minute`, `second`, all in singular and plural. Examples: `'1.5
-  seconds'`, `'1e2 minutes'`, `'1 week'`.
-* `percentage`: a string speeling out a percentage with a float literal immediately followed by a percent
-  sign, `%`. Examples: `'4.2%'`, `0%`. The amount must be between `0` and `100`.
+* `(absolute) duration`: a string spelling out a duration using a float literal and a unit, separated by a
+  space. Allowed units are `week`, `day`, `hour`, `minute`, `second`, all in singular and plural. Examples:
+  `'1.5 seconds'`, `'1e2 minutes'`, `'1 week'`.
+* `percentage (for relative durations)`: a string spelling out a percentage with a float literal immediately
+  followed by a percent sign, `%`. Examples: `'4.2%'`, `0%`. The amount must be between `0` and `100`.
 
 ## To Do
 
