@@ -25,6 +25,16 @@ H                         = require './helpers'
 class @Vogue_scheduler extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
+  @C: GUY.lft.freeze
+    duration_pattern: /^(?<amount>[-+]?(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)\s(?<unit>.+)$/
+    duration_units: [
+      'week',   'weeks',
+      'day',    'days',
+      'hour',   'hours',
+      'minute', 'minutes',
+      'second', 'seconds', ]
+
+  #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
     super()
     @cfg        = { @defaults.vogue_scheduler_constructor_cfg..., cfg..., }
