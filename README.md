@@ -106,7 +106,7 @@
 * **[–]** see https://github.com/kudla/promise-status-async, https://stackoverflow.com/a/53328182/7568091 on
   how to check for promise status;
   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race on how to
-  implement session timeout
+  implement session timeout; https://github.com/dondevi/promise-abortable for cancelling promise
 
 ## Is Done
 
