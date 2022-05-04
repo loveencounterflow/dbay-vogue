@@ -59,7 +59,8 @@
       Note that for simplicity, we have only used minutes and hours in the above, which in reality could
       have the undesirable effect that a task scheduled to have a pause of `1 minute` finishes at `00:59:59`
       only to be run again at `01:00:00`—just a second later. To avoid this, durations are internally
-      reckoned in seconds, so `1 minute` really means `60 seconds` and `1 hour` equals `3600 seconds`.
+      reckoned in milliseconds, so `1 minute` really means `60,000 milliseconds` and `1 hour` equals
+      `3,600,000 milliseconds`.
 
 * `duration`: a string spelling out a duration using a float literal and a unit, separated by a space.
   Allowed units are `week`, `day`, `hour`, `minute`, `second`, all in singular and plural. Examples: `'1.5
