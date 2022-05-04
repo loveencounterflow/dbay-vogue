@@ -75,7 +75,6 @@ class @Vogue_scheduler extends Vogue_common_mixin()
     jitter_ms   = @_parse_absrel_duration jitter, repeat_ms
     pause_ms    = @_parse_absrel_duration pause,  repeat_ms
     d           = { running: false, }
-    # debug '^342-1^', { cfg, repeat_ms, jitter_ms, pause_ms, }
     #.......................................................................................................
     instrumented_task = =>
       return null if d.running
@@ -88,15 +87,12 @@ class @Vogue_scheduler extends Vogue_common_mixin()
       d.running       = false
       t1_ms           = Date.now()
       run_dt_ms       = t1_ms - t0_ms
-      ### TAINT what to do when extra_dt is zero, negative? ###
       extra_dt_ms     = ( repeat_ms - run_dt_ms )
       earliest_dt_ms  = ( t1_ms + pause_ms + jitter_ms ) - t0_ms
       eff_dt_ms       = Math.max extra_dt_ms, earliest_dt_ms
       abberation_ms   = ( Math.random() * jitter_ms * 2 ) - jitter_ms
-      # debug '^10984^', { extra_dt_ms, earliest_dt_ms, eff_dt_ms, abberation_ms, }
       eff_dt_ms      += abberation_ms
       d.ref           = @after eff_dt_ms / 1000, instrumented_task
-      # debug '^342-2^', extra_dt_s
       #.....................................................................................................
       return null
     #.......................................................................................................
