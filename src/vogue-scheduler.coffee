@@ -54,13 +54,13 @@ class @Vogue_scheduler extends Vogue_common_mixin()
     dayjs       = @hub.vdb.db._dayjs
     @types.validate.vogue_scheduler_add_interval_cfg cfg
     { callee
-      amount
-      unit    } = cfg
+      repeat  } = cfg
+    repeat      = { ( repeat.match @constructor.C.duration_pattern ).groups..., }
     d           = { running: false, }
-    delta_t_ms  = ( dayjs.duration amount, unit ).asMilliseconds()
-    # debug '^342-1^', { delta_t_ms, }
+    delta_t_ms  = ( dayjs.duration repeat.amount, repeat.unit ).asMilliseconds()
+    # debug '^342-1^', { cfg, repeat, delta_t_ms, }
     #.......................................................................................................
-    g = =>
+    task = =>
       return null if d.running
       #.....................................................................................................
       d.running   = true
@@ -74,12 +74,12 @@ class @Vogue_scheduler extends Vogue_common_mixin()
       ### TAINT what to do when extra_dt is zero, negative? ###
       extra_dt_ms = ( delta_t_ms - run_dt_ms )
       extra_dt_s  = ( dayjs.duration extra_dt_ms, 'milliseconds' ).asSeconds()
-      d.ref       = @after extra_dt_s, g
-      # debug '^342-2^', { extra_dt_ms, extra_dt_s, }
+      d.ref       = @after extra_dt_s, task
+      # debug '^342-2^', extra_dt_s
       #.....................................................................................................
       return null
     #.......................................................................................................
-    g()
+    task()
     return null
 
   #=========================================================================================================
