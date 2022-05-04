@@ -26,8 +26,8 @@ class @Vogue_scheduler extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   @C: GUY.lft.freeze
-    abs_duration_pattern:   /^(?<amount>[-+]?(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)\s(?<unit>.+)$/
-    percentage_pattern:     /^(?<percentage>[-+]?(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)%$/
+    abs_duration_pattern:   /^(?<amount>(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)\s(?<unit>.+)$/
+    percentage_pattern:     /^(?<percentage>(?:\d*\.?\d+|\d+\.?\d*)(?:[eE][-+]?\d+)?)%$/
     duration_units: [
       'week',   'weeks',
       'day',    'days',
