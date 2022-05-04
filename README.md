@@ -8,6 +8,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Web Site Scraper](#web-site-scraper)
+  - [Vogue Scheduler](#vogue-scheduler)
   - [To Do](#to-do)
   - [Is Done](#is-done)
 
@@ -29,6 +30,38 @@
     * `Vogue_telegraph` for websocket-based client/server communication
       * based on [Datom XEmitter](https://github.com/loveencounterflow/datom#the-xemitter-xe-sub-module)
 
+## Vogue Scheduler
+
+* `schedular.add_interval: ( cfg ) ->`
+  * `cfg` must have properties:
+    * `task: function | asyncfunction`: the task to run. It will be called without arguments.
+    * `repeat: duration`: how often to repeat a task.
+  * Optional properties of `cfg`:
+    * `jitter: duration | percentage` (default `null` meaning `0 seconds`): how much to randomly vary the
+      repetition rate. For example, when `repetition` is `1 hour`, `jitter` is `5 minutes` and the task has
+      been first started at `00:00`, then it will be repeated somewhere between `00:55` and `01:05`. A
+      jitter of `25%` would equal `15 minutes` in this case.
+    * `timeout: duration` (default: `null` meaning no timeout): how long to wait for a task to finish. When
+      a task has been stopped because of timeout, the next session will be started following the same rules
+      as if it finished normally.
+    * `pause: duration` (default: `null` meaning `0 seconds`): how to wait at least before starting the next
+      session. Example: When a task has been scheduled with `{ repeat: '1 hour', jitter: '5 minutes', pause:
+      '2 minutes', }`, is first run at `00:00` and took 59 minutes to finish (whether regularly or with
+      timeout), it would be scheduled to run next at `01:00` if both `jitter` and `pause` were had been set
+      to `0 minutes`. But because `jitter` is `5 minutes`, it could run as early as `00:55`, which it
+      couldn't because it hadn't yet finished by then. Therefore, the next session gets scheduled at `01:06`
+      because `00:59 + 2min + 5min = 00:66 = 01:06`.
+
+      Note that for simplicity, we have only used minutes and hours in the above, which in reality could
+      have the undesirable effect that a task scheduled to have a pause of `1 minute` finishes at `00:59:59`
+      only to be run again at `01:00:00`—just a second later. To avoid this, durations are internally
+      reckoned in seconds, so `1 minute` really means `60 seconds` and `1 hour` equals `3600 seconds`.
+
+* `duration`: a string spelling out a duration using a float literal and a unit, separated by a space.
+  Allowed units are `week`, `day`, `hour`, `minute`, `second`, all in singular and plural. Examples: `'1.5
+  seconds'`, `'1e2 minutes'`, `'1 week'`.
+* `percentage`: a string speeling out a percentage with a float literal immediately followed by a percent
+  sign, `%`. Examples: `'4.2%'`, `0%`. The amount must be between `0` and `100`.
 
 ## To Do
 
