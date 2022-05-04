@@ -50,16 +50,33 @@
       finishing of one session and the earliest allowed start of the next one, taking jitter into account.
       *Example:* When a task has been scheduled with `{ repeat: '10 minutes', jitter: '3 minutes', pause: '5
       minutes', }`, is first run at `00:00` and took 9 minutes until `00:09` to finish, it would—without
-      `pause` or `jitter`—be scheduled to run next at `00:10`. But because `jitter` is `3 minutes`, we have
-      to postpone until at least `00:10 + 3 minutes = 00:13`. However, `00:10` is still the earliest
-      possible start of the next session, and smaller than the `pause` of `5 minutes`, so we have to shift
-      the session start to `00:14`.
+      `pause` or `jitter`—be scheduled to run next at `00:09` (i.e. immediately). However, we have to wait
+      at least until `00:09 + 5 minutes` to account for the pause, and because a non-zero `jitter` could
+      cause the start to be that much earlier, we have to postpone until `00:09 + 5 minutes + 3 minutes =
+      00:17`.
 
       Note that for simplicity, we have only used minutes and hours in the above, which in reality could
       have the undesirable effect that a task scheduled to have a pause of `1 minute` finishes at `00:59:59`
       only to be run again at `01:00:00`—just a second later. To avoid this, durations are internally
       reckoned in milliseconds, so `1 minute` really means `60,000 milliseconds` and `1 hour` equals
       `3,600,000 milliseconds`.
+
+    * In case a session runs longer than its `repeat` duration,
+
+
+```
+0|0———0|1———0|2———0|3———0|4———0|5———0|6———0|7———0|8———0|9———1|0———1|1———1|2———1|3———1|4———1|5———1|6———1|7———1|8———1|9
+
+  session                                               pause                         jitter
+ |—————————————————————————————————————————————————————|=============================|~~~~~~~~~~~~~~~~~|
+ |:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::|
+  repeat                                                                              interval for start of next session
+                                                                                     |+++++++++++++++++|+++++++++++++++|
+
+```
+
+
+
 
 * `(absolute) duration`: a string spelling out a duration using a float literal and a unit, separated by a
   space. Allowed units are `week`, `day`, `hour`, `minute`, `second`, all in singular and plural. Examples:
