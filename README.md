@@ -41,9 +41,11 @@
       repetition rate. For example, when `repetition` is `1 hour`, `jitter` is `5 minutes` and the task has
       been first started at `00:00`, then it will be repeated somewhere between `00:55` and `01:05`. A
       jitter of `25%` would equal `15 minutes` in this case.
+
     <del>* `timeout: duration` (default: `null` meaning no timeout): how long to wait for a task to finish. When
       a task has been stopped because of timeout, the next session will be started following the same rules
       as if it finished normally.</del>
+
     * `pause: duration` (default: `null` meaning `0 seconds`): how to wait at least before starting the next
       session. Example: When a task has been scheduled with `{ repeat: '1 hour', jitter: '5 minutes', pause:
       '2 minutes', }`, is first run at `00:00` and took 59 minutes to finish (whether regularly or with
