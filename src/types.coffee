@@ -118,33 +118,42 @@ GUY                       = require 'guy'
 @defaults.vogue_scheduler_constructor_cfg = {}
 
 #-----------------------------------------------------------------------------------------------------------
-@types.declare 'vogue_scheduler_unit', tests:
-  "@isa.nonempty_text x":   ( x ) -> @isa.object x
-  "x is singular or plural week, day, hour, minute, second": ( x ) ->
-    return true if x is 'week'
-    return true if x is 'day'
-    return true if x is 'hour'
-    return true if x is 'minute'
-    return true if x is 'second'
-    return true if x is 'weeks'
-    return true if x is 'days'
-    return true if x is 'hours'
-    return true if x is 'minutes'
-    return true if x is 'seconds'
-    return false
+@types.declare 'vogue_scheduler_duration', tests:
+  "@isa.nonempty_text x":         ( x ) -> @isa.nonempty_text x
+  "x matches float, unit regex":  ( x ) ->
+    pattern     = ( require './vogue-scheduler' ).Vogue_scheduler.C.duration_pattern
+    units       = ( require './vogue-scheduler' ).Vogue_scheduler.C.duration_units
+    return false unless ( match = x.match pattern )?
+    return false unless match.groups.unit in units
+    return true
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scheduler_ar_duration', ( x ) ->
+  return true if @isa.vogue_scheduler_duration    x
+  return true if @isa.vogue_scheduler_percentage  x
+  return false
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scheduler_task', ( x ) ->
+  return true if @isa.function      x
+  return true if @isa.asyncfunction x
+  return false
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scheduler_add_interval_cfg', tests:
-  "@isa.object x":                        ( x ) -> @isa.object x
-  "( @isa.function x.callee ) or ( @isa.asyncfunction x.callee )": \
-                                          ( x ) -> ( @isa.function x.callee ) or ( @isa.asyncfunction x.callee )
-  "@isa.positive_float x.amount":         ( x ) -> @isa.positive_float x.amount
-  "@isa.vogue_scheduler_unit":            ( x ) -> @isa.vogue_scheduler_unit
+  "@isa.object x":                                ( x ) -> @isa.object x
+  "@isa.vogue_task x.task":                       ( x ) -> @isa.vogue_task x.task
+  "@isa.vogue_scheduler_duration x.repeat":       ( x ) -> @isa.vogue_scheduler_duration x.repeat
+  "@isa.vogue_scheduler_duration x.jitter":       ( x ) -> @isa.vogue_scheduler_duration x.jitter
+  "@isa.vogue_scheduler_ar_duration x.timeout":   ( x ) -> @isa.vogue_scheduler_duration x.timeout
+  "@isa.vogue_scheduler_duration x.pause":        ( x ) -> @isa.vogue_scheduler_duration x.pause
 #...........................................................................................................
 @defaults.vogue_scheduler_add_interval_cfg =
-  callee:             null
-  amount:             1
-  unit:               'hour'
+  task:             null
+  repeat:           null
+  jitter:           '0 seconds'
+  pause:            '0 seconds'
+  timeout:          null
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_html_or_buffer', tests:
