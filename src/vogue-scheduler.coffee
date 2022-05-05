@@ -102,12 +102,16 @@ class @Vogue_scheduler extends Vogue_common_mixin()
   #=========================================================================================================
   #
   #---------------------------------------------------------------------------------------------------------
-  @every: ( dts, f ) ->                         setInterval f,    dts * 1000
-  @after: ( dts, f ) ->                         setTimeout  f,    dts * 1000
-  @sleep: ( dts    ) -> new Promise ( done ) => setTimeout  done, dts * 1000
-  every:  ( dts, f ) -> @constructor.every dts, f
-  after:  ( dts, f ) -> @constructor.after dts, f
-  sleep:  ( dts    ) -> @constructor.sleep dts
+  @every: GUY.async.every
+  @after: GUY.async.after
+  @sleep: GUY.async.sleep
+  @defer: GUY.async.defer
+  @cease: GUY.async.cease
+  every:  GUY.async.every
+  after:  GUY.async.after
+  sleep:  GUY.async.sleep
+  defer:  GUY.async.defer
+  cease:  GUY.async.cease
 
 
 
