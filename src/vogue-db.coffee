@@ -59,17 +59,17 @@ class @Vogue_db extends Vogue_common_mixin()
     { prefix } = @cfg
     #-------------------------------------------------------------------------------------------------------
     @db.create_function
-      name:           prefix + '_get_html_for'
+      name:           prefix + '_get_html_from_purpose'
       deterministic:  true
       varargs:        false
-      call:           ( table_name, dsk, fields ) =>
-        @types.validate.nonempty_text table_name
+      call:           ( purpose, dsk, fields ) =>
+        @types.validate.nonempty_text purpose
         @types.validate_optional.text fields
         #...................................................................................................
         ### TAINT use caching method, hide implementation details ###
-        unless ( method = @cache.get_html_for[ table_name ] )?
+        unless ( method = @cache.get_html_for[ purpose ] )?
           scraper     = @hub.scrapers._scraper_from_dsk dsk
-          method_name = "get_html_for_#{table_name}"
+          method_name = "html_from_#{purpose}"
           unless ( method = scraper[ method_name ] )?
             throw new Error "^dbay-scraper@1^ scraper has no method #{rpr method_name}"
           @cache.get_html_for[ method_name ] = method
@@ -173,7 +173,7 @@ class @Vogue_db extends Vogue_common_mixin()
           insert into #{prefix}_trends_html ( sid, html )
             select
                 sid,
-                #{prefix}_get_html_for( 'trends', dsk, json_object(
+                #{prefix}_get_html_from_purpose( 'details', dsk, json_object(
                   'dsk',      dsk,
                   'sid',      sid,
                   'ts',       ts,

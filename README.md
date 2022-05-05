@@ -34,6 +34,19 @@
     * `Vogue_telegraph` for websocket-based client/server communication
       * based on [Datom XEmitter](https://github.com/loveencounterflow/datom#the-xemitter-xe-sub-module)
 
+## Vogue Scraper
+
+### Scraped Data Format
+
+* Mandatory and Standard Items
+
+* Freeform Items
+  * field `details` must be a JSONifiable object (preferably a flat one)
+  * can contain further items as seen fit
+  * will be rendered as a list of named entries in a format determined by CSS
+  * `Vogue_scraper` has prototype method `html_from_details()` to turn
+    contents of `details` field into HTML; can be overridden for individual purposes
+
 ## Vogue Scheduler
 
 ### Construction
