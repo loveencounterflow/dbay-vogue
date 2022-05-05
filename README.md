@@ -10,6 +10,7 @@
 - [Web Site Scraper](#web-site-scraper)
   - [Vogue Scheduler](#vogue-scheduler)
     - [Construction](#construction)
+    - [Concurrent Writes](#concurrent-writes)
     - [Relevant Data Types](#relevant-data-types)
     - [Async Primitives](#async-primitives)
   - [To Do](#to-do)
@@ -92,7 +93,28 @@
 
 ```
 
+### Concurrent Writes
 
+* any number of sessions may be active at any given point in time
+* for a number of reasons, it would be nice if no partial results from any session would appear in DB
+* the solution for this would usually be to wrap each session into a DB transaction
+* however, SQLite does not allow concurrent writes and sessions can take a long time (e.g. because the
+  network is slow); this risks transaction timeouts which in turn call for logic to handle this failure mode
+* on the other hand the expected number of rows to be inserted by any session is low (not more than a few
+  dozens up to hundreds of rows), so at least the performance gain from a transaction-per-session model
+  should be negligible
+* another alternative is to queue rows in memory and pass them to a single writer method that does an
+  atomic insert
+* yet another possibility is to use implicit (or explicit, but short-duration) transactions and allow
+  partial results
+* in case each session also registers its start and finish timestamps we can always detect incomplete
+  sessions and treat them accordingly (hide them or add notification)
+* the 'random inserts with implicit short transactions' (RIWIST) model then seems to be the simplest way to
+  deal with concurrent sessions
+* we won't get consecutive row numbers with RIWIST, but that should not pose a problem
+* since each insert is done immediately instead of being deferred, we get a chance to grab the (possibly
+  updated) row with `insert ... returning *;` statements, so that is a plus over a deferred model should we
+  ever need that data.
 
 ### Relevant Data Types
 
