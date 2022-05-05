@@ -207,6 +207,7 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
 * **[+]** rename `progress` -> `trends`?
 * **[+]** use [D3](https://github.com/d3/d3), [plot](https://github.com/observablehq/plot) to produce
   sparklines (MVP)
+* **[+]** `Vogue_scraper` -> `Vogue_scraper_ABC`
 
 
 

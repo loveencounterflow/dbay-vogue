@@ -55,7 +55,7 @@ class @Vogue_scrapers extends Vogue_common_mixin()
 
 #===========================================================================================================
 ### Individual scraper ###
-class @Vogue_scraper extends Vogue_common_mixin()
+class @Vogue_scraper_ABC extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
