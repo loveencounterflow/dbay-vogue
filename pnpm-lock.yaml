@@ -6,7 +6,7 @@ specifiers:
   cnd: ^9.2.2
   dbay: 14.7.2
   got: '11'
-  guy: ^4.1.2
+  guy: 4.2.0
   hdml: ^1.0.2
   icql-dba-tabulate: ^2.0.1
   intertype: ^7.7.0
@@ -25,7 +25,7 @@ dependencies:
   cnd: 9.2.2
   dbay: 14.7.2
   got: 11.8.3
-  guy: 4.1.2
+  guy: 4.2.0
   hdml: 1.0.2
   icql-dba-tabulate: 2.0.1
   intertype: 7.7.0
@@ -645,8 +645,8 @@ packages:
       letsfreezethat: 3.1.0
     dev: false
 
-  /guy/4.1.2:
-    resolution: {integrity: sha512-U9C12Dxk/yUNzV58cQutW5noGH6Y8pkqsbdNc60Yn/cHtudRCJ1ITju+dnLEV/juaUsOUxZdi3KJrBbBZOKiOw==}
+  /guy/4.2.0:
+    resolution: {integrity: sha512-ppWljP+64o2qH0K1ia3Px9dBPftO4ILN23J9hLHQH+AcGfoBjGd2HDQGAc8rOx3RIyBiwObt8bFJiu0zXPtXmw==}
     dependencies:
       cnd: 9.2.2
       intertype: 7.6.7
