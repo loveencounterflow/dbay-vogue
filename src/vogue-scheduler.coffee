@@ -74,7 +74,7 @@ class @Vogue_scheduler extends Vogue_common_mixin()
     repeat_ms   = @_parse_abs_duration            repeat
     jitter_ms   = @_parse_absrel_duration jitter, repeat_ms
     pause_ms    = @_parse_absrel_duration pause,  repeat_ms
-    d           = { running: false, }
+    d           = { running: false, toutid: null, }
     #.......................................................................................................
     instrumented_task = =>
       return null if d.running
@@ -92,7 +92,7 @@ class @Vogue_scheduler extends Vogue_common_mixin()
       eff_dt_ms       = Math.max extra_dt_ms, earliest_dt_ms
       abberation_ms   = ( Math.random() * jitter_ms * 2 ) - jitter_ms
       eff_dt_ms      += abberation_ms
-      d.ref           = @after eff_dt_ms / 1000, instrumented_task
+      d.toutid        = @after eff_dt_ms / 1000, instrumented_task
       #.....................................................................................................
       return null
     #.......................................................................................................
