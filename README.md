@@ -9,6 +9,9 @@
 
 - [Web Site Scraper](#web-site-scraper)
   - [Vogue Scheduler](#vogue-scheduler)
+    - [Construction](#construction)
+    - [Relevant Data Types](#relevant-data-types)
+    - [Async Primitives](#async-primitives)
   - [To Do](#to-do)
   - [Is Done](#is-done)
 
@@ -31,6 +34,8 @@
       * based on [Datom XEmitter](https://github.com/loveencounterflow/datom#the-xemitter-xe-sub-module)
 
 ## Vogue Scheduler
+
+### Construction
 
 * `schedular.add_interval: ( cfg ) ->`
   * Mandatory properties of `cfg`:
@@ -89,12 +94,34 @@
 
 
 
+### Relevant Data Types
 
 * `(absolute) duration`: a string spelling out a duration using a float literal and a unit, separated by a
   space. Allowed units are `week`, `day`, `hour`, `minute`, `second`, all in singular and plural. Examples:
   `'1.5 seconds'`, `'1e2 minutes'`, `'1 week'`.
 * `percentage (for relative durations)`: a string spelling out a percentage with a float literal immediately
   followed by a percent sign, `%`. Examples: `'4.2%'`, `0%`. The amount must be between `0` and `100`.
+
+### Async Primitives
+
+These 'five letter' methods are available both on the `Vogue_scheduler` class and its instances; for many
+people, the most strightforward way to understand what these methods do will be to read the very simple
+definitions and recognize they are very thin shims over the somewhat less convenient JavaScript methods:
+
+* `every: ( dts, f ) ->                         setInterval f,    dts * 1000`
+* `after: ( dts, f ) ->                         setTimeout  f,    dts * 1000`
+* `cease: ( toutid ) -> clearTimeout toutid`
+* `sleep: ( dts    ) -> new Promise ( done ) => setTimeout  done, dts * 1000`
+* `defer: ( f = -> ) -> await sleep 0; return await f()`
+
+In each case, `dts` denotes an interval (delta time) measured in *seconds* (not milliseconds) and `f`
+denotes a function. `every()` and `after()` return so-called timeout IDs (`toutid`s), i.e. values that are
+recognized by `cease()` (`clearTimeout()`, `clearInterval()`) to stop a one-off or repetetive timed function
+call. `sleep()` returns a promise that should be awaited as in `await sleep 3`, which will allow another
+task on the event loop to return and resume execution no sooner than after 3000 milliseconds have elapsed.
+Finally, there is `defer()`, which should also be `await`ed. It is a special use-case of `sleep()` where the
+timeout is set to zero, so the remaining effect is that other tasks on the event loop get a chance to run.
+It accepts an optional function argument whose (synchronous or asynchronous) result will be returned.
 
 ## To Do
 
