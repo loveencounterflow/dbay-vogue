@@ -36,6 +36,11 @@ class @Vogue_scrapers extends Vogue_common_mixin()
     return undefined
 
   #---------------------------------------------------------------------------------------------------------
+  _XXX_walk_scrapers: ->
+    yield { dsk, scraper, } for dsk, scraper of @d
+    return null
+
+  #---------------------------------------------------------------------------------------------------------
   _scraper_from_dsk: ( dsk ) ->
     unless ( R = @d[ dsk ] )?
       throw new Error "^Vogue_scrapers@1^ no such DSK: #{rpr dsk}"
