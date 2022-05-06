@@ -12,3 +12,11 @@ td, th {
 
 th {
   text-align:             left; }
+
+#trends .sparkline {
+  min-width:              100mm;
+  min-height:             10mm; }
+#trends .sparkline svg {
+  outline:                1px solid orange;
+
+}
