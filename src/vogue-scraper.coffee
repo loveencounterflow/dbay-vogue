@@ -142,16 +142,17 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     ts_html     = HDML.text ts
     id_html     = HDML.text pid
     rank_html   = HDML.text "#{rank}"
-    trend_html  = HDML.text JSON.stringify trend
+    trend_json  = JSON.stringify trend
     title_html  = HDML.pair 'a', { href: details.title_url, }, HDML.text details.title
     #.......................................................................................................
     tds         = [
-      HDML.insert 'td', @get_sparkline trend
       HDML.pair 'td.dsk', dsk_html
       HDML.pair 'td.sid', sid_html
       HDML.pair 'td.id', id_html
       HDML.pair 'td.ts', ts_html
       HDML.pair 'td.rank', rank_html
+      HDML.pair 'td.sparkline', { 'data-trend': trend_json, }
+      # HDML.pair 'td.trend', trend_html
       HDML.pair 'td.title', title_html
       ]
     #.......................................................................................................
