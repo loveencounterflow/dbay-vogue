@@ -104,6 +104,28 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     return R
 
   #---------------------------------------------------------------------------------------------------------
+  ### NOTE liable to change ###
+  _XXX_get_details_table: ->
+    R = []
+    R.push HDML.pair 'h3', HDML.text "DBay Vogue App / Trends"
+    R.push HDML.open 'table#trends'
+    #.......................................................................................................
+    tds         = [
+      HDML.pair 'th', HDML.text "DSK"
+      HDML.pair 'th', HDML.text "SID"
+      HDML.pair 'th', HDML.text "ID"
+      HDML.pair 'th', HDML.text "TS"
+      HDML.pair 'th', HDML.text "Rank"
+      HDML.pair 'th', HDML.text "Sparkline"
+      # HDML.pair 'th', HDML.text "Trend"
+      HDML.pair 'th', HDML.text "Title"
+      ]
+    R.push HDML.pair 'tr', tds.join ''
+    #.......................................................................................................
+    for row from @hub.vdb.db """select * from scr_trends_html order by sid desc, nr asc;"""
+      R.push row.html
+    R.push HDML.close 'table'
+    return R.join '\n'
   html_from_details: ( row ) ->
     { dsk
       sid
