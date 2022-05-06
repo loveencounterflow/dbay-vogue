@@ -199,6 +199,8 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   how to check for promise status;
   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race on how to
   implement session timeout; https://github.com/dondevi/promise-abortable for cancelling promise
+* **[–]** what causes the error when `foreign key ( pid ) references scr__posts` in `scr_tagged_posts` is
+  uncommented?
 
 ## Is Done
 
@@ -218,7 +220,7 @@ ideas for scraping
 
 * exchange rates
 * new SQLite downloads
-
+* https://lite.pbs.org/video/
 
  -->
 
