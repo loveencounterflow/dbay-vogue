@@ -7,7 +7,7 @@ specifiers:
   dbay: 14.7.2
   got: '11'
   guy: 4.2.0
-  hdml: 2.0.0
+  hdml: 2.1.0
   icql-dba-tabulate: ^2.0.1
   intertype: ^7.7.0
   koa: ^2.13.4
@@ -26,7 +26,7 @@ dependencies:
   dbay: 14.7.2
   got: 11.8.3
   guy: 4.2.0
-  hdml: 2.0.0
+  hdml: 2.1.0
   icql-dba-tabulate: 2.0.1
   intertype: 7.7.0
   koa: 2.13.4
@@ -665,8 +665,8 @@ packages:
       has-symbols: 1.0.3
     dev: false
 
-  /hdml/2.0.0:
-    resolution: {integrity: sha512-mveCyYIHttIjq0jCAZphcWfeDHFXBfvWptqFQ48cs+EiUFM/+zpqZJhhN3s7ilEDGZJxllqZ3hBiHgy4RSHfqw==}
+  /hdml/2.1.0:
+    resolution: {integrity: sha512-arD5W/guw0EELkxVZGk+iZLfHcbZ+9rp63QYYi5cE3StCNIBdhqdZRP5i73QFOAuq8bkHdDx8rhGAsFy//1VTw==}
     dependencies:
       cnd: 9.2.2
       guy: 3.1.0
