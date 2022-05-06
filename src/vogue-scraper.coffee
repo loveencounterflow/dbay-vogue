@@ -126,6 +126,8 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
       R.push row.html
     R.push HDML.close 'table'
     return R.join '\n'
+
+  #---------------------------------------------------------------------------------------------------------
   html_from_details: ( row ) ->
     { dsk
       sid
