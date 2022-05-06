@@ -110,18 +110,7 @@ class @Vogue_server extends Vogue_common_mixin()
       <script src='/public/ops1.js'></script>
       <script src='/public/d3@7.js'></script>
       <script src='/public/plot@0.4.js'></script>
-      <style>
-        svg {
-          outline: 1px dotted red; }
-        td {
-          background-color: #ddd;
-          white-space: nowrap; }
-      </style>"""
-    R.push "<h3>DBay Vogue App / Trends</h3>"
-    R.push "<table>"
-    for row from @hub.vdb.db """select * from scr_trends_html order by sid desc, nr asc;"""
-      R.push row.html
-    R.push "</table>"
+      <link rel=stylesheet href='/public/vogue.css'></script>
     R.push "<script src='/public/ops2.js'></script>"
     #.......................................................................................................
     ctx.response.type   = 'html'

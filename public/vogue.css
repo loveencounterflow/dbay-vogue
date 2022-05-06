@@ -1,0 +1,14 @@
+
+
+
+
+svg {
+  outline:                1px dotted red; }
+
+td, th {
+  padding:                1mm;
+  background-color:       #ddd;
+  white-space:            nowrap; }
+
+th {
+  text-align:             left; }
