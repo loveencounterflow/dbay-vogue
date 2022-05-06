@@ -129,7 +129,7 @@ class @Vogue_db extends Vogue_common_mixin()
           pid     text    not null,
           tag     text    not null,
         primary key ( pid, tag ),
-        -- foreign key ( pid ) references #{prefix}_posts ),
+        -- foreign key ( pid ) references #{prefix}_posts,
         foreign key ( tag ) references #{prefix}_tags );"""
     #.......................................................................................................
     @db SQL"""
