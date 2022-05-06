@@ -18,7 +18,7 @@ PATH                      = require 'path'
 GUY                       = require 'guy'
 H                         = require './helpers'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
-{ HDML, }                 = require './hdml2'
+{ HDML, }                 = require 'hdml'
 
 
 #===========================================================================================================
@@ -116,20 +116,19 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     id_html     = HDML.text pid
     rank_html   = HDML.text "#{rank}"
     trend_html  = HDML.text JSON.stringify trend
-    title_html  = HDML.insert 'a', { href: details.title_url, }, HDML.text details.title
+    title_html  = HDML.pair 'a', { href: details.title_url, }, HDML.text details.title
     #.......................................................................................................
     tds         = [
-      HDML.insert 'td', dsk_html
-      HDML.insert 'td', sid_html
-      HDML.insert 'td', id_html
-      HDML.insert 'td', ts_html
-      HDML.insert 'td', rank_html
       HDML.insert 'td', @get_sparkline trend
-      HDML.insert 'td', trend_html
-      HDML.insert 'td', title_html
+      HDML.pair 'td.dsk', dsk_html
+      HDML.pair 'td.sid', sid_html
+      HDML.pair 'td.id', id_html
+      HDML.pair 'td.ts', ts_html
+      HDML.pair 'td.rank', rank_html
+      HDML.pair 'td.title', title_html
       ]
     #.......................................................................................................
-    return HDML.insert 'tr', null, tds.join '\n'
+    return HDML.pair 'tr', null, tds.join '\n'
 
 
 
