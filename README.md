@@ -8,6 +8,8 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Web Site Scraper](#web-site-scraper)
+  - [Vogue Scraper](#vogue-scraper)
+    - [Scraped Data Format](#scraped-data-format)
   - [Vogue Scheduler](#vogue-scheduler)
     - [Construction](#construction)
     - [Concurrent Writes](#concurrent-writes)
@@ -209,5 +211,15 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   sparklines (MVP)
 * **[+]** `Vogue_scraper` -> `Vogue_scraper_ABC`
 
+
+<!--
+
+ideas for scraping
+
+* exchange rates
+* new SQLite downloads
+
+
+ -->
 
 
