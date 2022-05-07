@@ -77,6 +77,17 @@ class @Vogue_db extends Vogue_common_mixin()
         fields = JSON.parse fields if fields?
         return method.call scraper, fields
     #-------------------------------------------------------------------------------------------------------
+    @db.create_function
+      name:           prefix + '_sparkline_data_from_raw_trend'
+      deterministic:  true
+      varargs:        false
+      call:           ( trend_json ) =>
+        trend               = JSON.parse trend_json
+        dense_trend         = []
+        dense_trend[ sid ]  = rank for [ sid, rank, ] in trend
+        #.......................................................................................................
+        return JSON.stringify ( { sid, rank, } for rank, sid in dense_trend )
+    #-------------------------------------------------------------------------------------------------------
     return null
 
   #---------------------------------------------------------------------------------------------------------
@@ -134,9 +145,10 @@ class @Vogue_db extends Vogue_common_mixin()
     #.......................................................................................................
     @db SQL"""
       create view _#{prefix}_trends as select distinct
-          sid                                                 as sid,
-          pid                                                 as pid,
-          json_group_array( json_array( sid, rank ) ) over w  as trend
+          sid                                                     as sid,
+          pid                                                     as pid,
+          #{prefix}_sparkline_data_from_raw_trend(
+            json_group_array( json_array( sid, rank ) ) over w )  as trend
         from #{prefix}_posts
         window w as (
           partition by ( pid )
