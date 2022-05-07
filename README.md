@@ -201,6 +201,8 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   implement session timeout; https://github.com/dondevi/promise-abortable for cancelling promise
 * **[–]** what causes the error when `foreign key ( pid ) references scr__posts` in `scr_tagged_posts` is
   uncommented?
+* **[–]** make it so that sparklines are flush right i.e. the data point for the current session is 'now',
+  and 'now' has maximum of the displayed x values
 
 ## Is Done
 
