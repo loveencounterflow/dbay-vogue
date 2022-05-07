@@ -212,11 +212,14 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
 * **[+]** use [D3](https://github.com/d3/d3), [plot](https://github.com/observablehq/plot) to produce
   sparklines (MVP)
 * **[+]** `Vogue_scraper` -> `Vogue_scraper_ABC`
+* **[+]** in HN scraping, one could say that the 'ultimate' identity is really the content URL, which can be
+  associated with any number of discussion URLs as time passes
 
 
 <!--
 
 ideas for scraping
+
 
 * exchange rates
 * new SQLite downloads
