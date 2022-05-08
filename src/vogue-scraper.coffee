@@ -113,6 +113,15 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     return HDML.pair 'tr', null, tds.join '\n'
 
   #---------------------------------------------------------------------------------------------------------
+  ### NOTE liable to change ###
+  _XXX_get_details_chart: ->
+    R       = []
+    trends  = @hub.vdb.get_latest_trends_as_json()
+    # trends =
+    R.push HDML.pair 'div.trendchart', { 'data-trends': trends, }
+    return R.join '\n'
+
+  #---------------------------------------------------------------------------------------------------------
   ### TAINT use more generic way to display tabular data ###
   ### NOTE liable to change ###
   _XXX_get_details_table: ->

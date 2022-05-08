@@ -266,3 +266,12 @@ class @Vogue_db extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   new_session:  ( dsk     ) -> @db.first_row @queries.insert_session, { dsk, }
   new_post:     ( fields  ) -> @db.first_row @queries.insert_post, fields
+
+  #---------------------------------------------------------------------------------------------------------
+  get_latest_trends_as_json: ->
+    { prefix } = @cfg
+    return JSON.stringify @db.all_rows SQL"""select trend from #{prefix}_latest_trends;"""
+
+
+
+
