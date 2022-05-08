@@ -176,15 +176,48 @@ class @Vogue_db extends Vogue_common_mixin()
       create table #{prefix}_trends_html (
           nr        integer not null primary key,
           sid       integer not null,
+          pid       integer not null,
           html      text    not null,
         foreign key ( sid ) references #{prefix}_sessions );"""
     #.......................................................................................................
     @db SQL"""
+      create view #{prefix}_ordered_trends as select
+          row_number() over w as rnr, -- 'reverse number' b/c most recent appearances get to be number one
+          *
+        from #{prefix}_trends
+        window w as ( partition by pid order by sid desc )
+        order by
+          sid   desc,
+          rank  asc,
+          rnr    asc;"""
+    #.......................................................................................................
+    @db SQL"""
+      create view #{prefix}_latest_trends as select
+          *
+        from #{prefix}_ordered_trends
+        where rnr = 1
+        order by
+          sid   desc,
+          rank  asc,
+          rnr   asc;"""
+    #.......................................................................................................
+    @db SQL"""
+      create view #{prefix}_latest_trends_html as select
+          *
+        from #{prefix}_trends_html as trends_html
+        join #{prefix}_latest_trends using ( sid, pid )
+        order by
+          sid   desc,
+          rank  asc,
+          nr    asc;"""
+    #.......................................................................................................
+    @db SQL"""
       create trigger #{prefix}_on_insert_into_posts after insert on #{prefix}_posts
         for each row begin
-          insert into #{prefix}_trends_html ( sid, html )
+          insert into #{prefix}_trends_html ( sid, pid, html )
             select
                 sid,
+                pid,
                 #{prefix}_get_html_from_purpose( 'details', dsk, json_object(
                   'dsk',      dsk,
                   'sid',      sid,

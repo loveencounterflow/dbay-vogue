@@ -80,33 +80,9 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     return html_or_buffer
 
   #---------------------------------------------------------------------------------------------------------
-  ### NOTE liable to change ###
-  _XXX_get_details_table: ->
-    R = []
-    R.push HDML.pair 'h3', HDML.text "DBay Vogue App / Trends"
-    R.push HDML.open 'table#trends'
-    #.......................................................................................................
-    tds         = [
-      HDML.pair 'th', HDML.text "DSK"
-      HDML.pair 'th', HDML.text "SID"
-      HDML.pair 'th', HDML.text "ID"
-      HDML.pair 'th', HDML.text "TS"
-      HDML.pair 'th', HDML.text "Rank"
-      HDML.pair 'th', HDML.text "Sparkline"
-      # HDML.pair 'th', HDML.text "Trend"
-      HDML.pair 'th', HDML.text "Title"
-      ]
-    R.push HDML.pair 'tr', tds.join ''
-    #.......................................................................................................
-    for row from @hub.vdb.db """select * from scr_trends_html order by sid desc, nr asc;"""
-      R.push row.html
-    R.push HDML.close 'table'
-    return R.join '\n'
-
-  #---------------------------------------------------------------------------------------------------------
   html_from_details: ( row ) ->
-    { dsk
-      sid
+    { sid
+      dsk
       ts
       pid
       rank
@@ -115,18 +91,18 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     #.......................................................................................................
     trend       = JSON.parse trend
     details     = JSON.parse details
-    dsk_html    = HDML.text dsk
     sid_html    = HDML.text "#{sid}"
+    dsk_html    = HDML.text dsk
+    pid_html    = HDML.text "#{pid}"
     ts_html     = HDML.text ts
-    id_html     = HDML.text pid
     rank_html   = HDML.text "#{rank}"
     trend_json  = JSON.stringify trend
     title_html  = HDML.pair 'a', { href: details.title_url, }, HDML.text details.title
     #.......................................................................................................
     tds         = [
-      HDML.pair 'td.dsk', dsk_html
       HDML.pair 'td.sid', sid_html
-      HDML.pair 'td.id', id_html
+      HDML.pair 'td.dsk', dsk_html
+      HDML.pair 'td.pid', pid_html
       HDML.pair 'td.ts', ts_html
       HDML.pair 'td.rank', rank_html
       HDML.pair 'td.sparkline', { 'data-trend': trend_json, }
@@ -136,6 +112,39 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     #.......................................................................................................
     return HDML.pair 'tr', null, tds.join '\n'
 
+  #---------------------------------------------------------------------------------------------------------
+  ### TAINT use more generic way to display tabular data ###
+  ### NOTE liable to change ###
+  _XXX_get_details_table: ->
+    R = []
+    R.push HDML.pair 'h3', HDML.text "DBay Vogue App / Trends"
+    R.push HDML.open 'table#trends'
+    #.......................................................................................................
+    tds         = [
+      HDML.pair 'th', HDML.text "SID"
+      HDML.pair 'th', HDML.text "DSK"
+      HDML.pair 'th', HDML.text "PID"
+      HDML.pair 'th', HDML.text "TS"
+      HDML.pair 'th', HDML.text "Rank"
+      HDML.pair 'th', HDML.text "Sparkline"
+      # HDML.pair 'th', HDML.text "Trend"
+      HDML.pair 'th', HDML.text "Title"
+      ]
+    R.push HDML.pair 'tr', tds.join ''
+    #.......................................................................................................
+    # H = require '/home/flow/jzr/hengist/lib/helpers'
+    # H.tabulate 'scr_trends_ordered', @hub.vdb.db """select
+    #   rnr,
+    #   dsk,
+    #   sid,
+    #   ts,
+    #   pid,
+    #   rank
+    #   from scr_latest_trends;"""
+    for row from @hub.vdb.db """select * from scr_latest_trends_html;"""
+      R.push row.html
+    R.push HDML.close 'table'
+    return R.join '\n'
 
 
 
