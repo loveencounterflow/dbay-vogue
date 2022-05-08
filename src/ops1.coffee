@@ -48,7 +48,7 @@ class Intercepted_console
   # timeStamp:        ƒ timeStamp()
   # trace:            ƒ trace()
 
-globalThis.console  = new Proxy console, new Intercepted_console()
+# globalThis.console  = new Proxy console, new Intercepted_console()
 globalThis.log      = console.log
 globalThis.µ        = require 'mudom'
 # globalThis.DATOM    = require 'datom'
@@ -63,6 +63,17 @@ globalThis.µ        = require 'mudom'
 
 #===========================================================================================================
 class Vogue_ops
+
+  #---------------------------------------------------------------------------------------------------------
+  _XXX_sparkline_get_thin_line: ( trend ) ->
+    return Plot.line( trend, {
+      x:            'sid',
+      y:            'rank',
+      stroke:       'red',
+      strokeWidth:  1,
+      curve:        'linear' } )
+      # curve:        'step' } )
+      # curve:        'cardinal' } )
 
   #---------------------------------------------------------------------------------------------------------
   _sparkline_get_line: ( trend ) ->
@@ -92,7 +103,7 @@ class Vogue_ops
         ( @_sparkline_get_dots trend ) ],
       width:      500,
       height:     100,
-      x:          { ticks: 12, domain: [ 0, 12, ], step: 1, },
+      x:          { ticks: 12, domain: [ 0, 20, ], step: 1, },
       y:          { ticks: 4, domain: [ 0, 80, ], step: 1, reverse: true, },
       marginLeft: 50 }
       # color: {
@@ -111,14 +122,14 @@ class Vogue_ops
   chart_from_trends: ( trends ) ->
     marks = []
     for trend in trends
-      marks.push @_sparkline_get_line trend
+      marks.push @_XXX_sparkline_get_thin_line trend
       marks.push @_sparkline_get_dots trend
     plot_cfg  = {
       marks:      marks,
       width:      500,
-      height:     100,
-      x:          { ticks: 12, domain: [ 0, 12, ], step: 1, },
-      y:          { ticks: 4, domain: [ 0, 80, ], step: 1, reverse: true, },
+      height:     500,
+      x:          { ticks: 12, domain: [ 0, 20, ], step: 1, },
+      y:          { ticks: 4, domain: [ 0, 20, ], step: 1, reverse: true, },
       marginLeft: 50 }
       # color: {
       #   type: "linear",
