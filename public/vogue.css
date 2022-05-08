@@ -1,7 +1,4 @@
 
-
-
-
 svg {
   outline:                1px dotted red; }
 
@@ -14,9 +11,8 @@ th {
   text-align:             left; }
 
 #trends .sparkline {
-  min-width:              100mm;
-  min-height:             10mm; }
-#trends .sparkline svg {
-  outline:                1px solid orange;
+  min-width:              35mm;
+  max-width:              35mm; }
 
-}
+#trends .sparkline svg {
+  outline:                1px solid orange; }
