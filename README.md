@@ -203,6 +203,8 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   uncommented?
 * **[–]** make it so that sparklines are flush right i.e. the data point for the current session is 'now',
   and 'now' has maximum of the displayed x values
+* **[–]** add chart with all combined sparklines from 'latest' view
+
 ## Is Done
 
 * **[+]** name
