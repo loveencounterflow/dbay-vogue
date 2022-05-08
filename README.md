@@ -203,6 +203,10 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   uncommented?
 * **[–]** make it so that sparklines are flush right i.e. the data point for the current session is 'now',
   and 'now' has maximum of the displayed x values
+* **[–]** only display the most recent session entry for each item ID (and up to so-and-so many items per
+  page), i.e. if an item was present in sessions 12 and 11, only show the entry for session 12 (with the
+  sparkline that does show a dot for session 11); if an item dropped out in session 9, also show it (as long
+  as the table does not exceed the line limit)
 
 ## Is Done
 
