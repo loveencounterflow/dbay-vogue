@@ -70,6 +70,7 @@ class Vogue_ops
       x:            'sid',
       y:            'rank',
       stroke:       'red',
+      ### TAINT do not use magic numbers ###
       strokeWidth:  1,
       curve:        'linear' } )
       # curve:        'step' } )
@@ -81,6 +82,7 @@ class Vogue_ops
       x:            'sid',
       y:            'rank',
       stroke:       'red',
+      ### TAINT do not use magic numbers ###
       strokeWidth:  4,
       curve:        'linear' } )
       # curve:        'step' } )
@@ -93,6 +95,7 @@ class Vogue_ops
       y:            'rank',
       stroke:       'red',
       fill:         'red',
+      ### TAINT do not use magic numbers ###
       strokeWidth:  4, } )
 
   #---------------------------------------------------------------------------------------------------------
@@ -103,6 +106,7 @@ class Vogue_ops
         ( @_sparkline_get_dots trend ) ],
       width:      500,
       height:     100,
+      ### TAINT do not use magic numbers ###
       x:          { ticks: 12, domain: [ 0, 20, ], step: 1, },
       y:          { ticks: 4, domain: [ 0, 80, ], step: 1, reverse: true, },
       marginLeft: 50 }
@@ -128,6 +132,7 @@ class Vogue_ops
       marks:      marks,
       width:      500,
       height:     500,
+      ### TAINT do not use magic numbers ###
       x:          { ticks: 12, domain: [ 0, 20, ], step: 1, },
       y:          { ticks: 4, domain: [ 0, 20, ], step: 1, reverse: true, },
       marginLeft: 50 }

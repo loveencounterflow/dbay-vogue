@@ -204,6 +204,20 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
 * **[–]** make it so that sparklines are flush right i.e. the data point for the current session is 'now',
   and 'now' has maximum of the displayed x values
 * **[–]** add chart with all combined sparklines from 'latest' view
+* **[–]** add `status` field (`first`, `last`, `return`, `cont`) to each data point of trends to allow for
+  coloring in charts
+* **[–]** may want to implement option where only those sessions are show where at least one change occurred
+* **[–]** simplify construction of customized instances; currently one has to do:
+
+  ```
+  path              = 'path/to/dbay-vogue.db'
+  db                = new DBay { path, }
+  vdb               = new Vogue_db { db, }
+  vogue             = new Vogue { vdb, }
+  ```
+
+  i.e. one must know and get hold of the secondary classes involved and introduce them at appropriate
+  junctures.
 
 ## Is Done
 
