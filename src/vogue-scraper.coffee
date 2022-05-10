@@ -89,8 +89,6 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
       trend
       details } = row
     #.......................................................................................................
-    trend       = JSON.parse trend
-    details     = JSON.parse details
     sid_html    = HDML.text "#{sid}"
     dsk_html    = HDML.text dsk
     pid_html    = HDML.text "#{pid}"

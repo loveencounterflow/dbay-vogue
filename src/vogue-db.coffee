@@ -60,24 +60,6 @@ class @Vogue_db extends Vogue_common_mixin()
   _create_sql_functions: ->
     { prefix } = @cfg
     #-------------------------------------------------------------------------------------------------------
-    @db.create_function
-      name:           prefix + '_get_html_from_purpose'
-      deterministic:  true
-      varargs:        false
-      call:           ( purpose, dsk, fields ) =>
-        @types.validate.nonempty_text purpose
-        @types.validate_optional.text fields
-        #...................................................................................................
-        ### TAINT use caching method, hide implementation details ###
-        unless ( method = @cache.get_html_for[ purpose ] )?
-          scraper     = @hub.scrapers._scraper_from_dsk dsk
-          method_name = "html_from_#{purpose}"
-          unless ( method = scraper[ method_name ] )?
-            throw new Error "^dbay-scraper@1^ scraper has no method #{rpr method_name}"
-          @cache.get_html_for[ method_name ] = method
-        #...................................................................................................
-        fields = JSON.parse fields if fields?
-        return method.call scraper, fields
     # #-------------------------------------------------------------------------------------------------------
     # XXX_count = 0
     # @db.create_function
@@ -241,11 +223,11 @@ class @Vogue_db extends Vogue_common_mixin()
     #.......................................................................................................
     @db SQL"""
       create table #{prefix}_trends_html (
-          nr        integer not null primary key,
           sid       integer not null,
           pid       integer not null,
           html      text    not null,
-        foreign key ( sid ) references #{prefix}_sessions );"""
+        primary key ( sid, pid ),
+        foreign key ( sid, pid ) references #{prefix}_posts );"""
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_ordered_trends as select
@@ -275,27 +257,7 @@ class @Vogue_db extends Vogue_common_mixin()
         join #{prefix}_latest_trends using ( sid, pid )
         order by
           sid   desc,
-          rank  asc,
-          nr    asc;"""
-    #.......................................................................................................
-    @db SQL"""
-      create trigger #{prefix}_on_insert_into_posts after insert on #{prefix}_posts
-        for each row begin
-          insert into #{prefix}_trends_html ( sid, pid, html )
-            select
-                sid,
-                pid,
-                #{prefix}_get_html_from_purpose( 'details', dsk, json_object(
-                  'dsk',      dsk,
-                  'sid',      sid,
-                  'ts',       ts,
-                  'pid',      pid,
-                  'rank',     rank,
-                  'trend',    trend,
-                  'details',  new.details ) )
-              from #{prefix}_trends as trends
-              where ( trends.sid = new.sid ) and ( trends.pid = new.pid );
-          end;"""
+          rank  asc;"""
     #.......................................................................................................
     return null
 
@@ -327,12 +289,51 @@ class @Vogue_db extends Vogue_common_mixin()
         insert into #{prefix}_posts ( sid, pid, rank, details )
           select $sid, $pid, next_free.rank, $details from next_free
           returning *;"""
+      #.......................................................................................................
+      insert_trends_html: @db.prepare_insert { into: "#{prefix}_trends_html", returning: '*', }
+      trend_from_sid_pid: @db.prepare SQL"""
+        select
+            trend
+          from #{prefix}_trends
+          where true
+            and ( sid = $sid )
+            and ( pid = $pid );"""
     #.......................................................................................................
     return null
 
   #---------------------------------------------------------------------------------------------------------
   new_session:  ( dsk     ) -> @db.first_row @queries.insert_session, { dsk, }
-  new_post:     ( fields  ) -> @db.first_row @queries.insert_post, fields
+
+  #---------------------------------------------------------------------------------------------------------
+  new_post: ( fields ) ->
+    ### TAINT validate fields is { dsk, sid, pid, details, } ###
+    { dsk
+      sid
+      pid
+      session
+      details } = fields
+    { ts }      = session
+    post        = @db.first_row @queries.insert_post, { sid, pid, details: ( JSON.stringify details ), }
+    { rank }    = post
+    trend       = JSON.parse @db.single_value @queries.trend_from_sid_pid, { sid, pid, }
+    html        = @_html_from_purpose 'details', { dsk, sid, pid, ts, rank, trend, details, }
+    ignore      = @db.single_row @queries.insert_trends_html, { post..., html, }
+    return post
+
+  #---------------------------------------------------------------------------------------------------------
+  _html_from_purpose: ( purpose, row ) =>
+    @types.validate.nonempty_text purpose
+    @types.validate.object row
+    #...................................................................................................
+    ### TAINT use caching method, hide implementation details ###
+    unless ( method = @cache.get_html_for[ purpose ] )?
+      scraper     = @hub.scrapers._scraper_from_dsk row.dsk
+      method_name = "html_from_#{purpose}"
+      unless ( method = scraper[ method_name ] )?
+        throw new Error "^dbay-scraper@1^ scraper has no method #{rpr method_name}"
+      @cache.get_html_for[ method_name ] = method
+    #...................................................................................................
+    return method.call scraper, row
 
   #---------------------------------------------------------------------------------------------------------
   get_latest_trends: ->
