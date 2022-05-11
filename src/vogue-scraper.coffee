@@ -87,25 +87,24 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
       pid
       rank
       ### TAINT rename trend -> sparkline_data ###
-      trend
-      details } = row
+      sparkline_data
+      details }         = row
     #.......................................................................................................
-    sid_html    = HDML.text "#{sid}"
-    dsk_html    = HDML.text dsk
-    pid_html    = HDML.text "#{pid}"
-    ts_html     = HDML.text ts
-    rank_html   = HDML.text "#{rank}"
-    trend_json  = JSON.stringify trend
-    title_html  = HDML.pair 'a', { href: details.title_url, }, HDML.text details.title
+    sid_html            = HDML.text "#{sid}"
+    dsk_html            = HDML.text dsk
+    pid_html            = HDML.text "#{pid}"
+    ts_html             = HDML.text ts
+    rank_html           = HDML.text "#{rank}"
+    title_html          = HDML.pair 'a', { href: details.title_url, }, HDML.text details.title
     #.......................................................................................................
-    tds         = [
+    tds                 = [
       HDML.pair 'td.sid', sid_html
       HDML.pair 'td.dsk', dsk_html
       HDML.pair 'td.pid', pid_html
       HDML.pair 'td.ts', ts_html
       HDML.pair 'td.rank', rank_html
-      HDML.pair 'td.sparkline', { 'data-trend': trend_json, }
-      # HDML.pair 'td.trend', trend_html
+      HDML.pair 'td.sparkline', { 'data-sparkline_data': sparkline_data, }
+      # HDML.pair 'td.sparkline_data', sparkline_data_html
       HDML.pair 'td.title', title_html
       ]
     #.......................................................................................................
@@ -114,11 +113,9 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   ### NOTE liable to change ###
   _XXX_get_details_chart: ->
-    R           = []
-    trends      = @hub.vdb.get_latest_trends()
-    trends_json = JSON.stringify trends
-    # debug '^335^', rpr JSON.stringify trend for trend in JSON.parse trends
-    R.push HDML.pair 'div.trendchart', { 'data-trends': trends_json, }
+    R                   = []
+    sparkline_data_json = @hub.vdb.get_latest_sparkline_data_json()
+    R.push HDML.pair 'div.trendchart', { 'data-trends': sparkline_data_json, }
     return R.join '\n'
 
   #---------------------------------------------------------------------------------------------------------

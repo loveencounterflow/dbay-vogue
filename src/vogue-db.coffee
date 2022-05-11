@@ -322,8 +322,9 @@ class @Vogue_db extends Vogue_common_mixin()
     { rank }        = post
     raw_trend       = JSON.parse @db.single_value @queries.trend_from_sid_pid, { sid, pid, }
     sparkline_data  = @_sparkline_data_from_raw_trend raw_trend
+    # debug '^345345^', { sparkline_data, }
     ### TAINT rename trend -> sparkline_data ###
-    html            = @_html_from_purpose 'details', { dsk, sid, pid, ts, rank, trend: sparkline_data, details, }
+    html            = @_html_from_purpose 'details', { dsk, sid, pid, ts, rank, sparkline_data, details, }
     ignore          = @db.single_row @queries.insert_trends_html, { post..., sparkline_data, html, }
     return post
 
@@ -343,13 +344,12 @@ class @Vogue_db extends Vogue_common_mixin()
     return method.call scraper, row
 
   #---------------------------------------------------------------------------------------------------------
-  get_latest_trends: ->
-    ### TAINT not strictly needed to parse, then serialize again ###
-    { prefix } = @cfg
-    R = []
-    for row from @db SQL"""select raw_trend from #{prefix}_latest_trends;"""
-      R.push JSON.parse row.raw_trend
-    return R
+  get_latest_sparkline_data_json: ->
+    { prefix }  = @cfg
+    R           = []
+    for row from @db SQL"""select sparkline_data from #{prefix}_latest_trends_html;"""
+      R.push JSON.parse row.sparkline_data
+    return JSON.stringify R
 
 
 
