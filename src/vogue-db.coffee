@@ -65,7 +65,7 @@ class @Vogue_db extends Vogue_common_mixin()
       drop table    if exists #{prefix}_datasources;
       drop table    if exists #{prefix}_posts;
       drop table    if exists #{prefix}_sessions;
-      drop table    if exists #{prefix}_minmax_sids;
+      drop view     if exists #{prefix}_minmax_sids;
       drop table    if exists #{prefix}_states;
       drop table    if exists #{prefix}_tagged_posts;
       drop table    if exists #{prefix}_tags;
@@ -122,15 +122,15 @@ class @Vogue_db extends Vogue_common_mixin()
         primary key ( pid, tag ),
         -- foreign key ( pid ) references #{prefix}_posts,
         foreign key ( tag ) references #{prefix}_tags );"""
-    # #.......................................................................................................
-    # @db SQL"""
-    #   create view #{prefix}_minmax_sids as select
-    #       sessions.dsk      as dsk,
-    #       min( sid ) over w as sid_min,
-    #       max( sid ) over w as sid_max
-    #     from #{prefix}_posts    as posts
-    #     join #{prefix}_sessions as sessions using ( sid )
-    #     window w as ( partition by dsk );"""
+    #.......................................................................................................
+    @db SQL"""
+      create view #{prefix}_minmax_sids as select
+          sessions.dsk      as dsk,
+          min( sid ) over w as sid_min,
+          max( sid ) over w as sid_max
+        from #{prefix}_posts    as posts
+        join #{prefix}_sessions as sessions using ( sid )
+        window w as ( partition by dsk );"""
     #.......................................................................................................
     @db SQL"""
       create view _#{prefix}_trends_01 as
@@ -252,6 +252,13 @@ class @Vogue_db extends Vogue_common_mixin()
           where true
             and ( sid = $sid )
             and ( pid = $pid );"""
+      #.......................................................................................................
+      get_minmax_sids: @db.prepare SQL"""
+        select
+            sid_min,
+            sid_max
+          from #{prefix}_minmax_sids
+          where ( dsk = $dsk );"""
     #.......................................................................................................
     return null
 
@@ -319,6 +326,7 @@ class @Vogue_db extends Vogue_common_mixin()
       details }     = fields
     { ts }          = session
     post            = @db.first_row @queries.insert_post, { sid, pid, details: ( JSON.stringify details ), }
+    # debug '^1423^', @db.first_row @queries.get_minmax_sids, { dsk, }
     { rank }        = post
     raw_trend       = JSON.parse @db.single_value @queries.trend_from_sid_pid, { sid, pid, }
     sparkline_data  = @_sparkline_data_from_raw_trend raw_trend
