@@ -86,6 +86,7 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
       ts
       pid
       rank
+      ### TAINT rename trend -> sparkline_data ###
       trend
       details } = row
     #.......................................................................................................
