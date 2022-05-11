@@ -75,7 +75,7 @@ class @Vogue_db extends Vogue_common_mixin()
       drop view     if exists #{prefix}_latest_trends_html;
       drop view     if exists #{prefix}_ordered_trends;
       drop view     if exists #{prefix}_trends;
-      drop view     if exists _#{prefix}_trends;"""
+      drop view     if exists _#{prefix}_trends_01;"""
     @db.set_foreign_keys_state true
     #-------------------------------------------------------------------------------------------------------
     # TABLES
@@ -133,7 +133,7 @@ class @Vogue_db extends Vogue_common_mixin()
     #     window w as ( partition by dsk );"""
     #.......................................................................................................
     @db SQL"""
-      create view _#{prefix}_trends as
+      create view _#{prefix}_trends_01 as
         select distinct
           sid                                                     as sid,
           pid                                                     as pid,
@@ -156,7 +156,7 @@ class @Vogue_db extends Vogue_common_mixin()
           posts.details                                       as details
         from #{prefix}_posts        as posts
         join #{prefix}_sessions     as sessions     using ( sid )
-        join _#{prefix}_trends      as trends       using ( sid, pid )
+        join _#{prefix}_trends_01   as trends       using ( sid, pid )
         order by
           sid   desc,
           rank  asc;"""
