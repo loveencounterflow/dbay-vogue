@@ -110,6 +110,7 @@ class @Vogue_server extends Vogue_common_mixin()
       <script src='/public/ops1.js'></script>
       <script src='/public/d3@7.js'></script>
       <script src='/public/plot@0.4.js'></script>
+      <link rel='icon' type='image/x-icon' href='/public/favicon.ico'>
       <link rel=stylesheet href='/public/vogue.css'></script>
       """
     for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
