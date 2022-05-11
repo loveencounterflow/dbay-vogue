@@ -72,9 +72,23 @@ class Vogue_ops
       stroke:       'red',
       ### TAINT do not use magic numbers ###
       strokeWidth:  1,
-      curve:        'linear' } )
-      # curve:        'step' } )
+      curve:        'catmull-rom' } ) # !
+      # curve:        'bump-x' } ) # !
+      # curve:        'linear' } )
       # curve:        'cardinal' } )
+      # curve:        'natural' } )
+      # X curve:        'step' } )
+      # X curve:        'basis' } )
+
+  #---------------------------------------------------------------------------------------------------------
+  _XXX_sparkline_get_small_dots: ( trend ) ->
+    return Plot.dot( trend, {
+      x:            'sid',
+      y:            'rank',
+      stroke:       'red',
+      fill:         'transparent',
+      ### TAINT do not use magic numbers ###
+      strokeWidth:  1, } )
 
   #---------------------------------------------------------------------------------------------------------
   _sparkline_get_line: ( trend ) ->
@@ -100,7 +114,7 @@ class Vogue_ops
 
   #---------------------------------------------------------------------------------------------------------
   sparkline_from_trend: ( trend ) ->
-    plot_cfg  = {
+    plot_cfg  =
       marks: [
         ( @_sparkline_get_line trend )
         ( @_sparkline_get_dots trend ) ],
@@ -109,7 +123,10 @@ class Vogue_ops
       ### TAINT do not use magic numbers ###
       x:          { ticks: 12, domain: [ 0, 20, ], step: 1, },
       y:          { ticks: 4, domain: [ 0, 80, ], step: 1, reverse: true, },
-      marginLeft: 50 }
+      # background: 'green'
+      marginLeft: 50
+      style:
+        backgroundColor: 'transparent'
       # color: {
       #   type: "linear",
       #   scheme: "cividis",
@@ -127,7 +144,7 @@ class Vogue_ops
     marks = []
     for trend in trends
       marks.push @_XXX_sparkline_get_thin_line trend
-      marks.push @_sparkline_get_dots trend
+      marks.push @_XXX_sparkline_get_small_dots trend
     plot_cfg  = {
       marks:      marks,
       width:      500,
@@ -135,7 +152,10 @@ class Vogue_ops
       ### TAINT do not use magic numbers ###
       x:          { ticks: 12, domain: [ 0, 20, ], step: 1, },
       y:          { ticks: 4, domain: [ 0, 20, ], step: 1, reverse: true, },
-      marginLeft: 50 }
+      marginLeft: 50
+      style:
+        backgroundColor: 'transparent'
+      }
       # color: {
       #   type: "linear",
       #   scheme: "cividis",
