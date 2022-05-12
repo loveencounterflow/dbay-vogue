@@ -246,6 +246,7 @@ ideas for scraping
 * exchange rates
 * new SQLite downloads
 * https://lite.pbs.org/video/
+* https://hackernoon.com/
 
  -->
 
