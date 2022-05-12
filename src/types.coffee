@@ -71,7 +71,7 @@ GUY                       = require 'guy'
 #...........................................................................................................
 @defaults.vogue_db_constructor_cfg =
   db:               null
-  prefix:           'scr'
+  prefix:           'vogue'
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scrapers_constructor_cfg', tests:
