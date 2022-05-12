@@ -38,6 +38,8 @@ class @Vogue_db extends Vogue_common_mixin()
     @types.validate.vogue_db_constructor_cfg @cfg
     { db,     } = GUY.obj.pluck_with_fallback @cfg, null, 'db';     GUY.props.hide @, 'db',     db
     @cfg        = GUY.lft.freeze @cfg
+    debug '^5343^', @cfg
+    debug '^5343^', @db.cfg
     #.......................................................................................................
     @db.create_stdlib()
     @_set_variables?()
@@ -385,6 +387,7 @@ class @Vogue_db extends Vogue_common_mixin()
   get_latest_sparkline_data_json: ->
     { prefix }  = @cfg
     R           = []
+    # for row from @db SQL"""select sparkline_data from #{prefix}_trends_html;"""
     for row from @db SQL"""select sparkline_data from #{prefix}_latest_trends_html;"""
       R.push JSON.parse row.sparkline_data
     return JSON.stringify R
