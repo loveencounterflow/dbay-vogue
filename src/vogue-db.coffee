@@ -75,7 +75,9 @@ class @Vogue_db extends Vogue_common_mixin()
       drop view     if exists #{prefix}_latest_trends_html;
       drop view     if exists #{prefix}_ordered_trends;
       drop view     if exists #{prefix}_trends;
-      drop view     if exists _#{prefix}_trends_01;"""
+      drop view     if exists _#{prefix}_trends_01;
+      drop view     if exists #{prefix}_XXX_ranks;
+      drop view     if exists #{prefix}_XXX_grouped_ranks;"""
     @db.set_foreign_keys_state true
     #-------------------------------------------------------------------------------------------------------
     # TABLES
@@ -104,11 +106,39 @@ class @Vogue_db extends Vogue_common_mixin()
         foreign key ( sid ) references #{prefix}_sessions );"""
     #.......................................................................................................
     @db SQL"""
-      create table #{prefix}_states (
-          state   text    not null,
-        primary key ( state ) );
-      insert into #{prefix}_states ( state ) values
-        ( 'first' ), ( 'first cont' ), ( 'mid' ), ( 'last cont' ), ( 'last' );"""
+      create view #{prefix}_XXX_ranks as select
+          sid                                         as sid,
+          pid                                         as pid,
+          rank                                        as rank,
+          coalesce( pid != lag(  pid ) over w, true ) as first,
+          coalesce( pid != lead( pid ) over w, true ) as last
+        from #{prefix}_posts
+        window w as (
+          partition by pid
+          order by sid )
+        order by sid, pid;"""
+    #.......................................................................................................
+    @db SQL"""
+      create view #{prefix}_XXX_grouped_ranks as select distinct
+          pid                                     as pid,
+          json_group_array( json_object(
+            'sid',    sid,
+            'rank',   rank,
+            'first',  first,
+            'last',   last ) ) over w               as xxx_trend
+        from #{prefix}_XXX_ranks
+        window w as (
+          partition by pid
+          order by sid
+          range between unbounded preceding and unbounded following )
+        order by pid;"""
+    # #.......................................................................................................
+    # @db SQL"""
+    #   create table #{prefix}_states (
+    #       state   text    not null,
+    #     primary key ( state ) );
+    #   insert into #{prefix}_states ( state ) values
+    #     ( 'first' ), ( 'first cont' ), ( 'mid' ), ( 'last cont' ), ( 'last' );"""
     #.......................................................................................................
     @db SQL"""
       create table #{prefix}_tags (
