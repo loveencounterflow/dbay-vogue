@@ -6,8 +6,8 @@
     "../src/ops2.coffee"
   ],
   "names": [],
-  "mappings": "AAEA;EAAA;AAAA,MAAA,IAAA,EAAA,GAAA,EAAA,IAAA,EAAA;;AAEA;EAAA,KAAA,WAAA;IACE,GAAA,GAAM,KAAK,CAAC,oBAAN,CAA2B,IAAI,CAAC,KAAL,CAAW,IAAI,CAAC,OAAO,CAAC,cAAxB,CAA3B;IACN,CAAC,CAAC,GAAG,CAAC,MAAN,CAAa,IAAb,EAAmB,GAAnB;EAFF;;AAGA;EAAA,KAAA,YAAA;IACE,GAAA,GAAM,KAAK,CAAC,iBAAN,CAAwB,IAAI,CAAC,KAAL,CAAW,IAAI,CAAC,OAAO,CAAC,MAAxB,CAAxB;IACN,CAAC,CAAC,GAAG,CAAC,MAAN,CAAa,IAAb,EAAmB,GAAnB;EAFF;AALA",
+  "mappings": "AAEA;EAAA;AAAA,MAAA,IAAA,EAAA,GAAA,EAAA,IAAA,EAAA,cAAA,EAAA,GAAA,EAAA;;AAEA;EAAA,KAAA,WAAA;IACE,CAAA,CAAE,cAAF,CAAA,GAAsB,IAAI,CAAC,OAA3B;IACA,cAAA,GAAsB,IAAI,CAAC,KAAL,CAAW,cAAX;IACtB,GAAA,GAAsB,KAAK,CAAC,oBAAN,CAA2B,cAA3B;IACtB,CAAC,CAAC,GAAG,CAAC,MAAN,CAAa,IAAb,EAAmB,GAAnB;EAJF;;AAKA;EAAA,KAAA,YAAA;IACE,CAAA,CAAE,MAAF,CAAA,GAAsB,IAAI,CAAC,OAA3B;IACA,MAAA,GAAsB,IAAI,CAAC,KAAL,CAAW,MAAX;IACtB,GAAA,GAAsB,KAAK,CAAC,iBAAN,CAAwB,MAAxB;IACtB,CAAC,CAAC,GAAG,CAAC,MAAN,CAAa,IAAb,EAAmB,GAAnB;EAJF;AAPA",
   "sourcesContent": [
-    "\n\n'use strict'\n\nfor node from µ.DOM.select_all '.sparkline'\n  svg = VOGUE.sparkline_from_trend JSON.parse node.dataset.sparkline_data\n  µ.DOM.append node, svg\nfor node from µ.DOM.select_all '.trendchart'\n  svg = VOGUE.chart_from_trends JSON.parse node.dataset.trends\n  µ.DOM.append node, svg\n"
+    "\n\n'use strict'\n\nfor node from µ.DOM.select_all '.sparkline'\n  { sparkline_data  } = node.dataset\n  sparkline_data      = JSON.parse sparkline_data\n  svg                 = VOGUE.sparkline_from_trend sparkline_data\n  µ.DOM.append node, svg\nfor node from µ.DOM.select_all '.trendchart'\n  { trends          } = node.dataset\n  trends              = JSON.parse trends\n  svg                 = VOGUE.chart_from_trends trends\n  µ.DOM.append node, svg\n"
   ]
 }
