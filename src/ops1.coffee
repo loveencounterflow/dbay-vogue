@@ -65,13 +65,16 @@ globalThis.µ        = require 'mudom'
 class Vogue_ops
 
   #---------------------------------------------------------------------------------------------------------
-  _XXX_sparkline_get_thin_line: ( trend ) ->
-    return Plot.line( trend, {
+  _XXX_sparkline_get_thin_line: ( sparkline_data ) ->
+    return Plot.line( sparkline_data, {
       x:            'sid',
       y:            'rank',
-      stroke:       'red',
+      z:            null,
+      # stroke:       'red',
+      # stroke:       'pid',
+      stroke:       'pid',
       ### TAINT do not use magic numbers ###
-      strokeWidth:  1,
+      strokeWidth:  2,
       curve:        'catmull-rom' } ) # !
       # curve:        'bump-x' } ) # !
       # curve:        'linear' } )
@@ -81,21 +84,24 @@ class Vogue_ops
       # X curve:        'basis' } )
 
   #---------------------------------------------------------------------------------------------------------
-  _XXX_sparkline_get_small_dots: ( trend ) ->
-    return Plot.dot( trend, {
+  _XXX_sparkline_get_small_dots: ( sparkline_data ) ->
+    return Plot.dot( sparkline_data, {
       x:            'sid',
       y:            'rank',
-      stroke:       'red',
+      z:            null,
+      stroke:       'pid',
       fill:         'transparent',
       ### TAINT do not use magic numbers ###
-      strokeWidth:  1, } )
+      strokeWidth:  2, } )
 
   #---------------------------------------------------------------------------------------------------------
-  _sparkline_get_line: ( trend ) ->
-    return Plot.line( trend, {
+  _sparkline_get_line: ( sparkline_data ) ->
+    return Plot.line( sparkline_data, {
       x:            'sid',
       y:            'rank',
+      z:            null,
       stroke:       'red',
+      # stroke:       pid,
       ### TAINT do not use magic numbers ###
       strokeWidth:  4,
       curve:        'linear' } )
@@ -103,21 +109,23 @@ class Vogue_ops
       # curve:        'cardinal' } )
 
   #---------------------------------------------------------------------------------------------------------
-  _sparkline_get_dots: ( trend ) ->
-    return Plot.dot( trend, {
+  _sparkline_get_dots: ( sparkline_data ) ->
+    return Plot.dot( sparkline_data, {
       x:            'sid',
       y:            'rank',
+      z:            null,
       stroke:       'red',
       fill:         'red',
       ### TAINT do not use magic numbers ###
       strokeWidth:  4, } )
 
   #---------------------------------------------------------------------------------------------------------
-  sparkline_from_trend: ( trend ) ->
+  ### TAINT use standard `cfg` way to pass in data ###
+  sparkline_from_trend: ( sparkline_data ) ->
     plot_cfg  =
       marks: [
-        ( @_sparkline_get_line trend )
-        ( @_sparkline_get_dots trend ) ],
+        ( @_sparkline_get_line sparkline_data )
+        ( @_sparkline_get_dots sparkline_data ) ],
       width:      500,
       height:     100,
       ### TAINT do not use magic numbers ###
@@ -141,10 +149,11 @@ class Vogue_ops
 
   #---------------------------------------------------------------------------------------------------------
   chart_from_trends: ( trends ) ->
-    marks = []
-    for trend in trends
-      marks.push @_XXX_sparkline_get_thin_line trend
-      marks.push @_XXX_sparkline_get_small_dots trend
+    marks       = []
+    # trends.pid  = pid for sparkline_data in trends
+    for sparkline_data in trends
+      marks.push @_XXX_sparkline_get_thin_line  sparkline_data
+      marks.push @_XXX_sparkline_get_small_dots sparkline_data
     plot_cfg  = {
       marks:      marks,
       width:      500,

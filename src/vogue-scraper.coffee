@@ -103,7 +103,7 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
       HDML.pair 'td.pid', pid_html
       HDML.pair 'td.ts', ts_html
       HDML.pair 'td.rank', rank_html
-      HDML.pair 'td.sparkline', { 'data-sparkline_data': sparkline_data, }
+      HDML.pair 'td.sparkline', { 'data-dsk': dsk, 'data-pid': pid, 'data-sparkline_data': sparkline_data, }
       # HDML.pair 'td.sparkline_data', sparkline_data_html
       HDML.pair 'td.title', title_html
       ]
@@ -147,7 +147,8 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
     #   pid,
     #   rank
     #   from scr_latest_trends;"""
-    for row from @hub.vdb.db """select * from scr_latest_trends_html;"""
+    prefix = @hub.vdb.cfg.prefix
+    for row from @hub.vdb.db """select * from #{prefix}_latest_trends_html;"""
       R.push row.html
     R.push HDML.close 'table'
     return R.join '\n'

@@ -76,6 +76,7 @@ class @Vogue_server extends Vogue_common_mixin()
     debug '^4345^', @cfg.file_server
     # @app.use mount '/favicon.ico', file_server @cfg.paths.favicon, @cfg.file_server
     @app.use mount '/public', file_server @cfg.paths.public, @cfg.file_server
+    @app.use mount '/src',    file_server @cfg.paths.src,    @cfg.file_server
     #.......................................................................................................
     @app.use @_s_default
     @app.use @router.allowedMethods()

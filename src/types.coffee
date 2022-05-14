@@ -47,6 +47,7 @@ GUY                       = require 'guy'
   paths:
     public:     PATH.resolve __dirname, '../public'
     favicon:    PATH.resolve __dirname, '../public/favicon.png'
+    src:        PATH.resolve __dirname, '../src'
   file_server:
     # Enable or disable accepting ranged requests. Disabling this will not send Accept-Ranges and ignore the
     # contents of the Range request header. defaults to true.
