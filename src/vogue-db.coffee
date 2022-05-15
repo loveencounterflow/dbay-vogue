@@ -64,22 +64,12 @@ class @Vogue_db extends Vogue_common_mixin()
     { prefix } = @cfg
     @db.set_foreign_keys_state false
     @db SQL"""
-      drop table    if exists #{prefix}_datasources;
-      drop table    if exists #{prefix}_posts;
-      drop table    if exists #{prefix}_sessions;
-      drop view     if exists #{prefix}_minmax_sids;
-      drop table    if exists #{prefix}_states;
-      drop table    if exists #{prefix}_tagged_posts;
-      drop table    if exists #{prefix}_tags;
-      drop table    if exists #{prefix}_trends_html;
-      drop trigger  if exists #{prefix}_on_insert_into_posts;
-      drop view     if exists #{prefix}_latest_trends;
-      drop view     if exists #{prefix}_latest_trends_html;
-      drop view     if exists #{prefix}_ordered_trends;
-      drop view     if exists #{prefix}_trends;
-      drop view     if exists _#{prefix}_trends_01;
-      drop view     if exists #{prefix}_XXX_ranks;
-      drop view     if exists #{prefix}_XXX_grouped_ranks;"""
+      drop table  if exists #{prefix}_datasources;
+      drop table  if exists #{prefix}_sessions;
+      drop table  if exists #{prefix}_posts;
+      drop view   if exists #{prefix}_XXX_ranks;
+      drop view   if exists #{prefix}_XXX_grouped_ranks;
+      drop view   if exists #{prefix}_trends;"""
     @db.set_foreign_keys_state true
     #-------------------------------------------------------------------------------------------------------
     # TABLES
@@ -109,12 +99,14 @@ class @Vogue_db extends Vogue_common_mixin()
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_XXX_ranks as select
-          sid                                         as sid,
-          pid                                         as pid,
-          rank                                        as rank,
-          coalesce( pid != lag(  pid ) over w, true ) as first,
-          coalesce( pid != lead( pid ) over w, true ) as last
-        from #{prefix}_posts
+          session.dsk                                           as dsk,
+          post.sid                                              as sid,
+          post.pid                                              as pid,
+          post.rank                                             as rank,
+          coalesce( post.pid != lag(  post.pid ) over w, true ) as first,
+          coalesce( post.pid != lead( post.pid ) over w, true ) as last
+        from #{prefix}_posts    as post
+        join #{prefix}_sessions as session using ( sid )
         window w as (
           partition by pid
           order by sid )
@@ -122,8 +114,10 @@ class @Vogue_db extends Vogue_common_mixin()
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_XXX_grouped_ranks as select distinct
-          pid                                     as pid,
+          pid                                       as pid,
           json_group_array( json_object(
+            'dsk',    dsk,
+            'pid',    pid,
             'sid',    sid,
             'rank',   rank,
             'first',  first,
@@ -134,48 +128,6 @@ class @Vogue_db extends Vogue_common_mixin()
           order by sid
           range between unbounded preceding and unbounded following )
         order by pid;"""
-    # #.......................................................................................................
-    # @db SQL"""
-    #   create table #{prefix}_states (
-    #       state   text    not null,
-    #     primary key ( state ) );
-    #   insert into #{prefix}_states ( state ) values
-    #     ( 'first' ), ( 'first cont' ), ( 'mid' ), ( 'last cont' ), ( 'last' );"""
-    #.......................................................................................................
-    @db SQL"""
-      create table #{prefix}_tags (
-          tag     text    not null,
-        primary key ( tag ) );"""
-    #.......................................................................................................
-    @db SQL"""
-      create table #{prefix}_tagged_posts (
-          pid     text    not null,
-          tag     text    not null,
-        primary key ( pid, tag ),
-        -- foreign key ( pid ) references #{prefix}_posts,
-        foreign key ( tag ) references #{prefix}_tags );"""
-    #.......................................................................................................
-    @db SQL"""
-      create view #{prefix}_minmax_sids as select
-          sessions.dsk      as dsk,
-          min( sid ) over w as sid_min,
-          max( sid ) over w as sid_max
-        from #{prefix}_posts    as posts
-        join #{prefix}_sessions as sessions using ( sid )
-        window w as ( partition by dsk );"""
-    #.......................................................................................................
-    @db SQL"""
-      create view _#{prefix}_trends_01 as
-        select distinct
-          sid                                                     as sid,
-          pid                                                     as pid,
-          json_group_array( json_array( sid, rank ) ) over w      as raw_trend
-        from #{prefix}_posts
-        -- join #{prefix}_minmax_sids using ( sid )
-        window w as (
-          partition by ( pid )
-          order by rank
-          range between unbounded preceding and current row );"""
     #.......................................................................................................
     @db SQL"""
       create view #{prefix}_trends as select
@@ -184,63 +136,11 @@ class @Vogue_db extends Vogue_common_mixin()
           sessions.ts                                         as ts,
           posts.pid                                           as pid,
           posts.rank                                          as rank,
-          trends.raw_trend                                    as raw_trend,
+          trends.xxx_trend                                    as raw_trend,
           posts.details                                       as details
-        from #{prefix}_posts        as posts
-        join #{prefix}_sessions     as sessions     using ( sid )
-        join _#{prefix}_trends_01   as trends       using ( sid, pid )
-        order by
-          sid   desc,
-          rank  asc;"""
-    #.......................................................................................................
-    @db SQL"""
-      create table #{prefix}_trends_html (
-          sid             integer not null,
-          pid             integer not null,
-          sparkline_data  text    not null,
-          html            text    not null,
-        primary key ( sid, pid ),
-        foreign key ( sid, pid ) references #{prefix}_posts );"""
-    #.......................................................................................................
-    @db SQL"""
-      create view #{prefix}_ordered_trends as select
-          row_number() over w as rnr, -- 'reverse number' b/c most recent appearances get to be number one
-          dsk                 as dsk,
-          sid                 as sid,
-          ts                  as ts,
-          pid                 as pid,
-          rank                as rank,
-          raw_trend           as raw_trend,
-          details             as details
-        from #{prefix}_trends
-        window w as ( partition by pid order by sid desc )
-        order by
-          sid   desc,
-          rank  asc,
-          rnr   asc;"""
-    #.......................................................................................................
-    @db SQL"""
-      create view #{prefix}_latest_trends as select
-          rnr,
-          dsk,
-          sid,
-          ts,
-          pid,
-          rank,
-          raw_trend,
-          details
-        from #{prefix}_ordered_trends
-        where rnr = 1
-        order by
-          sid   desc,
-          rank  asc,
-          rnr   asc;"""
-    #.......................................................................................................
-    @db SQL"""
-      create view #{prefix}_latest_trends_html as select
-          *
-        from #{prefix}_trends_html as trends_html
-        join #{prefix}_latest_trends using ( sid, pid )
+        from #{prefix}_posts              as posts
+        join #{prefix}_sessions           as sessions     using ( sid )
+        join #{prefix}_XXX_grouped_ranks  as trends       using ( pid )
         order by
           sid   desc,
           rank  asc;"""
@@ -276,7 +176,6 @@ class @Vogue_db extends Vogue_common_mixin()
           select $sid, $pid, next_free.rank, $details from next_free
           returning *;"""
       #.......................................................................................................
-      insert_trends_html: @db.prepare_insert { into: "#{prefix}_trends_html", returning: '*', }
       trend_from_sid_pid: @db.prepare SQL"""
         select
             raw_trend
@@ -285,68 +184,16 @@ class @Vogue_db extends Vogue_common_mixin()
             and ( sid = $sid )
             and ( pid = $pid );"""
       #.......................................................................................................
-      get_minmax_sids: @db.prepare SQL"""
+      trends_from_dsk: @db.prepare SQL"""
         select
-            sid_min,
-            sid_max
-          from #{prefix}_minmax_sids
-          where ( dsk = $dsk );"""
+            raw_trend
+          from #{prefix}_trends where true
+            and ( dsk = $dsk );"""
     #.......................................................................................................
     return null
 
   #---------------------------------------------------------------------------------------------------------
   new_session:  ( dsk     ) -> @db.first_row @queries.insert_session, { dsk, }
-
-  #---------------------------------------------------------------------------------------------------------
-  _sparkline_data_from_raw_trend: ( dsk, pid, raw_trend ) ->
-          # #{prefix}_sparkline_data_from_raw_trend(
-          #   ,
-          #   0, /* sid_min, */
-          #   20 /* sid_max  */ )                                             as trend
-    dense_trend         = []
-    dense_trend[ sid ]  = rank for [ sid, rank, ] in raw_trend
-    #.......................................................................................................
-    return JSON.stringify ( { dsk, pid, sid, rank, } for rank, sid in dense_trend when rank? )
-    # #-------------------------------------------------------------------------------------------------------
-    # XXX_count = 0
-    # @db.create_function
-    #   name:           prefix + '_sparkline_data_from_raw_trend'
-    #   deterministic:  true
-    #   varargs:        false
-    #   call:           ( trend_json, sid_min, sid_max ) =>
-    #     ###
-    #     `sid`: Session ID
-    #     `sid_min`: earliest session ID in DB for the current datasource
-
-    #     ###
-    #     trend               = JSON.parse trend_json
-    #     R                   = []
-    #     dense_trend         = []
-    #     csid_min            = Math.max 0, ( sid_min - sid_max ) + XXX_cfg_replacement.chart_history_length
-    #     csid_max            = XXX_cfg_replacement.chart_history_length
-    #     first_csid          = null
-    #     last_csid           = null
-    #     for [ sid, rank, ] in trend
-    #       csid = ( sid - sid_max ) + csid_max
-    #       continue if csid < 0
-    #       dense_trend[ csid ]  = rank
-    #     last_sid            = sid
-    #     status_prv          = 'missing'
-    #     status_now          = 'first'
-    #     for rank, csid in dense_trend
-    #       unless rank?
-    #         rank        = null
-    #         status_now  = 'missing'
-    #         # if sid > 1
-    #         #   R[ sid - 1 ]
-    #         # if status_prv
-    #       R.push { csid, rank, } # if rank?
-    #       status_prv = status_now
-    #     # debug '^435345^', R
-    #     #.......................................................................................................
-    #     # process.exit 111 if ++XXX_count > 90
-    #     return JSON.stringify R
-    #-------------------------------------------------------------------------------------------------------
 
   #---------------------------------------------------------------------------------------------------------
   new_post: ( fields ) ->
@@ -358,14 +205,10 @@ class @Vogue_db extends Vogue_common_mixin()
       details }     = fields
     { ts }          = session
     post            = @db.first_row @queries.insert_post, { sid, pid, details: ( JSON.stringify details ), }
-    # debug '^1423^', @db.first_row @queries.get_minmax_sids, { dsk, }
     { rank }        = post
-    raw_trend       = JSON.parse @db.single_value @queries.trend_from_sid_pid, { sid, pid, }
-    sparkline_data  = @_sparkline_data_from_raw_trend dsk, pid, raw_trend
-    # debug '^345345^', { sparkline_data, }
-    ### TAINT rename trend -> sparkline_data ###
-    html            = @_html_from_purpose 'details', { dsk, sid, pid, ts, rank, sparkline_data, details, }
-    ignore          = @db.single_row @queries.insert_trends_html, { post..., sparkline_data, html, }
+    trend           = @db.single_value @queries.trend_from_sid_pid, { sid, pid, }
+    html            = @_html_from_purpose 'details', { dsk, sid, pid, ts, rank, trend, details, }
+    # ignore          = @db.single_row @queries.insert_trends_html, { post..., trend, html, }
     return post
 
   #---------------------------------------------------------------------------------------------------------
@@ -384,14 +227,13 @@ class @Vogue_db extends Vogue_common_mixin()
     return method.call scraper, row
 
   #---------------------------------------------------------------------------------------------------------
-  get_latest_sparkline_data_json: ->
-    { prefix }  = @cfg
+  ### TAINT must be per DSK so needs `dsk` argument ###
+  trends_data_json_from_dsk: ( dsk ) ->
     R           = []
-    # for row from @db SQL"""select sparkline_data from #{prefix}_trends_html;"""
-    for row from @db SQL"""select sparkline_data from #{prefix}_latest_trends_html;"""
-      R.push JSON.parse row.sparkline_data
+    { prefix  } = @cfg
+    for row from @db @queries.trends_from_dsk, { dsk, }
+      R.push JSON.parse row.raw_trend
     return JSON.stringify R
-
 
 
 

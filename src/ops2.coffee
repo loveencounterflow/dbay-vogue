@@ -3,9 +3,9 @@
 'use strict'
 
 for node from µ.DOM.select_all '.sparkline'
-  { sparkline_data  } = node.dataset
-  sparkline_data      = JSON.parse sparkline_data
-  svg                 = VOGUE.sparkline_from_trend sparkline_data
+  { trend           } = node.dataset
+  trend               = JSON.parse trend
+  svg                 = VOGUE.sparkline_from_trend trend
   µ.DOM.append node, svg
 for node from µ.DOM.select_all '.trendchart'
   { trends          } = node.dataset

@@ -115,8 +115,8 @@ class @Vogue_server extends Vogue_common_mixin()
       <link rel=stylesheet href='/public/vogue.css'></script>
       """
     for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
-      R.push scraper._XXX_get_details_chart()
-      R.push scraper._XXX_get_details_table()
+      R.push scraper._XXX_get_details_chart dsk
+      R.push scraper._XXX_get_details_table dsk
     R.push "<script src='/public/ops2.js'></script>"
     #.......................................................................................................
     ctx.response.type   = 'html'

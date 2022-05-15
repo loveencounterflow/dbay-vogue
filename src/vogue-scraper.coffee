@@ -86,8 +86,7 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
       ts
       pid
       rank
-      ### TAINT rename trend -> sparkline_data ###
-      sparkline_data
+      trend
       details }         = row
     #.......................................................................................................
     sid_html            = HDML.text "#{sid}"
@@ -103,8 +102,7 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
       HDML.pair 'td.pid', pid_html
       HDML.pair 'td.ts', ts_html
       HDML.pair 'td.rank', rank_html
-      HDML.pair 'td.sparkline', { 'data-dsk': dsk, 'data-pid': pid, 'data-sparkline_data': sparkline_data, }
-      # HDML.pair 'td.sparkline_data', sparkline_data_html
+      HDML.pair 'td.sparkline', { 'data-dsk': dsk, 'data-pid': pid, 'data-trend': trend, }
       HDML.pair 'td.title', title_html
       ]
     #.......................................................................................................
@@ -112,10 +110,10 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
 #
   #---------------------------------------------------------------------------------------------------------
   ### NOTE liable to change ###
-  _XXX_get_details_chart: ->
+  _XXX_get_details_chart: ( dsk ) ->
     R                   = []
-    sparkline_data_json = @hub.vdb.get_latest_sparkline_data_json()
-    R.push HDML.pair 'div.trendchart', { 'data-trends': sparkline_data_json, }
+    trends_data_json    = @hub.vdb.trends_data_json_from_dsk dsk
+    R.push HDML.pair 'div.trendchart', { 'data-trends': trends_data_json, }
     return R.join '\n'
 
   #---------------------------------------------------------------------------------------------------------
