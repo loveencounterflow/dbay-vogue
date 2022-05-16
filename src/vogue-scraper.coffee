@@ -110,17 +110,23 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
 #
   #---------------------------------------------------------------------------------------------------------
   ### NOTE liable to change ###
-  _XXX_get_details_chart: ( dsk ) ->
+  _XXX_get_details_chart: ( cfg ) ->
+    cfg                 = { @defaults.vogue_scraper__XXX_get_details_chart_cfg..., cfg..., }
+    @types.validate.vogue_scraper__XXX_get_details_chart_cfg cfg
+    { dsk             } = cfg
     R                   = []
-    trends_data_json    = @hub.vdb.trends_data_json_from_dsk dsk
+    trends_data_json    = @hub.vdb.trends_data_json_from_dsk_sid { dsk, sid: null, }
     R.push HDML.pair 'div.trendchart', { 'data-trends': trends_data_json, }
     return R.join '\n'
 
   #---------------------------------------------------------------------------------------------------------
   ### TAINT use more generic way to display tabular data ###
   ### NOTE liable to change ###
-  _XXX_get_details_table: ->
-    R = []
+  _XXX_get_details_table: ( cfg ) ->
+    cfg                 = { @defaults.vogue_scraper__XXX_get_details_table_cfg..., cfg..., }
+    @types.validate.vogue_scraper__XXX_get_details_table_cfg cfg
+    { dsk             } = cfg
+    R                   = []
     R.push HDML.pair 'h3', HDML.text "DBay Vogue App / Trends"
     R.push HDML.open 'table#trends'
     #.......................................................................................................

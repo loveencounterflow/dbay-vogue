@@ -184,9 +184,16 @@ class @Vogue_db extends Vogue_common_mixin()
             and ( sid = $sid )
             and ( pid = $pid );"""
       #.......................................................................................................
-      trends_from_dsk: @db.prepare SQL"""
+      trends_from_dsk_sid: @db.prepare SQL"""
         select
             raw_trend
+          from #{prefix}_trends where true
+            and ( dsk = $dsk )
+            and ( sid = $sid );"""
+      #.......................................................................................................
+      sid_max_from_dsk: @db.prepare SQL"""
+        select
+            max( sid ) as sid_max
           from #{prefix}_trends where true
             and ( dsk = $dsk );"""
     #.......................................................................................................
@@ -227,11 +234,15 @@ class @Vogue_db extends Vogue_common_mixin()
     return method.call scraper, row
 
   #---------------------------------------------------------------------------------------------------------
-  ### TAINT must be per DSK so needs `dsk` argument ###
-  trends_data_json_from_dsk: ( dsk ) ->
+  trends_data_json_from_dsk_sid: ( cfg ) ->
+    cfg         = { @defaults.vogue_db_trends_data_json_from_dsk_sid_cfg..., cfg..., }
+    @types.validate.vogue_db_trends_data_json_from_dsk_sid_cfg cfg
+    { dsk
+      sid     } = cfg
     R           = []
     { prefix  } = @cfg
-    for row from @db @queries.trends_from_dsk, { dsk, }
+    sid        ?= @db.single_value @queries.sid_max_from_dsk, { dsk, }
+    for row from @db @queries.trends_from_dsk_sid, { dsk, sid, }
       R.push JSON.parse row.raw_trend
     return JSON.stringify R
 

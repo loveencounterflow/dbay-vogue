@@ -35,6 +35,10 @@ GUY                       = require 'guy'
   "@isa.nonempty_text x":     ( x ) -> @isa.nonempty_text x
 
 #-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_sid', tests:
+  "@isa.positive_integer x":  ( x ) -> @isa.positive_integer x
+
+#-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_server_constructor_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
   # "( @isa.object x.db ) or ( @isa.function x.db ":  ( x ) -> ( @isa.object x.db ) or ( @isa.function x.db )
@@ -99,6 +103,22 @@ GUY                       = require 'guy'
 @defaults.vogue_scraper_constructor_cfg =
   encoding:         'utf-8'
   url:              null
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scraper__XXX_get_details_chart_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+  "@isa.vogue_dsk x.dsk":                           ( x ) -> @isa.vogue_dsk x.dsk
+#...........................................................................................................
+@defaults.vogue_scraper__XXX_get_details_chart_cfg =
+  dsk:              null
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_scraper__XXX_get_details_table_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+  "@isa.vogue_dsk x.dsk":                           ( x ) -> @isa.vogue_dsk x.dsk
+#...........................................................................................................
+@defaults.vogue_scraper__XXX_get_details_table_cfg =
+  dsk:              null
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_hub_constructor_cfg', tests:
@@ -167,6 +187,16 @@ GUY                       = require 'guy'
 @types.declare 'vogue_html_or_buffer', tests:
   "@type_of x in [ 'text', 'buffer', ]":  ( x ) -> @type_of x in [ 'text', 'buffer', ]
 
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_db_trends_data_json_from_dsk_sid_cfg', tests:
+  "@isa.object x":                                  ( x ) -> @isa.object x
+  "@isa.vogue_dsk x.dsk":                           ( x ) -> @isa.vogue_dsk x.dsk
+  "@isa_optional.vogue_sid x.sid":                  ( x ) -> @isa_optional.vogue_sid x.sid
+#...........................................................................................................
+@defaults.vogue_db_trends_data_json_from_dsk_sid_cfg =
+  dsk:              null
+  sid:              null
 
 
 
