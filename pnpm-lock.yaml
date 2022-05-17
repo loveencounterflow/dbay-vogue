@@ -4,38 +4,38 @@ specifiers:
   '@koa/router': ^10.1.1
   cheerio: ^1.0.0-rc.10
   cnd: ^9.2.2
-  dbay: 14.7.2
+  dbay: 14.8.0
   got: '11'
   guy: 4.2.0
   hdml: 2.1.0
   icql-dba-tabulate: ^2.0.1
   intertype: ^7.7.0
   koa: ^2.13.4
-  koa-files: 2.1.2
+  koa-files: 2.3.0
   koa-mount: ^4.0.0
   mixa: 0.6.1
   mudom: ^0.2.3
   playwright: ^1.21.0
-  socket.io: 4.5.0
+  socket.io: 4.5.1
   to-width: ^1.2.0
 
 dependencies:
   '@koa/router': 10.1.1
   cheerio: 1.0.0-rc.10
   cnd: 9.2.2
-  dbay: 14.7.2
+  dbay: 14.8.0
   got: 11.8.3
   guy: 4.2.0
   hdml: 2.1.0
   icql-dba-tabulate: 2.0.1
   intertype: 7.7.0
   koa: 2.13.4
-  koa-files: 2.1.2_koa@2.13.4
+  koa-files: 2.3.0_koa@2.13.4
   koa-mount: 4.0.0
   mixa: 0.6.1
   mudom: 0.2.3
   playwright: 1.21.0
-  socket.io: 4.5.0
+  socket.io: 4.5.1
   to-width: 1.2.0
 
 packages:
@@ -374,8 +374,8 @@ packages:
     resolution: {integrity: sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==}
     dev: false
 
-  /dbay/14.7.2:
-    resolution: {integrity: sha512-cSzUZDp2ZVJPcF51Q9UysY6Gjjptckr7QjW2o7Bf6+SmWgmVysHgt7jM9BdO5ZpgGrK3SWd1MDSOvCh/fdJ1Ww==}
+  /dbay/14.8.0:
+    resolution: {integrity: sha512-t6h7oSiWdsZyRAu1xqAeiJqTageiSBPZytpZtmhB8IfnC2pB1TeOyAgCK7Ke+qhuDkL/TF1UxSSPlECAdypjIQ==}
     requiresBuild: true
     dependencies:
       cnd: 9.2.2
@@ -838,8 +838,8 @@ packages:
       koa-compose: 4.1.0
     dev: false
 
-  /koa-files/2.1.2_koa@2.13.4:
-    resolution: {integrity: sha512-usbVdWRPLgaAgJ25Nva5zy4aY8lnTlcc9cYwxdnLMXF7GxZOnW1W44l+8wcDq6l2nDH7h/yA4G9AzenhmPyXCQ==}
+  /koa-files/2.3.0_koa@2.13.4:
+    resolution: {integrity: sha512-WZDX25Qa17dozuac+8z504naO71yeLAb1qp0S3HQceXhauSFz2cPMcsPBlG1p9mDD0Y4dJo7IGuXICdvHMhytw==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       koa: ^2.0.0
@@ -1253,8 +1253,8 @@ packages:
       - supports-color
     dev: false
 
-  /socket.io/4.5.0:
-    resolution: {integrity: sha512-slTYqU2jCgMjXwresG8grhUi/cC6GjzmcfqArzaH3BN/9I/42eZk9yamNvZJdBfTubkjEdKAKs12NEztId+bUA==}
+  /socket.io/4.5.1:
+    resolution: {integrity: sha512-0y9pnIso5a9i+lJmsCdtmTTgJFFSvNQKDnPQRz28mGNnxbmqYg2QPtJTLFxhymFZhAIn50eHAKzJeiNaKr+yUQ==}
     engines: {node: '>=10.0.0'}
     dependencies:
       accepts: 1.3.8

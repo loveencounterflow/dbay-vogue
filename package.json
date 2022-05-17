@@ -12,19 +12,19 @@
     "@koa/router": "^10.1.1",
     "cheerio": "^1.0.0-rc.10",
     "cnd": "^9.2.2",
-    "dbay": "14.7.2",
+    "dbay": "14.8.0",
     "got": "11",
     "guy": "4.2.0",
     "hdml": "2.1.0",
     "icql-dba-tabulate": "^2.0.1",
     "intertype": "^7.7.0",
     "koa": "^2.13.4",
-    "koa-files": "2.1.2",
+    "koa-files": "2.3.0",
     "koa-mount": "^4.0.0",
     "mixa": "0.6.1",
     "mudom": "^0.2.3",
     "playwright": "^1.21.0",
-    "socket.io": "4.5.0",
+    "socket.io": "4.5.1",
     "to-width": "^1.2.0"
   }
 }
