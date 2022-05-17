@@ -15,6 +15,7 @@ whisper                   = CND.get_logger 'whisper',   badge
 echo                      = CND.echo.bind CND
 #...........................................................................................................
 ( require 'mixa/lib/check-package-versions' ) require '../pinned-package-versions.json'
+FS                        = require 'fs'
 PATH                      = require 'path'
 HTTP                      = require 'http'
 GUY                       = require 'guy'
@@ -35,6 +36,7 @@ class @Vogue_server extends Vogue_common_mixin()
     super()
     @cfg        = { @defaults.vogue_server_constructor_cfg..., cfg..., }
     @types.validate.vogue_server_constructor_cfg @cfg
+    @_add_layout()
     @cfg        = GUY.lft.freeze @cfg
     @hub        = H.property_pending
     #.......................................................................................................
@@ -42,6 +44,18 @@ class @Vogue_server extends Vogue_common_mixin()
     GUY.props.hide @, 'router', new Router()
     #.......................................................................................................
     return undefined
+
+  #---------------------------------------------------------------------------------------------------------
+  _add_layout: ->
+    @cfg.layout ?= {}
+    return null if @cfg.layout.top? and @cfg.layout.bottom?
+    path    = PATH.resolve PATH.join __dirname, '../assets/layout.html'
+    layout  = FS.readFileSync path, { encoding: 'utf-8', }
+    [ layout_top
+      layout_bottom   ] = layout.split '<%content%>'
+    @cfg.layout.top    ?= layout_top
+    @cfg.layout.bottom ?= layout_bottom
+    return null
 
   #---------------------------------------------------------------------------------------------------------
   start: => new Promise ( resolve, reject ) =>
@@ -69,6 +83,7 @@ class @Vogue_server extends Vogue_common_mixin()
     `_s_*`: managed by server
     ###
     @app.use                                          @_s_log
+    @app.use                                          @_s_layout
     #.......................................................................................................
     @router.get   'home',           '/',              @_r_home
     @router.get   'trends',         '/trends',        @_r_trends
@@ -102,6 +117,13 @@ class @Vogue_server extends Vogue_common_mixin()
     return null
 
   #---------------------------------------------------------------------------------------------------------
+  _s_layout: ( ctx, next ) =>
+    await next()
+    if ( ctx.type is 'text/html' ) and ( not ctx.body?.startswith? "<!DOCTYPE html>" )
+      ctx.body = @cfg.layout.top + ctx.body + @cfg.layout.bottom
+    return null
+
+  #---------------------------------------------------------------------------------------------------------
   _r_home: ( ctx ) =>
     ctx.body = "DBay Vogue App"
     # help "^dbay-vogue/server@7^", ctx.router.url 'home', { query: { foo: 'bar', }, }
@@ -109,22 +131,14 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _r_trends: ( ctx ) =>
-    ### TAINT use layout HTML ###
     ### TAINT iterate or use stream ###
-    R = []
-    R.push "<!DOCTYPE html>"
-    R.push """
-      <script src='/public/browserified/mudom.js'></script>
-      <script src='/public/ops1.js'></script>
-      <script src='/public/d3@7.js'></script>
-      <script src='/public/plot@0.4.js'></script>
-      <link rel='icon' type='image/x-icon' href='/public/favicon.ico'>
-      <link rel=stylesheet href='/public/vogue.css'></script>
-      """
+    ### TAINT chart is per-DSK but trends table is global ###
+    R     = []
     for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
       R.push scraper._XXX_get_details_chart { dsk, }
       # R.push scraper._XXX_get_details_table { dsk, }
-    R.push "<script src='/public/ops2.js'></script>"
+    table = @hub_get_table_name 'trends'
+    R.push @hub.vdb.as_html { table, }
     #.......................................................................................................
     ctx.response.type   = 'html'
     ctx.body            = R.join '\n'
@@ -132,8 +146,6 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _r_table_by_name: ( ctx ) =>
-    ### TAINT use layout HTML ###
-    ### TAINT return fragment or entire page? ###
     ### TAINT iterate or use stream ###
     ctx.response.type   = 'html'
     { table }           = ctx.params
@@ -143,12 +155,9 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _s_default: ( ctx ) =>
-    ### TAINT use layout HTML ###
     ctx.response.status = 404
     ctx.response.type   = 'html'
-    ctx.body            = """<!DOCTYPE html>
-      <h3>DBay Vogue App / 404 / Not Found</h3>
-      """
+    ctx.body            = "<h3>DBay Vogue App / 404 / Not Found</h3>"
     # ctx.throw 404, "no content under #{ctx.url}"
     # ( ctx.state.greetings ?= [] ).push "helo from content handler"
     return null
