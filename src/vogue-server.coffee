@@ -26,6 +26,7 @@ file_server               = require 'koa-files'
 mount                     = require 'koa-mount'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
 H                         = require './helpers'
+{ HDML, }                 = require 'hdml'
 
 
 #===========================================================================================================
@@ -150,7 +151,42 @@ class @Vogue_server extends Vogue_common_mixin()
     ctx.response.type   = 'html'
     { table }           = ctx.params
     table              ?= "NO SUCH TABLE"
-    ctx.body            = "<h1>Table #{table}</h1>\n" + @hub.vdb.as_html { table, }
+    #.......................................................................................................
+    ### TAINT use API call to get actual table name ###
+    { prefix }          = @hub.vdb.cfg
+    ### TAINT this functionality probably misplaced; done here for POC ###
+    table_cfgs          =
+      "#{prefix}_trends":
+        fields:
+          #.................................................................................................
+          dsk:
+            display: false
+          #.................................................................................................
+          ts:
+            format: ( ts ) => @hub.vdb.db.dt_format ts, 'YYYY-MM-DD HH:mm UTC'
+          #.................................................................................................
+          raw_trend:
+            title:  "Trend"
+            html:   ( raw_trend ) =>
+              return HDML.pair 'td.trend.sparkline', { 'data-trend': raw_trend, }
+          #.................................................................................................
+          details:
+            title:  "Trend"
+            html:   ( details ) =>
+              try d = JSON.parse details catch error
+                return HDML.pair 'div.error', HDML.text error.message
+              R = []
+              R.push HDML.open 'table.details'
+              for k, v of d
+                R.push HDML.open 'tr'
+                R.push HDML.pair 'th', HDML.text k
+                R.push HDML.pair 'td', HDML.text v
+                R.push HDML.close 'tr'
+              R.push HDML.close 'table'
+              return HDML.pair 'td.details', R.join ''
+    table_cfg           = table_cfgs[ table ] ? null
+    #.......................................................................................................
+    ctx.body            = "<h1>Table #{table}</h1>\n" + @hub.vdb.as_html { table, table_cfg..., }
     return null
 
   #---------------------------------------------------------------------------------------------------------

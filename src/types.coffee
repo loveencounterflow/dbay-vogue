@@ -200,12 +200,32 @@ GUY                       = require 'guy'
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_db_as_html_cfg', tests:
-  "@isa.object x":                                  ( x ) -> @isa.object x
-  "@isa.nonempty_text x.table":                     ( x ) -> @isa.nonempty_text x.table
+  "@isa.object x":                                ( x ) -> @isa.object x
+  "@isa.nonempty_text x.table":                   ( x ) -> @isa.nonempty_text x.table
+  "@isa_optional.vogue_db_fieldset_cfg x.fields": ( x ) -> @isa_optional.vogue_db_fieldset_cfg x.fields
 #...........................................................................................................
 @defaults.vogue_db_as_html_cfg =
   table:            null
+  fields:           null
 
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_db_fieldset_cfg', tests:
+  "@isa.object x":                                      ( x ) -> @isa.object x
+  "each value is a vogue_db_field_description":         ( x ) ->
+    for _, value of x
+      return false unless @isa.vogue_db_field_description value
+    return true
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_db_field_description', tests:
+  "@isa.object x":                                            ( x ) -> @isa.object x
+  "@isa_optional.function x.format":                          ( x ) -> @isa_optional.function x.format
+  "@isa_optional.function x.html":                            ( x ) -> @isa_optional.function x.html
+  # "one of x.format, x.html must be a function": ( x ) ->
+  #   if x.format? then return ( @isa.function x.format ) and ( not x.html? )
+  #   return ( @isa.function x.html ) and ( not x.format? )
+  "@isa_optional.text x.title":                               ( x ) -> @isa_optional.text x.title
+  "@isa_optional.boolean x.display":                          ( x ) -> @isa_optional.boolean x.display
 
 
 ############################################################################################################

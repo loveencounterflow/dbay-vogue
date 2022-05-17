@@ -260,18 +260,18 @@ class @Vogue_db extends Vogue_common_mixin()
     ### TAINT iterate or use stream ###
     cfg         = { @defaults.vogue_db_as_html_cfg..., cfg..., }
     @types.validate.vogue_db_as_html_cfg cfg
-    { table }   = cfg
-    try return @_table_as_html table catch error then null
+    try return @_table_as_html cfg catch error then null
     return error.message
 
   #---------------------------------------------------------------------------------------------------------
-  _table_as_html: ( table ) ->
+  _table_as_html: ( cfg ) ->
+    { table
+      fields  } = cfg
     ### TAINT use SQL generation facility from DBay (TBW) ###
-    R         = []
-    table_i   = @db.sql.I table
-    statement = @db.prepare SQL"""select * from #{table_i};"""
-    columns   = @_columns_from_statement statement
-    row_nr    = 0
+    R           = []
+    table_i     = @db.sql.I table
+    statement   = @db.prepare SQL"""select * from #{table_i};"""
+    row_nr      = 0
     #.......................................................................................................
     R.push HDML.open 'table', { class: table, }
     #.......................................................................................................
@@ -280,12 +280,27 @@ class @Vogue_db extends Vogue_common_mixin()
       #.....................................................................................................
       if row_nr is 1
         for name of row
-          R.push HDML.pair 'th', { class: name, }, HDML.text name
+          if ( field = fields[ name ] )?
+            continue if field.display is false
+            title = field.title ? name
+          else
+            title = name
+          R.push HDML.pair 'th', { class: name, }, HDML.text title
       #.....................................................................................................
       R.push HDML.open 'tr'
       for name, value of row
-        value = rpr value unless @types.isa.text value
-        R.push HDML.pair 'td', { class: name, }, HDML.text value
+        field   = fields[ name ] ? null
+        is_done = false
+        if field?
+          continue if field.display is false
+          if ( format = field.format ? null )?
+            value = format value, { name, }
+          if ( html = field.html ? null )?
+            is_done = true
+            R.push html value, { name, }
+        unless is_done
+          value = rpr value unless @types.isa.text value
+          R.push HDML.pair 'td', { class: name, }, HDML.text value
       R.push HDML.close 'tr'
     #.......................................................................................................
     R.push HDML.close 'table'
