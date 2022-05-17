@@ -68,11 +68,11 @@ class @Vogue_server extends Vogue_common_mixin()
     `_r_*`: managed by router
     `_s_*`: managed by server
     ###
-    @app.use                                        @_s_log
+    @app.use                                          @_s_log
     #.......................................................................................................
-    @router.get   'home',           '/',            @_r_home
-    @router.get   'trends',         '/trends',      @_r_trends
-    @router.get   'table_by_name',  '/table/:name', @_r_table_by_name
+    @router.get   'home',           '/',              @_r_home
+    @router.get   'trends',         '/trends',        @_r_trends
+    @router.get   'table_by_name',  '/table/:table',  @_r_table_by_name
     #.......................................................................................................
     @app.use @router.routes()
     #.......................................................................................................
@@ -131,9 +131,9 @@ class @Vogue_server extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   _r_table_by_name: ( ctx ) =>
     ctx.response.type   = 'html'
-    # ctx.body            = R.join '\n'
-    name = '???'
-    ctx.body            = "<h1>Table #{name}</h1>"
+    { table }           = ctx.params
+    table              ?= "NO SUCH TABLE"
+    ctx.body            = "<h1>Table #{table}</h1>\n" + @hub.vdb.as_html { table, }
     return null
 
   #---------------------------------------------------------------------------------------------------------

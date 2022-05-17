@@ -23,6 +23,7 @@ GUY                       = require 'guy'
 { SQL }                   = DBay
 { Vogue_common_mixin }    = require './vogue-common-mixin'
 H                         = require './helpers'
+{ HDML, }                 = require 'hdml'
 XXX_cfg_replacement =
   chart_history_length: 20
 
@@ -254,5 +255,63 @@ class @Vogue_db extends Vogue_common_mixin()
       R.push JSON.parse row.raw_trend
     return JSON.stringify R
 
+  #---------------------------------------------------------------------------------------------------------
+  as_html: ( cfg ) ->
+    ### TAINT iterate or use stream ###
+    cfg         = { @defaults.vogue_db_as_html_cfg..., cfg..., }
+    @types.validate.vogue_db_as_html_cfg cfg
+    { table }   = cfg
+    try return @_table_as_html table catch error then null
+    return error.message
 
+  #---------------------------------------------------------------------------------------------------------
+  _table_as_html: ( table ) ->
+    ### TAINT use SQL generation facility from DBay (TBW) ###
+    R         = []
+    table_i   = @db.sql.I table
+    statement = @db.prepare SQL"""select * from #{table_i};"""
+    columns   = @_columns_from_statement statement
+    row_nr    = 0
+    #.......................................................................................................
+    R.push HDML.open 'table', { class: table, }
+    #.......................................................................................................
+    for row from @db statement
+      row_nr++
+      #.....................................................................................................
+      if row_nr is 1
+        for name of row
+          R.push HDML.pair 'th', { class: name, }, HDML.text name
+      #.....................................................................................................
+      R.push HDML.open 'tr'
+      for name, value of row
+        value = rpr value unless @types.isa.text value
+        R.push HDML.pair 'td', { class: name, }, HDML.text value
+      R.push HDML.close 'tr'
+    #.......................................................................................................
+    R.push HDML.close 'table'
+    return R.join '\n'
+
+  # #---------------------------------------------------------------------------------------------------------
+  # _get_augmented_row: ( row_, columns ) ->
+  #   R = []
+  #   for name, value of row_
+  #     row       = {}
+  #     R.push row
+  #     row.name  = name
+  #     row.value = value
+  #     if ( d = columns[ name ] ? null )?
+  #       row.column  = d.column    if d.column?
+  #       row.table   = d.table     if d.table?
+  #       row.schema  = d.database  if d.database?
+  #       row.type    = d.type      if d.type?
+  #   return R
+
+  #---------------------------------------------------------------------------------------------------------
+  _columns_from_statement: ( statement ) ->
+    ### TAINT refactor to DBay ###
+    R = {}
+    for d in statement.columns()
+      throw new Error "^vogue-db@1^ duplicate column names not allowed" if R[ d.name ]?
+      R[ d.name ] = d
+    return R
 
