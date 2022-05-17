@@ -115,6 +115,8 @@ class @Vogue_db extends Vogue_common_mixin()
     @db SQL"""
       create view #{prefix}_XXX_grouped_ranks as select distinct
           pid                                       as pid,
+          min( sid ) over w                         as sid_min,
+          max( sid ) over w                         as sid_max,
           json_group_array( json_object(
             'dsk',    dsk,
             'pid',    pid,
@@ -132,7 +134,8 @@ class @Vogue_db extends Vogue_common_mixin()
     @db SQL"""
       create view #{prefix}_trends as select
           sessions.dsk                                        as dsk,
-          sessions.sid                                        as sid,
+          trends.sid_min                                      as sid_min, -- 'first seen' in session SID_*min*
+          trends.sid_max                                      as sid_max, -- 'last  seen' in session SID_*max*
           sessions.ts                                         as ts,
           posts.pid                                           as pid,
           posts.rank                                          as rank,
@@ -141,6 +144,8 @@ class @Vogue_db extends Vogue_common_mixin()
         from #{prefix}_posts              as posts
         join #{prefix}_sessions           as sessions     using ( sid )
         join #{prefix}_XXX_grouped_ranks  as trends       using ( pid )
+        where true
+          and ( sessions.sid = trends.sid_max )
         order by
           sid   desc,
           rank  asc;"""
@@ -181,7 +186,7 @@ class @Vogue_db extends Vogue_common_mixin()
             raw_trend
           from #{prefix}_trends
           where true
-            and ( sid = $sid )
+            and ( $sid between sid_min and sid_max )
             and ( pid = $pid );"""
       #.......................................................................................................
       trends_from_dsk_sid: @db.prepare SQL"""
@@ -189,11 +194,14 @@ class @Vogue_db extends Vogue_common_mixin()
             raw_trend
           from #{prefix}_trends where true
             and ( dsk = $dsk )
-            and ( sid = $sid );"""
+            -- and ( sid = $sid );
+            """
       #.......................................................................................................
+      ### Given a datasource (identified as DSK), return the last session (identified as SID) for that
+      datasource ###
       sid_max_from_dsk: @db.prepare SQL"""
         select
-            max( sid ) as sid_max
+            max( sid_max ) as sid_max
           from #{prefix}_trends where true
             and ( dsk = $dsk );"""
     #.......................................................................................................
