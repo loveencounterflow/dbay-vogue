@@ -51,6 +51,7 @@ class @Vogue_scheduler extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _parse_abs_duration: ( duration_txt ) ->
+    ### TAINT use `require` instead ###
     dayjs = @hub.vdb.db._dayjs
     match = duration_txt.match @constructor.C.abs_duration_pattern
     return ( dayjs.duration match.groups.amount, match.groups.unit ).asMilliseconds()
@@ -65,6 +66,7 @@ class @Vogue_scheduler extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   add_interval: ( cfg ) ->
     cfg         = { @defaults.vogue_scheduler_add_interval_cfg..., cfg..., }
+    ### TAINT use `require` instead ###
     dayjs       = @hub.vdb.db._dayjs
     @types.validate.vogue_scheduler_add_interval_cfg cfg
     { task

@@ -109,6 +109,8 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _r_trends: ( ctx ) =>
+    ### TAINT use layout HTML ###
+    ### TAINT iterate or use stream ###
     R = []
     R.push "<!DOCTYPE html>"
     R.push """
@@ -121,7 +123,7 @@ class @Vogue_server extends Vogue_common_mixin()
       """
     for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
       R.push scraper._XXX_get_details_chart { dsk, }
-      R.push scraper._XXX_get_details_table { dsk, }
+      # R.push scraper._XXX_get_details_table { dsk, }
     R.push "<script src='/public/ops2.js'></script>"
     #.......................................................................................................
     ctx.response.type   = 'html'
@@ -130,6 +132,9 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _r_table_by_name: ( ctx ) =>
+    ### TAINT use layout HTML ###
+    ### TAINT return fragment or entire page? ###
+    ### TAINT iterate or use stream ###
     ctx.response.type   = 'html'
     { table }           = ctx.params
     table              ?= "NO SUCH TABLE"
@@ -138,6 +143,7 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _s_default: ( ctx ) =>
+    ### TAINT use layout HTML ###
     ctx.response.status = 404
     ctx.response.type   = 'html'
     ctx.body            = """<!DOCTYPE html>
