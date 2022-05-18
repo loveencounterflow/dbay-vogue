@@ -260,8 +260,9 @@ class @Vogue_db extends Vogue_common_mixin()
     ### TAINT iterate or use stream ###
     cfg         = { @defaults.vogue_db_as_html_cfg..., cfg..., }
     @types.validate.vogue_db_as_html_cfg cfg
-    try return @_table_as_html cfg catch error then null
-    return error.message
+    return @_table_as_html cfg
+    # try return @_table_as_html cfg catch error then null
+    # return error.message
 
   #---------------------------------------------------------------------------------------------------------
   _table_as_html: ( cfg ) ->
