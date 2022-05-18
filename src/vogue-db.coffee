@@ -223,7 +223,7 @@ class @Vogue_db extends Vogue_common_mixin()
     post            = @db.first_row @queries.insert_post, { sid, pid, details: ( JSON.stringify details ), }
     { rank }        = post
     trend           = @db.single_value @queries.trend_from_sid_pid, { sid, pid, }
-    html            = @_html_from_purpose 'details', { dsk, sid, pid, ts, rank, trend, details, }
+    # html            = @_html_from_purpose 'details', { dsk, sid, pid, ts, rank, trend, details, }
     # ignore          = @db.single_row @queries.insert_trends_html, { post..., trend, html, }
     return post
 
