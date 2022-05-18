@@ -293,11 +293,12 @@ class @Vogue_db extends Vogue_common_mixin()
         is_done = false
         if field?
           continue if field.display is false
+          details = { name, value, row_nr, row, }
           if ( format = field.format ? null )?
-            value = format value, { name, }
+            value = format value, details
           if ( html = field.html ? null )?
             is_done = true
-            R.push html value, { name, }
+            R.push html value, details
         unless is_done
           value = rpr value unless @types.isa.text value
           R.push HDML.pair 'td', { class: name, }, HDML.text value
