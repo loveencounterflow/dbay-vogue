@@ -1,18 +1,30 @@
 
+body {
+  line-height:            100%;
+  font-size:              4mm; }
+
 svg {
   outline:                1px dotted red; }
 
 td, th {
-  padding:                1mm;
-  background-color:       #ddd;
+  padding:                0.25em;
+  background-color:       #d2f0fe;
   white-space:            nowrap; }
 
 th {
+  font-family:            sans-serif;
   text-align:             left; }
 
-#trends .sparkline {
+.sparkline {
   min-width:              35mm;
   max-width:              35mm; }
 
-#trends .sparkline svg {
+.sparkline svg {
   outline:                1px solid orange; }
+
+table table {
+  font-size:              75%; }
+
+table table th,
+table table td {
+  padding:                0; }

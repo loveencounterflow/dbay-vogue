@@ -162,6 +162,16 @@ class @Vogue_server extends Vogue_common_mixin()
           dsk:
             display: false
           #.................................................................................................
+          sid_min:
+            display: false
+          sid_max:
+            title:  "SIDs"
+            format: ( _, d ) =>
+              { sid_min
+                sid_max } = d.row
+              return sid_min if sid_min is sid_max
+              return "#{sid_min}—#{sid_max}"
+          #.................................................................................................
           ts:
             format: ( ts ) => @hub.vdb.db.dt_format ts, 'YYYY-MM-DD HH:mm UTC'
           #.................................................................................................
@@ -171,7 +181,6 @@ class @Vogue_server extends Vogue_common_mixin()
               return HDML.pair 'td.trend.sparkline', { 'data-trend': raw_trend, }
           #.................................................................................................
           details:
-            title:  "Trend"
             html:   ( details ) =>
               try d = JSON.parse details catch error
                 return HDML.pair 'div.error', HDML.text error.message
