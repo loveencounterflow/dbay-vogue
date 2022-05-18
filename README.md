@@ -15,6 +15,8 @@
     - [Concurrent Writes](#concurrent-writes)
     - [Relevant Data Types](#relevant-data-types)
     - [Async Primitives](#async-primitives)
+  - [Vogue DB](#vogue-db)
+    - [Generic, Configurable HTML Rendering of DB Tables and Views](#generic-configurable-html-rendering-of-db-tables-and-views)
   - [To Do](#to-do)
   - [Is Done](#is-done)
 
@@ -159,6 +161,29 @@ task on the event loop to return and resume execution no sooner than after 3000 
 Finally, there is `defer()`, which should also be `await`ed. It is a special use-case of `sleep()` where the
 timeout is set to zero, so the remaining effect is that other tasks on the event loop get a chance to run.
 It accepts an optional function argument whose (synchronous or asynchronous) result will be returned.
+
+## Vogue DB
+
+### Generic, Configurable HTML Rendering of DB Tables and Views
+
+* `db.as_html: ( cfg ) ->`:
+  * `cfg`:
+    * `nonempty_text x.table`
+    * `optional.vogue_db_fieldset_cfg x.fields`
+      * `object`, each value is a `vogue_db_field_description`
+        * `optional.boolean x.display`: if set to `false`, inhibits column from being displayed and any of
+          `format()`, `html()` to be called
+        * `optional.text x.title`: when given, defines the text to be used in the table header
+        * `optional.function x.format`: when given, must be function that accepts a value (and optionally a
+          field description object) and returns another. Returned value will be stringified with
+          `node:util.inspect()` unless it already is a string.
+        * `optional.function x.html`: when given, must be a function that accepts a value (and optionally a
+          field description object) and returns an HTML representation of it *including the containing `<td>`
+          element* (think `outerHTML`)
+
+* **Note**—configuration options may be modified in the future to make it simpler to add ID, CSS class,
+  `data-` attributes to the enclosing element without having to touch the value or to generate the correct
+  outer HTML
 
 ## To Do
 
