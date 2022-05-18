@@ -221,9 +221,6 @@ GUY                       = require 'guy'
   "@isa.object x":                                            ( x ) -> @isa.object x
   "@isa_optional.function x.format":                          ( x ) -> @isa_optional.function x.format
   "@isa_optional.function x.html":                            ( x ) -> @isa_optional.function x.html
-  # "one of x.format, x.html must be a function": ( x ) ->
-  #   if x.format? then return ( @isa.function x.format ) and ( not x.html? )
-  #   return ( @isa.function x.html ) and ( not x.format? )
   "@isa_optional.text x.title":                               ( x ) -> @isa_optional.text x.title
   "@isa_optional.boolean x.display":                          ( x ) -> @isa_optional.boolean x.display
 
