@@ -218,11 +218,13 @@ GUY                       = require 'guy'
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_db_field_description', tests:
-  "@isa.object x":                                            ( x ) -> @isa.object x
-  "@isa_optional.function x.format":                          ( x ) -> @isa_optional.function x.format
-  "@isa_optional.function x.html":                            ( x ) -> @isa_optional.function x.html
-  "@isa_optional.text x.title":                               ( x ) -> @isa_optional.text x.title
-  "@isa_optional.boolean x.display":                          ( x ) -> @isa_optional.boolean x.display
+  "@isa.object x":                                    ( x ) -> @isa.object x
+  "@isa_optional.function x.format":                  ( x ) -> @isa_optional.function x.format
+  "@isa_optional.function x.outer_html":              ( x ) -> @isa_optional.function x.outer_html
+  "@isa_optional.function x.inner_html":              ( x ) -> @isa_optional.function x.inner_html
+  "can only have one of x.inner_html, x.outer_html":  ( x ) -> not ( x.inner_html? and x.outer_html? )
+  "@isa_optional.text x.title":                       ( x ) -> @isa_optional.text x.title
+  "@isa_optional.boolean x.display":                  ( x ) -> @isa_optional.boolean x.display
 
 
 ############################################################################################################

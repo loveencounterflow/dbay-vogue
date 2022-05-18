@@ -198,6 +198,21 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   * `row_nr`—one-based row number;
   * `row`—the row as returned by the DB query.
 
+* with columns...
+  * `x.use_fields: 'row'`: only those in `row`
+  * `x.use_fields: 'cfg'`: only those in `cfg`
+  * `x.use_fields: 'row,cfg'`: both, from `row` first
+  * `x.use_fields: 'cfg,row'`: both, from `cfg` first
+
+### To Do
+  * `html` -> `inner_html`, `outer_html`
+  * `format` -> `text` (or `value`? in any case, none of these is a verb)
+  * allow prefix for CSS classes
+  * allow to set CSS class like title (or use `attrs`?)
+  * correct way to add field to table should be to add it to `fields`, not to hijack existing column
+  * allow to specify whether column names in `fields` is inlcusive or exclusive, i.e. whether they leave
+    unmentioned ones in place or cause them to be hidden
+  * make ordering in `fields` the ordering in display
 
 ## To Do
 

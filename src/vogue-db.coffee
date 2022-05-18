@@ -280,6 +280,7 @@ class @Vogue_db extends Vogue_common_mixin()
       row_nr++
       #.....................................................................................................
       if row_nr is 1
+        R.push HDML.open 'tr'
         for name of row
           if ( field = fields[ name ] )?
             continue if field.display is false
@@ -287,22 +288,30 @@ class @Vogue_db extends Vogue_common_mixin()
           else
             title = name
           R.push HDML.pair 'th', { class: name, }, HDML.text title
+        R.push HDML.close 'tr'
       #.....................................................................................................
       R.push HDML.open 'tr'
-      for name, value of row
-        field   = fields[ name ] ? null
-        is_done = false
+      for name, raw_value of row
+        value       = raw_value
+        field       = fields[ name ] ? null
+        is_done     = false
+        inner_html  = null
         if field?
           continue if field.display is false
-          details = { name, value, row_nr, row, }
+          details = { name, raw_value, row_nr, row, }
           if ( format = field.format ? null )?
             value = format value, details
-          if ( html = field.html ? null )?
+          if ( as_html = field.outer_html ? null )?
             is_done = true
-            R.push html value, details
+            R.push as_html value, details
+          else if ( as_html = field.inner_html ? null )?
+            inner_html = as_html value, details
         unless is_done
-          value = rpr value unless @types.isa.text value
-          R.push HDML.pair 'td', { class: name, }, HDML.text value
+          if inner_html?
+            R.push HDML.pair 'td', { class: name, }, inner_html
+          else
+            value = rpr value unless @types.isa.text value
+            R.push HDML.pair 'td', { class: name, }, HDML.text value
       R.push HDML.close 'tr'
     #.......................................................................................................
     R.push HDML.close 'table'
