@@ -202,10 +202,12 @@ GUY                       = require 'guy'
 @types.declare 'vogue_db_as_html_cfg', tests:
   "@isa.object x":                                ( x ) -> @isa.object x
   "@isa.nonempty_text x.table":                   ( x ) -> @isa.nonempty_text x.table
+  "@isa.vogue_db_use_fields x.use_fields":        ( x ) -> @isa.vogue_db_use_fields x.use_fields
   "@isa_optional.vogue_db_fieldset_cfg x.fields": ( x ) -> @isa_optional.vogue_db_fieldset_cfg x.fields
 #...........................................................................................................
 @defaults.vogue_db_as_html_cfg =
   table:            null
+  use_fields:       'row,cfg'
   fields:           GUY.lft.freeze {}
 
 #-----------------------------------------------------------------------------------------------------------
@@ -225,6 +227,11 @@ GUY                       = require 'guy'
   "can only have one of x.inner_html, x.outer_html":  ( x ) -> not ( x.inner_html? and x.outer_html? )
   "@isa_optional.text x.title":                       ( x ) -> @isa_optional.text x.title
   "@isa_optional.boolean x.display":                  ( x ) -> @isa_optional.boolean x.display
+
+#-----------------------------------------------------------------------------------------------------------
+@types.declare 'vogue_db_use_fields', tests:
+  "x in [ 'row,cfg', 'cfg,row', 'row', 'cfg', ]":     ( x ) -> x in [ 'row,cfg', 'cfg,row', 'row', 'cfg', ]
+
 
 
 ############################################################################################################

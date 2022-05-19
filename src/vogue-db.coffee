@@ -266,9 +266,11 @@ class @Vogue_db extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _table_as_html: ( cfg ) ->
-    { table
-      fields  } = cfg
     ### TAINT use SQL generation facility from DBay (TBW) ###
+    { table
+      use_fields
+      fields  } = cfg
+    keys        = null
     R           = []
     table_i     = @db.sql.I table
     statement   = @db.prepare SQL"""select * from #{table_i};"""
@@ -280,25 +282,31 @@ class @Vogue_db extends Vogue_common_mixin()
       row_nr++
       #.....................................................................................................
       if row_nr is 1
+        keys = Object.keys switch use_fields
+          when 'row,cfg'  then { row..., fields..., }
+          when 'cfg,row'  then { fields..., row..., }
+          when 'row'      then row
+          when 'cfg'      then fields
         R.push HDML.open 'tr'
-        for name of row
-          if ( field = fields[ name ] )?
+        for key in keys
+          if ( field = fields[ key ] )?
             continue if field.display is false
-            title = field.title ? name
+            title = field.title ? key
           else
-            title = name
-          R.push HDML.pair 'th', { class: name, }, HDML.text title
+            title = key
+          R.push HDML.pair 'th', { class: key, }, HDML.text title
         R.push HDML.close 'tr'
       #.....................................................................................................
       R.push HDML.open 'tr'
-      for name, raw_value of row
+      for key in keys
+        raw_value   = row[ key ]
         value       = raw_value
-        field       = fields[ name ] ? null
+        field       = fields[ key ] ? null
         is_done     = false
         inner_html  = null
         if field?
           continue if field.display is false
-          details = { name, raw_value, row_nr, row, }
+          details = { name: key, raw_value, row_nr, row, }
           if ( format = field.format ? null )?
             value = format value, details
           if ( as_html = field.outer_html ? null )?
@@ -308,10 +316,10 @@ class @Vogue_db extends Vogue_common_mixin()
             inner_html = as_html value, details
         unless is_done
           if inner_html?
-            R.push HDML.pair 'td', { class: name, }, inner_html
+            R.push HDML.pair 'td', { class: key, }, inner_html
           else
             value = rpr value unless @types.isa.text value
-            R.push HDML.pair 'td', { class: name, }, HDML.text value
+            R.push HDML.pair 'td', { class: key, }, HDML.text value
       R.push HDML.close 'tr'
     #.......................................................................................................
     R.push HDML.close 'table'
