@@ -138,8 +138,7 @@ class @Vogue_server extends Vogue_common_mixin()
     for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
       R.push scraper._XXX_get_details_chart { dsk, }
       # R.push scraper._XXX_get_details_table { dsk, }
-    table = @hub_get_table_name 'trends'
-    R.push @hub.vdb.as_html { table, }
+    R.push @_table_as_html @hub.vdb._get_table_name 'trends'
     #.......................................................................................................
     ctx.response.type   = 'html'
     ctx.body            = R.join '\n'
@@ -147,55 +146,67 @@ class @Vogue_server extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   _r_table_by_name: ( ctx ) =>
-    ### TAINT iterate or use stream ###
+    public_table_name   = ctx.params.table
+    table               = @hub.vdb._get_table_name public_table_name
+    R                   = []
+    R.push HDML.pair 'h1', HDML.text public_table_name
+    R.push @_table_as_html table
+    #.......................................................................................................
     ctx.response.type   = 'html'
-    { table }           = ctx.params
-    table              ?= "NO SUCH TABLE"
+    ctx.body            =  R.join '\n'
+    return null
+
+  #---------------------------------------------------------------------------------------------------------
+  _table_as_html: ( table ) =>
+    table_cfg = @_get_table_cfg table
+    return @hub.vdb.as_html { table, table_cfg..., }
+
+  #---------------------------------------------------------------------------------------------------------
+  _get_table_cfg: ( table ) =>
+    @_set_table_cfgs() unless @table_cfgs?
+    return @table_cfgs[ table ] ? null
+
+  #---------------------------------------------------------------------------------------------------------
+  _set_table_cfgs: =>
+    GUY.props.hide @, 'table_cfgs', {}
     #.......................................................................................................
-    ### TAINT use API call to get actual table name ###
-    { prefix }          = @hub.vdb.cfg
-    ### TAINT this functionality probably misplaced; done here for POC ###
-    table_cfgs          =
-      "#{prefix}_trends":
-        fields:
-          #.................................................................................................
-          dsk:
-            display: false
-          #.................................................................................................
-          sid_min:
-            display: false
-          sid_max:
-            title:  "SIDs"
-            format: ( _, d ) =>
-              { sid_min
-                sid_max } = d.row
-              return sid_min if sid_min is sid_max
-              return "#{sid_min}—#{sid_max}"
-          #.................................................................................................
-          ts:
-            format: ( ts ) => @hub.vdb.db.dt_format ts, 'YYYY-MM-DD HH:mm UTC'
-          #.................................................................................................
-          raw_trend:
-            title:  "Trend"
-            html:   ( raw_trend ) =>
-              return HDML.pair 'td.trend.sparkline', { 'data-trend': raw_trend, }
-          #.................................................................................................
-          details:
-            html:   ( details ) =>
-              try d = JSON.parse details catch error
-                return HDML.pair 'div.error', HDML.text error.message
-              R = []
-              R.push HDML.open 'table.details'
-              for k, v of d
-                R.push HDML.open 'tr'
-                R.push HDML.pair 'th', HDML.text k
-                R.push HDML.pair 'td', HDML.text v
-                R.push HDML.close 'tr'
-              R.push HDML.close 'table'
-              return HDML.pair 'td.details', R.join ''
-    table_cfg           = table_cfgs[ table ] ? null
-    #.......................................................................................................
-    ctx.body            = "<h1>Table #{table}</h1>\n" + @hub.vdb.as_html { table, table_cfg..., }
+    @table_cfgs[ @hub.vdb._get_table_name 'trends' ] =
+      fields:
+        #...................................................................................................
+        dsk:
+          display: false
+        #...................................................................................................
+        sid_min:
+          display: false
+        sid_max:
+          title:  "SIDs"
+          format: ( _, d ) =>
+            { sid_min
+              sid_max } = d.row
+            return sid_min if sid_min is sid_max
+            return "#{sid_min}—#{sid_max}"
+        #...................................................................................................
+        ts:
+          format: ( ts ) => @hub.vdb.db.dt_format ts, 'YYYY-MM-DD HH:mm UTC'
+        #...................................................................................................
+        raw_trend:
+          title:  "Trend"
+          outer_html:   ( raw_trend ) =>
+            return HDML.pair 'td.trend.sparkline', { 'data-trend': raw_trend, }
+        #...................................................................................................
+        details:
+          outer_html:   ( details ) =>
+            try d = JSON.parse details catch error
+              return HDML.pair 'div.error', HDML.text error.message
+            R = []
+            R.push HDML.open 'table.details'
+            for k, v of d
+              R.push HDML.open 'tr'
+              R.push HDML.pair 'th', HDML.text k
+              R.push HDML.pair 'td', HDML.text v
+              R.push HDML.close 'tr'
+            R.push HDML.close 'table'
+            return HDML.pair 'td.details', R.join ''
     return null
 
   #---------------------------------------------------------------------------------------------------------
