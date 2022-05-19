@@ -199,10 +199,10 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   * `row`—the row as returned by the DB query.
 
 * with columns...
-  * `x.use_fields: 'row'`: only those in `row`
-  * `x.use_fields: 'cfg'`: only those in `cfg`
-  * `x.use_fields: 'row,cfg'`: both, from `row` first
-  * `x.use_fields: 'cfg,row'`: both, from `cfg` first
+  * `x.keys: 'row'`: only those in `row`
+  * `x.keys: 'cfg'`: only those in `cfg`
+  * `x.keys: 'row,cfg'`: both, from `row` first
+  * `x.keys: 'cfg,row'`: both, from `cfg` first
 
 ### To Do
   * `html` -> `inner_html`, `outer_html`

@@ -202,12 +202,12 @@ GUY                       = require 'guy'
 @types.declare 'vogue_db_as_html_cfg', tests:
   "@isa.object x":                                ( x ) -> @isa.object x
   "@isa.nonempty_text x.table":                   ( x ) -> @isa.nonempty_text x.table
-  "@isa.vogue_db_use_fields x.use_fields":        ( x ) -> @isa.vogue_db_use_fields x.use_fields
+  "@isa.vogue_db_use_fields x.keys":              ( x ) -> @isa.vogue_db_use_fields x.keys
   "@isa_optional.vogue_db_fieldset_cfg x.fields": ( x ) -> @isa_optional.vogue_db_fieldset_cfg x.fields
 #...........................................................................................................
 @defaults.vogue_db_as_html_cfg =
   table:            null
-  use_fields:       'row,cfg'
+  keys:             'row,cfg'
   fields:           GUY.lft.freeze {}
 
 #-----------------------------------------------------------------------------------------------------------

@@ -268,7 +268,6 @@ class @Vogue_db extends Vogue_common_mixin()
   _table_as_html: ( cfg ) ->
     ### TAINT use SQL generation facility from DBay (TBW) ###
     { table
-      use_fields
       fields  } = cfg
     keys        = null
     R           = []
@@ -282,7 +281,7 @@ class @Vogue_db extends Vogue_common_mixin()
       row_nr++
       #.....................................................................................................
       if row_nr is 1
-        keys = Object.keys switch use_fields
+        keys = Object.keys switch cfg.keys
           when 'row,cfg'  then { row..., fields..., }
           when 'cfg,row'  then { fields..., row..., }
           when 'row'      then row
@@ -306,7 +305,7 @@ class @Vogue_db extends Vogue_common_mixin()
         inner_html  = null
         if field?
           continue if field.display is false
-          details = { name: key, raw_value, row_nr, row, }
+          details = { key, raw_value, row_nr, row, }
           if ( format = field.format ? null )?
             value = format value, details
           if ( as_html = field.outer_html ? null )?
