@@ -324,21 +324,6 @@ class @Vogue_db extends Vogue_common_mixin()
     R.push HDML.close 'table'
     return R.join '\n'
 
-  # #---------------------------------------------------------------------------------------------------------
-  # _get_augmented_row: ( row_, columns ) ->
-  #   R = []
-  #   for name, value of row_
-  #     row       = {}
-  #     R.push row
-  #     row.name  = name
-  #     row.value = value
-  #     if ( d = columns[ name ] ? null )?
-  #       row.column  = d.column    if d.column?
-  #       row.table   = d.table     if d.table?
-  #       row.schema  = d.database  if d.database?
-  #       row.type    = d.type      if d.type?
-  #   return R
-
   #---------------------------------------------------------------------------------------------------------
   _columns_from_statement: ( statement ) ->
     ### TAINT refactor to DBay ###
