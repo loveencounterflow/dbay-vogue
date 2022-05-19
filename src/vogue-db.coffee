@@ -333,3 +333,9 @@ class @Vogue_db extends Vogue_common_mixin()
       R[ d.name ] = d
     return R
 
+  #---------------------------------------------------------------------------------------------------------
+  _get_table_name: ( name ) ->
+    @types.validate.nonempty_text name
+    return "_#{@cfg.prefix}_#{name[1..]}" if name.startsWith '_'
+    return "#{@cfg.prefix}_#{name}"
+
