@@ -179,9 +179,9 @@ class @Vogue_server extends Vogue_common_mixin()
     R.push HDML.pair  'option', { value: '', }, HDML.text "select a data source"
     for { dsk, url, } from @hub.vdb._walk_datasources()
       label           = "#{dsk} (#{url})"
-      attrs           = { value: dsk, }
-      attrs.selected  = 'true' if selected is dsk
-      R.push HDML.pair  'option', attrs, HDML.text label
+      atrs            = { value: dsk, }
+      atrs.selected   = 'true' if selected is dsk
+      R.push HDML.pair  'option', atrs, HDML.text label
     R.push HDML.close 'select'
     R.push HDML.pair 'button', { type: 'submit', }, HDML.text "submit"
     R.push HDML.close 'form'
