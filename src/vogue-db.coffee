@@ -339,3 +339,6 @@ class @Vogue_db extends Vogue_common_mixin()
     return "_#{@cfg.prefix}_#{name[1..]}" if name.startsWith '_'
     return "#{@cfg.prefix}_#{name}"
 
+  #---------------------------------------------------------------------------------------------------------
+  _walk_datasources: -> @db SQL"select * from #{@cfg.prefix}_datasources order by dsk;"
+

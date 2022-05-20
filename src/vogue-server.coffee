@@ -88,6 +88,7 @@ class @Vogue_server extends Vogue_common_mixin()
     #.......................................................................................................
     @router.get   'home',           '/',              @_r_home
     @router.get   'trends',         '/trends',        @_r_trends
+    @router.get   'layout-demo',    '/layout-demo',   @_r_layout_demo
     @router.get   'table_by_name',  '/table/:table',  @_r_table_by_name
     #.......................................................................................................
     @app.use @router.routes()
@@ -125,6 +126,15 @@ class @Vogue_server extends Vogue_common_mixin()
     return null
 
   #---------------------------------------------------------------------------------------------------------
+  _s_default: ( ctx ) =>
+    ctx.response.status = 404
+    ctx.response.type   = 'html'
+    ctx.body            = "<h3>DBay Vogue App / 404 / Not Found</h3>"
+    # ctx.throw 404, "no content under #{ctx.url}"
+    # ( ctx.state.greetings ?= [] ).push "helo from content handler"
+    return null
+
+  #---------------------------------------------------------------------------------------------------------
   _r_home: ( ctx ) =>
     ctx.body = "DBay Vogue App"
     # help "^dbay-vogue/server@7^", ctx.router.url 'home', { query: { foo: 'bar', }, }
@@ -134,7 +144,10 @@ class @Vogue_server extends Vogue_common_mixin()
   _r_trends: ( ctx ) =>
     ### TAINT iterate or use stream ###
     ### TAINT chart is per-DSK but trends table is global ###
+    debug '^32423^', ctx.query
     R     = []
+    R.push @_dsks_as_html ctx.query.dsk ? ''
+    #.......................................................................................................
     for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
       R.push scraper._XXX_get_details_chart { dsk, }
       # R.push scraper._XXX_get_details_table { dsk, }
@@ -155,6 +168,25 @@ class @Vogue_server extends Vogue_common_mixin()
     ctx.response.type   = 'html'
     ctx.body            =  R.join '\n'
     return null
+
+  #---------------------------------------------------------------------------------------------------------
+  _dsks_as_html: ( selected = '' ) =>
+    R                   = []
+    #.......................................................................................................
+    R.push HDML.open  'nav'
+    R.push HDML.open  'form', { method: 'GET', action: '/trends', }
+    R.push HDML.open  'select', { name: 'dsk', }
+    R.push HDML.pair  'option', { value: '', }, HDML.text "select a data source"
+    for { dsk, url, } from @hub.vdb._walk_datasources()
+      label           = "#{dsk} (#{url})"
+      attrs           = { value: dsk, }
+      attrs.selected  = 'true' if selected is dsk
+      R.push HDML.pair  'option', attrs, HDML.text label
+    R.push HDML.close 'select'
+    R.push HDML.pair 'button', { type: 'submit', }, HDML.text "submit"
+    R.push HDML.close 'form'
+    R.push HDML.close 'nav'
+    return R.join '\n'
 
   #---------------------------------------------------------------------------------------------------------
   _table_as_html: ( table ) =>
@@ -210,10 +242,27 @@ class @Vogue_server extends Vogue_common_mixin()
     return null
 
   #---------------------------------------------------------------------------------------------------------
-  _s_default: ( ctx ) =>
-    ctx.response.status = 404
+  _r_layout_demo: ( ctx ) =>
+    R                   = []
+    #.......................................................................................................
+    R.push HDML.open  'nav'
+    R.push HDML.open  'menu'
+    R.push HDML.pair  'li', HDML.pair 'a', { href: '#', }, HDML.text "one"
+    R.push HDML.pair  'li', HDML.pair 'a', { href: '#', }, HDML.text "two"
+    R.push HDML.pair  'li', HDML.pair 'a', { href: '#', }, HDML.text "three"
+    R.push HDML.close 'menu'
+    R.push HDML.close 'nav'
+    #.......................................................................................................
+    R.push HDML.pair  'header', HDML.text "header"
+    #.......................................................................................................
+    R.push HDML.open  'main'
+    R.push HDML.open  'article'
+    R.push HDML.text  "article"
+    R.push HDML.close 'article'
+    R.push HDML.close 'main'
+    #.......................................................................................................
+    R.push HDML.pair  'footer', HDML.text "footer"
+    #.......................................................................................................
     ctx.response.type   = 'html'
-    ctx.body            = "<h3>DBay Vogue App / 404 / Not Found</h3>"
-    # ctx.throw 404, "no content under #{ctx.url}"
-    # ( ctx.state.greetings ?= [] ).push "helo from content handler"
+    ctx.body            =  R.join '\n'
     return null
