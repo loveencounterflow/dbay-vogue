@@ -170,13 +170,14 @@ class @Vogue_server extends Vogue_common_mixin()
     return null
 
   #---------------------------------------------------------------------------------------------------------
-  _dsks_as_html: ( selected = '' ) =>
+  _get_dsk_form: ( selected = '' ) =>
     R                   = []
     #.......................................................................................................
     R.push HDML.open  'nav'
     R.push HDML.open  'form', { method: 'GET', action: '/trends', }
-    R.push HDML.open  'select', { name: 'dsk', }
-    R.push HDML.pair  'option', { value: '', }, HDML.text "select a data source"
+    R.push HDML.pair  'label', { for: 'dsk', }, "Data Source:"
+    R.push HDML.open  'select', { name: 'dsk', id: 'dsk', onchange: "this.form.submit();", }
+    R.push HDML.pair  'option', { value: '', }, HDML.text "Select a Data Source"
     for { dsk, url, } from @hub.vdb._walk_datasources()
       label           = "#{dsk} (#{url})"
       atrs            = { value: dsk, }
