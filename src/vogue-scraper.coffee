@@ -19,6 +19,7 @@ GUY                       = require 'guy'
 H                         = require './helpers'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
 { HDML, }                 = require 'hdml'
+misfit                    = Symbol.for 'misfit'
 
 
 #===========================================================================================================
@@ -41,9 +42,10 @@ class @Vogue_scrapers extends Vogue_common_mixin()
     return null
 
   #---------------------------------------------------------------------------------------------------------
-  _scraper_from_dsk: ( dsk ) ->
+  _scraper_from_dsk: ( dsk, fallback = misfit ) ->
     unless ( R = @d[ dsk ] )?
-      throw new Error "^Vogue_scrapers@1^ no such DSK: #{rpr dsk}"
+      throw new Error "^Vogue_scrapers@1^ no such DSK: #{rpr dsk}" if fallback is misfit
+      return fallback
     return R
 
   #---------------------------------------------------------------------------------------------------------
