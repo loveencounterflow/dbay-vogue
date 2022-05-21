@@ -144,14 +144,21 @@ class @Vogue_server extends Vogue_common_mixin()
   _r_trends: ( ctx ) =>
     ### TAINT iterate or use stream ###
     ### TAINT chart is per-DSK but trends table is global ###
-    debug '^32423^', ctx.query
-    R     = []
-    R.push @_dsks_as_html ctx.query.dsk ? ''
+    R                 = []
+    trends_table_name = @hub.vdb._get_table_name 'trends'
+    R.push @_get_dsk_form ctx.query.dsk ? ''
     #.......................................................................................................
-    for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
-      R.push scraper._XXX_get_details_chart { dsk, }
-      # R.push scraper._XXX_get_details_table { dsk, }
-    R.push @_table_as_html @hub.vdb._get_table_name 'trends'
+    if ctx.query.dsk is ''
+      for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
+        R.push scraper._XXX_get_details_chart { dsk, }
+        # R.push scraper._XXX_get_details_table { dsk, }
+      R.push @_table_as_html trends_table_name
+    else if ( scraper = @hub.scrapers._scraper_from_dsk ctx.query.dsk, null )?
+      R.push scraper._XXX_get_details_chart { dsk: ctx.query.dsk, }
+      R.push @_table_as_html trends_table_name, { where: { dsk: ctx.query.dsk, }, }
+    else
+      ### TAINT use correct error handling ###
+      R.push HDML.pair 'div.error', HDML.text "no such data source: #{rpr ctx.query.dsk}"
     #.......................................................................................................
     ctx.response.type   = 'html'
     ctx.body            = R.join '\n'
