@@ -276,31 +276,37 @@ class @Vogue_db extends Vogue_common_mixin()
     { rows
       fields  }   = cfg
     fields        = { fields..., }
-    fields[ key ] = {} if fields[ key ] is true for key of fields
+    for key, value of fields
+      fields[ key ] = {} if value is true
     keys          = null
     R             = []
     row_nr        = 0
+    has_ths       = false
+    #.......................................................................................................
+    push_table_headers = ( row = null ) =>
+      has_ths = true
+      keys = Object.keys switch cfg.keys
+        when 'row,cfg'  then { row..., fields..., }
+        when 'cfg,row'  then { fields..., row..., }
+        when 'row'      then row
+        when 'cfg'      then fields
+      return if keys.length is 0
+      R.push HDML.open 'tr'
+      for key in keys
+        if ( field = fields[ key ] )?
+          continue if field.display is false
+          title = field.title ? key
+        else
+          title = key
+        R.push HDML.pair 'th', { class: key, }, HDML.text title
+      R.push HDML.close 'tr'
+      return null
     #.......................................................................................................
     R.push HDML.open 'table', { class: cfg.class, }
     #.......................................................................................................
     for row from rows
       row_nr++
-      #.....................................................................................................
-      if row_nr is 1
-        keys = Object.keys switch cfg.keys
-          when 'row,cfg'  then { row..., fields..., }
-          when 'cfg,row'  then { fields..., row..., }
-          when 'row'      then row
-          when 'cfg'      then fields
-        R.push HDML.open 'tr'
-        for key in keys
-          if ( field = fields[ key ] )?
-            continue if field.display is false
-            title = field.title ? key
-          else
-            title = key
-          R.push HDML.pair 'th', { class: key, }, HDML.text title
-        R.push HDML.close 'tr'
+      push_table_headers row if row_nr is 1
       #.....................................................................................................
       R.push HDML.open 'tr'
       for key in keys
@@ -326,8 +332,10 @@ class @Vogue_db extends Vogue_common_mixin()
           else
             value = rpr value unless @types.isa.text value
             R.push HDML.pair 'td', { class: key, }, HDML.text value
+      #.....................................................................................................
       R.push HDML.close 'tr'
     #.......................................................................................................
+    push_table_headers null unless has_ths
     R.push HDML.close 'table'
     return R.join '\n'
 
