@@ -26,8 +26,8 @@ file_server               = require 'koa-files'
 mount                     = require 'koa-mount'
 { Vogue_common_mixin }    = require './vogue-common-mixin'
 H                         = require './helpers'
-{ HDML, }                 = require 'hdml'
-
+{ HDML }                  = require 'hdml'
+{ SQL }                   = ( require 'dbay' ).DBay
 
 #===========================================================================================================
 class @Vogue_server extends Vogue_common_mixin()
@@ -154,8 +154,11 @@ class @Vogue_server extends Vogue_common_mixin()
         # R.push scraper._XXX_get_details_table { dsk, }
       R.push @_table_as_html trends_table_name
     else if ( scraper = @hub.scrapers._scraper_from_dsk ctx.query.dsk, null )?
+      table_name_i  = @hub.vdb.db.sql.I trends_table_name
+      query         = SQL"select * from #{table_name_i} where dsk = $dsk order by rank;"
+      parameters    = { dsk: ctx.query.dsk, }
       R.push scraper._XXX_get_details_chart { dsk: ctx.query.dsk, }
-      R.push @_table_as_html trends_table_name, { where: { dsk: ctx.query.dsk, }, }
+      R.push @_query_as_html trends_table_name, query, parameters
     else
       ### TAINT use correct error handling ###
       R.push HDML.pair 'div.error', HDML.text "no such data source: #{rpr ctx.query.dsk}"
@@ -195,6 +198,11 @@ class @Vogue_server extends Vogue_common_mixin()
     R.push HDML.close 'form'
     R.push HDML.close 'nav'
     return R.join '\n'
+
+  #---------------------------------------------------------------------------------------------------------
+  _query_as_html: ( table, query, parameters ) =>
+    table_cfg = @_get_table_cfg table
+    return @hub.vdb.as_html { query, parameters, table_cfg..., }
 
   #---------------------------------------------------------------------------------------------------------
   _table_as_html: ( table ) =>
