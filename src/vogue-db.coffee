@@ -39,8 +39,6 @@ class @Vogue_db extends Vogue_common_mixin()
     @types.validate.vogue_db_constructor_cfg @cfg
     { db,     } = GUY.obj.pluck_with_fallback @cfg, null, 'db';     GUY.props.hide @, 'db',     db
     @cfg        = GUY.lft.freeze @cfg
-    debug '^5343^', @cfg
-    debug '^5343^', @db.cfg
     #.......................................................................................................
     @db.create_stdlib()
     @_set_variables?()
@@ -262,8 +260,11 @@ class @Vogue_db extends Vogue_common_mixin()
     @types.validate.vogue_db_as_html_cfg cfg
     if cfg.table?
       table_i   = @db.sql.I cfg.table
-      cfg.query = SQL"""select * from #{table_i};"""
-      cfg.table = null
+      cfg.rows  = @db SQL"""select * from #{table_i};"""
+    else if cfg.query?
+      cfg.rows  = @db cfg.query, cfg.parameters ? {}
+    else if cfg.rows?
+      null
     return @_table_as_html cfg
     # try return @_table_as_html cfg catch error then null
     # return error.message
@@ -272,14 +273,13 @@ class @Vogue_db extends Vogue_common_mixin()
   _table_as_html: ( cfg ) ->
     ### TAINT move this to DBay ###
     ### TAINT use SQL generation facility from DBay (TBW) ###
-    { query
-      parameters
-      fields  } = cfg
-    parameters ?= {}
-    keys        = null
-    R           = []
-    row_nr      = 0
-    rows        = @db query, parameters
+    { rows
+      fields  }   = cfg
+    fields        = { fields..., }
+    fields[ key ] = {} if fields[ key ] is true for key of fields
+    keys          = null
+    R             = []
+    row_nr        = 0
     #.......................................................................................................
     R.push HDML.open 'table', { class: cfg.class, }
     #.......................................................................................................
@@ -307,6 +307,7 @@ class @Vogue_db extends Vogue_common_mixin()
         raw_value   = row[ key ]
         value       = raw_value
         field       = fields[ key ] ? null
+        value       = field?.undefined ? cfg.undefined ? 'undefined' if value is undefined
         is_done     = false
         inner_html  = null
         if field?

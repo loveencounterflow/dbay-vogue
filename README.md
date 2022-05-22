@@ -171,7 +171,8 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   * `cfg`:
     * `nonempty_text x.table`
     * `optional.vogue_db_fieldset_cfg x.fields`
-      * `object`, each value is a `vogue_db_field_description`
+      * ma be either `true` (means display this column) or a descriptive `object`:
+        * type is a `vogue_db_field_description_object`
         * `optional.boolean x.display`: if set to `false`, inhibits column from being displayed and any of
           `format()`, `outer_html()`, `inner_html()` to be called
         * `optional.text x.title`: when given, defines the text to be used in the table header
