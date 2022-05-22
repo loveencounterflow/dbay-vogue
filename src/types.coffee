@@ -222,7 +222,7 @@ GUY                       = require 'guy'
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_db_as_html_cfg', tests:
   "@isa.object x":                                      ( x ) -> @isa.object x
-  "@isa.vogue_db_use_fields x.keys":                    ( x ) -> @isa.vogue_db_use_fields x.keys
+  "@isa.vogue_db_as_html_keys x.keys":                  ( x ) -> @isa.vogue_db_as_html_keys x.keys
   "@isa_optional.vogue_db_fieldset_cfg x.fields":       ( x ) -> @isa_optional.vogue_db_fieldset_cfg x.fields
   "@isa_optional.object x.parameters":                  ( x ) -> @isa_optional.object x.parameters
   "@isa_optional.notunset x.undefined":                 ( x ) -> @isa_optional.notunset x.undefined
@@ -266,7 +266,7 @@ GUY                       = require 'guy'
   "@isa_optional.boolean x.display":                  ( x ) -> @isa_optional.boolean x.display
 
 #-----------------------------------------------------------------------------------------------------------
-@types.declare 'vogue_db_use_fields', tests:
+@types.declare 'vogue_db_as_html_keys', tests:
   "x in [ 'row,cfg', 'cfg,row', 'row', 'cfg', ]":     ( x ) -> x in [ 'row,cfg', 'cfg,row', 'row', 'cfg', ]
 
 
