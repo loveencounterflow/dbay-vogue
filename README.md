@@ -17,7 +17,8 @@
     - [Async Primitives](#async-primitives)
   - [Vogue DB](#vogue-db)
     - [Generic, Configurable HTML Rendering of DB Tables and Views](#generic-configurable-html-rendering-of-db-tables-and-views)
-  - [To Do](#to-do)
+    - [To Do](#to-do)
+  - [To Do](#to-do-1)
   - [Is Done](#is-done)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -205,14 +206,18 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   * `x.keys: 'cfg,row'`: both, from `cfg` first
 
 ### To Do
-  * `html` -> `inner_html`, `outer_html`
-  * `format` -> `text` (or `value`? in any case, none of these is a verb)
-  * allow prefix for CSS classes
-  * allow to set CSS class like title (or use `attrs`?)
-  * correct way to add field to table should be to add it to `fields`, not to hijack existing column
-  * allow to specify whether column names in `fields` is inlcusive or exclusive, i.e. whether they leave
+
+  * **[–]** move to DBay
+  * **[–]** implement `rows` so anything iterable may be passed in
+  * **[–]** implement `inner_html`
+  * **[+]** `html` -> `outer_html`
+  * **[–]** `format` -> `text` (or `value`? in any case, none of these is a verb)
+  * **[–]** allow prefix for CSS classes
+  * **[–]** allow to set CSS class like title (or use `attrs`?)
+  * **[–]** correct way to add field to table should be to add it to `fields`, not to hijack existing column
+  * **[–]** allow to specify whether column names in `fields` is inlcusive or exclusive, i.e. whether they leave
     unmentioned ones in place or cause them to be hidden
-  * make ordering in `fields` the ordering in display
+  * **[–]** make ordering in `fields` the ordering in display
 
 ## To Do
 
