@@ -228,14 +228,14 @@ class @Vogue_server extends Vogue_common_mixin()
           display: false
         sid_max:
           title:  "SIDs"
-          format: ( _, d ) =>
+          value: ( _, d ) =>
             { sid_min
               sid_max } = d.row
             return sid_min if sid_min is sid_max
             return "#{sid_min}—#{sid_max}"
         #...................................................................................................
         ts:
-          format: ( ts ) => @hub.vdb.db.dt_format ts, 'YYYY-MM-DD HH:mm UTC'
+          value: ( ts ) => @hub.vdb.db.dt_format ts, 'YYYY-MM-DD HH:mm UTC'
         #...................................................................................................
         raw_trend:
           title:  "Trend"

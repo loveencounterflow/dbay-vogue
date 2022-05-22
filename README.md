@@ -210,15 +210,18 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
 
   * **[–]** move to DBay
   * **[–]** implement `rows` so anything iterable may be passed in
-  * **[–]** implement `inner_html`
-  * **[+]** `html` -> `outer_html`
-  * **[–]** `format` -> `text` (or `value`? in any case, none of these is a verb)
   * **[–]** allow prefix for CSS classes
   * **[–]** allow to set CSS class like title (or use `attrs`?)
   * **[–]** correct way to add field to table should be to add it to `fields`, not to hijack existing column
   * **[–]** allow to specify whether column names in `fields` is inlcusive or exclusive, i.e. whether they leave
     unmentioned ones in place or cause them to be hidden
   * **[–]** make ordering in `fields` the ordering in display
+
+### Is Done
+
+  * **[+]** implement `inner_html`
+  * **[+]** `html` -> `outer_html`
+  * **[+]** `format` -> `value`
 
 ## To Do
 

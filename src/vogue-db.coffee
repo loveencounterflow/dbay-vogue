@@ -323,8 +323,8 @@ class @Vogue_db extends Vogue_common_mixin()
         if field?
           continue if field.display is false
           details = { key, raw_value, row_nr, row, }
-          if ( format = field.format ? null )?
-            value = format value, details
+          if field.value?
+            value = field.value value, details
           if ( as_html = field.outer_html ? null )?
             is_done = true
             R.push as_html value, details
