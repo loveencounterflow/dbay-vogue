@@ -217,6 +217,8 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   * **[–]** allow to specify whether column names in `fields` is inlcusive or exclusive, i.e. whether they leave
     unmentioned ones in place or cause them to be hidden
   * **[–]** make ordering in `fields` the ordering in display
+  * **[–]** implement nested subtables by providing a method `as_subtable_html()` that should be called from
+    `field.inner_html()`
 
 ### Is Done
 

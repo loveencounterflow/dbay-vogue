@@ -344,6 +344,9 @@ class @Vogue_db extends Vogue_common_mixin()
     return R.join '\n'
 
   #---------------------------------------------------------------------------------------------------------
+  as_subtable_html: ( cfg ) -> "NOT YET IMPLEMENTED"
+
+  #---------------------------------------------------------------------------------------------------------
   _columns_from_statement: ( statement ) ->
     ### TAINT refactor to DBay ###
     R = {}
