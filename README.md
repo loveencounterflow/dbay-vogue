@@ -18,8 +18,9 @@
   - [Vogue DB](#vogue-db)
     - [Generic, Configurable HTML Rendering of DB Tables and Views](#generic-configurable-html-rendering-of-db-tables-and-views)
     - [To Do](#to-do)
+    - [Is Done](#is-done)
   - [To Do](#to-do-1)
-  - [Is Done](#is-done)
+  - [Is Done](#is-done-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -174,9 +175,9 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
       * ma be either `true` (means display this column) or a descriptive `object`:
         * type is a `vogue_db_field_description_object`
         * `optional.boolean x.display`: if set to `false`, inhibits column from being displayed and any of
-          `format()`, `outer_html()`, `inner_html()` to be called
+          `value()`, `outer_html()`, `inner_html()` to be called
         * `optional.text x.title`: when given, defines the text to be used in the table header
-        * `optional.function x.format`: when given, must be function that accepts a value (and optionally a
+        * `optional.function x.value`: when given, must be function that accepts a value (and optionally a
           field description object) and returns another. Returned value will be stringified with
           `node:util.inspect()` unless it already is a string.
         * `optional.function x.outer_html`: when given, must be a function that accepts a value (and
@@ -192,11 +193,11 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
 * Configuration options may be modified in the future to make it simpler to add ID, CSS class,
   `data-` and other attributes to the enclosing element without having to touch the value or to generate the
   correct outer HTML
-* `format()`, `outer_html()`, `inner_html()` and `attr()` will be called as `f value, details`, where
+* `value()`, `outer_html()`, `inner_html()` and `attr()` will be called as `f value, details`, where
   `value` is the current value of the respective field in the current row, and `details` is an object with
   the properties
   * `name`—name of the field;
-  * `raw_value`—value of the field *before* `format()` was applied;
+  * `raw_value`—value of the field *before* `value()` was applied;
   * `row_nr`—one-based row number;
   * `row`—the row as returned by the DB query.
 
