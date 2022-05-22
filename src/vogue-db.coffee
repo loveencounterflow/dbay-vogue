@@ -260,24 +260,30 @@ class @Vogue_db extends Vogue_common_mixin()
     ### TAINT iterate or use stream ###
     cfg         = { @defaults.vogue_db_as_html_cfg..., cfg..., }
     @types.validate.vogue_db_as_html_cfg cfg
+    if cfg.table?
+      table_i   = @db.sql.I cfg.table
+      cfg.query = SQL"""select * from #{table_i};"""
+      cfg.table = null
     return @_table_as_html cfg
     # try return @_table_as_html cfg catch error then null
     # return error.message
 
   #---------------------------------------------------------------------------------------------------------
   _table_as_html: ( cfg ) ->
+    ### TAINT move this to DBay ###
     ### TAINT use SQL generation facility from DBay (TBW) ###
-    { table
+    { query
+      parameters
       fields  } = cfg
+    parameters ?= {}
     keys        = null
     R           = []
-    table_i     = @db.sql.I table
-    statement   = @db.prepare SQL"""select * from #{table_i};"""
     row_nr      = 0
+    rows        = @db query, parameters
     #.......................................................................................................
-    R.push HDML.open 'table', { class: table, }
+    R.push HDML.open 'table', { class: cfg.class, }
     #.......................................................................................................
-    for row from @db statement
+    for row from rows
       row_nr++
       #.....................................................................................................
       if row_nr is 1

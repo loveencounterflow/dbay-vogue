@@ -201,12 +201,18 @@ GUY                       = require 'guy'
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_db_as_html_cfg', tests:
   "@isa.object x":                                ( x ) -> @isa.object x
-  "@isa.nonempty_text x.table":                   ( x ) -> @isa.nonempty_text x.table
+  "@isa_optional.nonempty_text x.table":          ( x ) -> @isa_optional.nonempty_text x.table
+  "@isa_optional.notunset x.query":               ( x ) -> @isa_optional.notunset x.query
+  "must have one of x.table, x.query":            ( x ) -> ( x.table? and not x.query? ) or ( x.query? and not x.table? )
   "@isa.vogue_db_use_fields x.keys":              ( x ) -> @isa.vogue_db_use_fields x.keys
   "@isa_optional.vogue_db_fieldset_cfg x.fields": ( x ) -> @isa_optional.vogue_db_fieldset_cfg x.fields
+  "@isa_optional.object x.parameters":            ( x ) -> @isa_optional.object x.parameters
+  "@isa.nonempty_text x.class":                   ( x ) -> @isa.nonempty_text x.class
 #...........................................................................................................
 @defaults.vogue_db_as_html_cfg =
   table:            null
+  query:            null
+  class:            'vogue'
   keys:             'row,cfg'
   fields:           GUY.lft.freeze {}
 
