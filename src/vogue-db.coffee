@@ -276,8 +276,12 @@ class @Vogue_db extends Vogue_common_mixin()
     { rows
       fields  }   = cfg
     fields        = { fields..., }
+    # for key, value of fields
+    #   if value is true then fields[ key ] = {}
     for key, value of fields
-      fields[ key ] = {} if value is true
+      value         = {} if value is true
+      fields[ key ] = { @defaults.vogue_db_field_description_object..., value..., }
+    debug '^354^', { fields, }
     keys          = null
     R             = []
     row_nr        = 0
