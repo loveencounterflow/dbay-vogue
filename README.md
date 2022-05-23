@@ -16,11 +16,8 @@
     - [Relevant Data Types](#relevant-data-types)
     - [Async Primitives](#async-primitives)
   - [Vogue DB](#vogue-db)
-    - [Generic, Configurable HTML Rendering of DB Tables and Views](#generic-configurable-html-rendering-of-db-tables-and-views)
-    - [To Do](#to-do)
-    - [Is Done](#is-done)
-  - [To Do](#to-do-1)
-  - [Is Done](#is-done-1)
+  - [To Do](#to-do)
+  - [Is Done](#is-done)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -165,66 +162,6 @@ timeout is set to zero, so the remaining effect is that other tasks on the event
 It accepts an optional function argument whose (synchronous or asynchronous) result will be returned.
 
 ## Vogue DB
-
-### Generic, Configurable HTML Rendering of DB Tables and Views
-
-* `db.as_html: ( cfg ) ->`:
-  * `cfg`:
-    * `nonempty_text x.table`
-    * `optional.vogue_db_fieldset_cfg x.fields`
-      * ma be either `true` (means display this column) or a descriptive `object`:
-        * type is a `vogue_db_field_description_object`
-        * `optional.boolean x.display`: if set to `false`, inhibits column from being displayed and any of
-          `value()`, `outer_html()`, `inner_html()` to be called
-        * `optional.text x.title`: when given, defines the text to be used in the table header
-        * `optional.function x.value`: when given, must be function that accepts a value (and optionally a
-          field description object) and returns another. Returned value will be stringified with
-          `node:util.inspect()` unless it already is a string.
-        * `optional.function x.outer_html`: when given, must be a function that accepts a value (and
-          optionally a field description object) and returns an HTML representation of it *including the
-          containing `<td>` element*
-        * `optional.function x.inner_html`: when given, must be a function that accepts a value (and
-          optionally a field description object) and returns an HTML representation of it *including the
-          containing `<td>` element*
-        * `optional.function x.attrs`: when given, must be a function that accepts a value (and
-          optionally a field description object) and returns an object that will be used for
-          the attributes of the enclosing (`<td>`) element
-
-* Configuration options may be modified in the future to make it simpler to add ID, CSS class,
-  `data-` and other attributes to the enclosing element without having to touch the value or to generate the
-  correct outer HTML
-* `value()`, `outer_html()`, `inner_html()` and `attr()` will be called as `f value, details`, where
-  `value` is the current value of the respective field in the current row, and `details` is an object with
-  the properties
-  * `name`—name of the field;
-  * `raw_value`—value of the field *before* `value()` was applied;
-  * `row_nr`—one-based row number;
-  * `row`—the row as returned by the DB query.
-
-* with columns...
-  * `x.keys: 'row'`: only those in `row`
-  * `x.keys: 'cfg'`: only those in `cfg`
-  * `x.keys: 'row,cfg'`: both, from `row` first
-  * `x.keys: 'cfg,row'`: both, from `cfg` first
-
-### To Do
-
-  * **[–]** move to DBay
-  * **[–]** implement `rows` so anything iterable may be passed in
-  * **[–]** allow prefix for CSS classes
-  * **[–]** allow to set CSS class like title (or use `attrs`?)
-  * **[–]** correct way to add field to table should be to add it to `fields`, not to hijack existing column
-  * **[–]** allow to specify whether column names in `fields` is inlcusive or exclusive, i.e. whether they leave
-    unmentioned ones in place or cause them to be hidden
-  * **[–]** make ordering in `fields` the ordering in display
-  * **[–]** implement nested subtables by providing a method `as_subtable_html()` that should be called from
-    `field.inner_html()`
-
-### Is Done
-
-  * **[+]** implement `inner_html`
-  * **[+]** `html` -> `outer_html`
-  * **[+]** `format` -> `value`
 
 ## To Do
 
