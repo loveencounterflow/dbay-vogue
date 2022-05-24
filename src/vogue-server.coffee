@@ -28,6 +28,9 @@ mount                     = require 'koa-mount'
 H                         = require './helpers'
 { HDML }                  = require 'hdml'
 { SQL }                   = ( require 'dbay' ).DBay
+{ tabulate
+  summarize }             = require 'dbay-tabulator'
+
 
 #===========================================================================================================
 class @Vogue_server extends Vogue_common_mixin()
@@ -148,7 +151,7 @@ class @Vogue_server extends Vogue_common_mixin()
     trends_table_name = @hub.vdb._get_table_name 'trends'
     R.push @_get_dsk_form ctx.query.dsk ? ''
     #.......................................................................................................
-    if ctx.query.dsk is ''
+    if ctx.query.dsk in [ '', undefined, ]
       for { dsk, scraper, } from @hub.scrapers._XXX_walk_scrapers()
         R.push scraper._XXX_get_details_chart { dsk, }
         # R.push scraper._XXX_get_details_table { dsk, }
@@ -202,12 +205,15 @@ class @Vogue_server extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   _query_as_html: ( table, query, parameters ) =>
     table_cfg = @_get_table_cfg table
-    return @hub.vdb.as_html { query, parameters, table_cfg..., }
+    rows      = @hub.vdb.db query, parameters
+    return tabulate { rows, table_cfg..., }
 
   #---------------------------------------------------------------------------------------------------------
   _table_as_html: ( table ) =>
-    table_cfg = @_get_table_cfg table
-    return @hub.vdb.as_html { table, table_cfg..., }
+    table_cfg   = @_get_table_cfg table
+    query       = SQL"select * from #{@hub.vdb.db.sql.I table};"
+    rows        = @hub.vdb.db query
+    return tabulate { rows, table_cfg..., }
 
   #---------------------------------------------------------------------------------------------------------
   _get_table_cfg: ( table ) =>
@@ -222,39 +228,48 @@ class @Vogue_server extends Vogue_common_mixin()
       fields:
         #...................................................................................................
         dsk:
-          display: false
+          hide: true
         #...................................................................................................
         sid_min:
-          display: false
+          hide: true
         sid_max:
           title:  "SIDs"
-          value: ( _, d ) =>
+          inner_html: ( d ) =>
             { sid_min
               sid_max } = d.row
             return sid_min if sid_min is sid_max
             return "#{sid_min}—#{sid_max}"
         #...................................................................................................
         ts:
-          value: ( ts ) => @hub.vdb.db.dt_format ts, 'YYYY-MM-DD HH:mm UTC'
+          inner_html: ( d ) => @hub.vdb.db.dt_format d.value, 'YYYY-MM-DD HH:mm UTC'
         #...................................................................................................
         raw_trend:
           title:  "Trend"
-          outer_html:   ( raw_trend ) =>
+          outer_html:   ({ value: raw_trend }) =>
             return HDML.pair 'td.trend.sparkline', { 'data-trend': raw_trend, }
         #...................................................................................................
         details:
-          outer_html:   ( details ) =>
-            try d = JSON.parse details catch error
+          inner_html:   ( d ) =>
+            try row = JSON.parse d.value catch error
               return HDML.pair 'div.error', HDML.text error.message
-            R = []
-            R.push HDML.open 'table.details'
-            for k, v of d
-              R.push HDML.open 'tr'
-              R.push HDML.pair 'th', HDML.text k
-              R.push HDML.pair 'td', HDML.text v
-              R.push HDML.close 'tr'
-            R.push HDML.close 'table'
-            return HDML.pair 'td.details', R.join ''
+            cfg =
+              row:        row
+              fields:
+                title:
+                  title:      "Title"
+                  inner_html: ({ value: title, row, }) =>
+                    return HDML.pair 'a', { href: row.title_url, }, HDML.text title
+                title_url:
+                  hide: true
+                article:
+                  title:      "Article"
+                  inner_html: ({ value: title, row, }) =>
+                    return Symbol.for 'hide' unless title?
+                    return Symbol.for 'hide' unless row.article_url?
+                    return HDML.pair 'a', { href: row.article_url, }, HDML.text title
+                article_url:
+                  hide: true
+            return summarize cfg
     return null
 
   #---------------------------------------------------------------------------------------------------------
