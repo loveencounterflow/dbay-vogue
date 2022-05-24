@@ -13,7 +13,7 @@
     "cheerio": "^1.0.0-rc.10",
     "cnd": "^9.2.2",
     "dbay": "14.8.0",
-    "dbay-tabulator": "^0.0.2",
+    "dbay-tabulator": "0.2.0",
     "got": "11",
     "guy": "4.2.0",
     "hdml": "2.1.0",

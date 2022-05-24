@@ -5,7 +5,7 @@ specifiers:
   cheerio: ^1.0.0-rc.10
   cnd: ^9.2.2
   dbay: 14.8.0
-  dbay-tabulator: ^0.0.2
+  dbay-tabulator: 0.2.0
   got: '11'
   guy: 4.2.0
   hdml: 2.1.0
@@ -25,7 +25,7 @@ dependencies:
   cheerio: 1.0.0-rc.10
   cnd: 9.2.2
   dbay: 14.8.0
-  dbay-tabulator: 0.0.2
+  dbay-tabulator: 0.2.0
   got: 11.8.3
   guy: 4.2.0
   hdml: 2.1.0
@@ -376,8 +376,8 @@ packages:
     resolution: {integrity: sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==}
     dev: false
 
-  /dbay-tabulator/0.0.2:
-    resolution: {integrity: sha512-6515a6phexpUhViBX1XaM0mfmLvCk8fJz+0tpBYIaH/dZIK5g52abVbhMvwNs5DMU+CSclvjj5uqqeGuXYRvOQ==}
+  /dbay-tabulator/0.2.0:
+    resolution: {integrity: sha512-oGeiydji+YU9ovaNp+KJsrgDUmI5hk7G/6dR7BwqwdE5XQfVq8RbbrLVNVbXiw/aVkgwHg18sH82vr52oVKjXA==}
     dependencies:
       cnd: 9.2.2
       guy: 4.2.0
