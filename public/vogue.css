@@ -28,3 +28,7 @@ table table {
 table table th,
 table table td {
   padding:                0; }
+
+.error {
+  color:                  red;
+  font-weight:            bold; }
