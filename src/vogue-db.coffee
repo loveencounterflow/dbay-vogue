@@ -239,3 +239,10 @@ class @Vogue_db extends Vogue_common_mixin()
   #---------------------------------------------------------------------------------------------------------
   _walk_datasources: -> @db SQL"select * from #{@cfg.prefix}_datasources order by dsk;"
 
+  #---------------------------------------------------------------------------------------------------------
+  _get_table_name: ( name ) ->
+    @types.validate.nonempty_text name
+    return "_#{@cfg.prefix}_#{name[1..]}" if name.startsWith '_'
+    return "#{@cfg.prefix}_#{name}"
+
+
