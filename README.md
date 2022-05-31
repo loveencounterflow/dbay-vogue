@@ -240,6 +240,17 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   as the table does not exceed the line limit)
 
 
+* [Github: *List repositories for a user*](https://docs.github.com/en/rest/repos/repos#list-repositories-for-a-user)
+
+  ```
+  curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/users/loveencounterflow/repos
+  ```
+
+* [Github: *List commits*](https://docs.github.com/en/rest/commits/commits)
+
+  ```
+  curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/loveencounterflow/Species-Characterum-Sinensium/commits
+  ```
 
 <!--
 
@@ -250,6 +261,9 @@ ideas for scraping
 * new SQLite downloads
 * https://lite.pbs.org/video/
 * https://hackernoon.com/
+
+
+
 
  -->
 
