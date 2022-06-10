@@ -167,7 +167,7 @@ class @Vogue_db extends Vogue_common_mixin()
             coalesce( max( sid ), 0 ) + 1 as sid
           from #{prefix}_sessions )
         insert into #{prefix}_sessions ( sid, dsk, ts )
-          select sid, $dsk, std_dt_now() from next_free
+          select sid, $dsk, $ts from next_free
           returning *;"""
       #.....................................................................................................
       insert_post:        @db.prepare SQL"""
@@ -207,7 +207,11 @@ class @Vogue_db extends Vogue_common_mixin()
     return null
 
   #---------------------------------------------------------------------------------------------------------
-  new_session:  ( dsk     ) -> @db.first_row @queries.insert_session, { dsk, }
+  new_session:  ( dsk ) ->
+    ### TAINT validate ###
+    ### TAINT use `cfg` API convention ###
+    ts = @db.dt_now()
+    return @db.first_row @queries.insert_session, { dsk, ts, }
 
   #---------------------------------------------------------------------------------------------------------
   new_post: ( fields ) ->
