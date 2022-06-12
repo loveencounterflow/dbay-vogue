@@ -52,11 +52,11 @@ class @Vogue_scrapers extends Vogue_common_mixin()
   add: ( cfg ) ->
     cfg         = { @defaults.vogue_scrapers_add_cfg..., cfg..., }
     @types.validate.vogue_scrapers_add_cfg cfg
-    { dsk
-      scraper } = cfg
+    { scraper }       = cfg
+    { dsk }           = scraper.cfg
     if @d[ dsk ]?
       throw new Error "^Vogue_scrapers@1^ DSK already in use: #{rpr dsk}"
-    @d[ dsk ]   = scraper
+    @d[ dsk ]         = scraper
     scraper._set_hub @hub
     return null
 
@@ -67,7 +67,7 @@ class @Vogue_scraper_ABC extends Vogue_common_mixin()
 
   #---------------------------------------------------------------------------------------------------------
   constructor: ( cfg ) ->
-    super()
+    super cfg
     @cfg        = { @defaults.vogue_scraper_constructor_cfg..., cfg..., }
     @types.validate.vogue_scraper_constructor_cfg @cfg
     @cfg        = GUY.lft.freeze @cfg

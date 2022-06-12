@@ -87,21 +87,21 @@ GUY                       = require 'guy'
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scrapers_add_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
-  "@isa.vogue_dsk x.dsk":                           ( x ) -> @isa.vogue_dsk x.dsk
   "@isa.object x.scraper":                          ( x ) -> @isa.object x.scraper
 #...........................................................................................................
 @defaults.vogue_scrapers_add_cfg =
-  dsk:              null
   scraper:          null
 
 #-----------------------------------------------------------------------------------------------------------
 @types.declare 'vogue_scraper_constructor_cfg', tests:
   "@isa.object x":                                  ( x ) -> @isa.object x
   "@isa.nonempty_text x.encoding":                  ( x ) -> @isa.nonempty_text x.encoding
+  "@isa.vogue_dsk x.dsk":                           ( x ) -> @isa.vogue_dsk x.dsk
   "@isa_optional.nonempty_text x.url":              ( x ) -> @isa_optional.nonempty_text x.url
 #...........................................................................................................
 @defaults.vogue_scraper_constructor_cfg =
   encoding:         'utf-8'
+  dsk:              null
   url:              null
 
 #-----------------------------------------------------------------------------------------------------------
