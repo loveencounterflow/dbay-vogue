@@ -221,6 +221,9 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
 
   i.e. one must know and get hold of the secondary classes involved and introduce them at appropriate
   junctures.
+* **[–]** use [`tabular`](http://tabulator.info/examples/5.3) for data grids; suggests how to use
+  [sparklines](http://tabulator.info/examples/5.3#sparklines), virtual DOM to only show rows within view;
+  otherwise many, many features
 
 ## Is Done
 
@@ -261,7 +264,8 @@ ideas for scraping
 * new SQLite downloads
 * https://lite.pbs.org/video/
 * https://hackernoon.com/
-
+* https://geizhals.de/?cat=spfbkfs&sort=p#productlist
+* http://www.gharchive.org
 
 
 
