@@ -223,7 +223,7 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   junctures.
 * **[–]** use [`tabular`](http://tabulator.info/examples/5.3) for data grids; suggests how to use
   [sparklines](http://tabulator.info/examples/5.3#sparklines), virtual DOM to only show rows within view;
-  otherwise many, many features
+  otherwise many, many features. Also see [https://jspreadsheets.com](https://jspreadsheets.com)
 
 ## Is Done
 
