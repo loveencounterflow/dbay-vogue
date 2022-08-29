@@ -225,6 +225,10 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
   [sparklines](http://tabulator.info/examples/5.3#sparklines), virtual DOM to only show rows within view;
   otherwise many, many features. Also see [https://jspreadsheets.com](https://jspreadsheets.com)
 
+* **[–]** use [`crawlee`](https://crawlee.dev)? Also see
+  [HN](https://news.ycombinator.com/item?id=32561127), [PH](https://www.producthunt.com/posts/crawlee)
+
+
 ## Is Done
 
 * **[+]** name
