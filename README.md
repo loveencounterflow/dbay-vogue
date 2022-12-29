@@ -228,6 +228,7 @@ It accepts an optional function argument whose (synchronous or asynchronous) res
 * **[–]** use [`crawlee`](https://crawlee.dev)? Also see
   [HN](https://news.ycombinator.com/item?id=32561127), [PH](https://www.producthunt.com/posts/crawlee)
 
+* **[–]** https://toscrape.com
 
 ## Is Done
 
